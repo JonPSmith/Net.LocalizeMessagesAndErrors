@@ -60,28 +60,28 @@ public class StatusGenericLocalizer<TResourceType> : IStatusGenericLocalizer
 
     public IStatusGeneric AddError(string errorName, string errorMessage, params string[] propertyNames)
     {
-        var errorString = _localizerLogger.LocalizeMessage(errorName, _cultureOfStrings, $"{errorMessage}");
+        var errorString = _localizerLogger.LocalizeFormattedMessage(errorName, _cultureOfStrings, $"{errorMessage}");
         _errors.Add(new ErrorGeneric(Header, new ValidationResult(errorString, propertyNames)));
         return this;
     }
 
     public IStatusGeneric AddErrorFormatted(string errorName, params FormattableString[] formattableStrings)
     {
-        var errorString = _localizerLogger.LocalizeMessage(errorName, _cultureOfStrings, formattableStrings);
+        var errorString = _localizerLogger.LocalizeFormattedMessage(errorName, _cultureOfStrings, formattableStrings);
         _errors.Add(new ErrorGeneric(Header, new ValidationResult(errorString)));
         return this;
     }
 
     public IStatusGeneric AddErrorFormattedWithParams(string errorName, FormattableString formattableString, params string[] propertyNames)
     {
-        var errorString = _localizerLogger.LocalizeMessage(errorName, _cultureOfStrings, formattableString);
+        var errorString = _localizerLogger.LocalizeFormattedMessage(errorName, _cultureOfStrings, formattableString);
         _errors.Add(new ErrorGeneric(Header, new ValidationResult(errorString, propertyNames)));
         return this;
     }
 
     public IStatusGeneric AddErrorFormattedWithParams(string errorName, FormattableString[] formattableStrings, params string[] propertyNames)
     {
-        var errorString = _localizerLogger.LocalizeMessage(errorName, _cultureOfStrings, formattableStrings);
+        var errorString = _localizerLogger.LocalizeFormattedMessage(errorName, _cultureOfStrings, formattableStrings);
         _errors.Add(new ErrorGeneric(Header, new ValidationResult(errorString, propertyNames)));
         return this;
     }

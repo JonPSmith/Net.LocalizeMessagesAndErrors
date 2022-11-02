@@ -9,26 +9,50 @@ namespace LocalizeMessagesAndErrors;
 public interface ILocalizeWithDefault<TResourceType>
 {
     /// <summary>
-    /// This is a localization adapter that allows you to have readable messages in your code.
-    /// e.g. $"The time is {DateTime.Now:T}"
-    /// It will use your readable messages the current <see cref="CultureInfo.CurrentUICulture"/> matches
-    /// the <para>cultureOfString</para>, or if <see cref="IStringLocalizer"/> service hasn't been registered.
-    /// If the current <see cref="CultureInfo.CurrentUICulture"/> doesn't match the <para>cultureOfString</para>,
+    /// This is a localization adapter that allows you to have readable messages in your code via strings, 
+    /// e.g. "This is my message".
+    /// NOTE: If your message contains dynamic values then use the <see cref="LocalizeWithDefault{TResourceType}.LocalizeFormattedMessage"/> instead.
+    /// This method will use your readable messages if the the current <see cref="CultureInfo.CurrentUICulture"/> matches
+    /// the cultureOfMessage, or if <see cref="IStringLocalizer"/> service hasn't been registered.
+    /// If the current <see cref="CultureInfo.CurrentUICulture"/> doesn't match the cultureOfMessage parameter,
     /// then it will use the <see cref="IStringLocalizer"/> service to try to obtain the string from the
-    /// localization resources using the <para>messageKey</para>.
+    /// localization resources using the messageKey parameter.
     /// If an entry is found it will build the message using the parameters in the provided readable message,
     /// but if the resource isn't found, then it will use the readable messages and log a warning that there
     /// isn't a resource with the given messageKey / ResourcesPath. 
     /// </summary>
     /// <param name="messageKey">This is a key for the localized message in the respective resource / culture.</param>
-    /// <param name="cultureOfString">This defines the culture of provided readable message, and if the <see cref="CultureInfo.CurrentUICulture"/>
+    /// <param name="cultureOfMessage">This defines the culture of provided readable message, and if the <see cref="CultureInfo.CurrentUICulture"/>
     /// matches, then the readable message is returned. Otherwise it will try the <see cref="IStringLocalizer"/> service (if available).
-    /// NOTE: The <para>cultureOfString</para> is matched to the <see cref="CultureInfo.CurrentUICulture"/>.Name via the StartsWith method.
+    /// NOTE: The cultureOfMessage parameter is matched to the <see cref="CultureInfo.CurrentUICulture"/>.Name via the StartsWith method.
     /// This means to can define a subset of the culture name, e.g. "en" would match "en-US" and "en-GB".</param>
-    /// <param name="formattableStrings">This takes one or more <see cref="FormattableString"/>s. which contains both a readable
-    /// string and the dynamic variables. You are allowed multiple <see cref="FormattableString"/>s to handle long messages.
+    /// <param name="message">This contains your message
     /// </param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
-    string LocalizeMessage(string messageKey, string cultureOfString, params FormattableString[] formattableStrings);
+    string LocalizeStringMessage(string messageKey, string cultureOfMessage, string message);
+
+    /// <summary>
+    /// This is a localization adapter that allows you to have readable messages in your code using 
+    /// <see cref="FormattableString"/>s to allow you to provide dynamic values in the message, e.g. $"The time is {DateTime.Now:T}"
+    /// This method will use your readable messages if the the current <see cref="CultureInfo.CurrentUICulture"/> matches
+    /// the cultureOfMessage, or if <see cref="IStringLocalizer"/> service hasn't been registered.
+    /// If the current <see cref="CultureInfo.CurrentUICulture"/> doesn't match the cultureOfMessage parameter,
+    /// then it will use the <see cref="IStringLocalizer"/> service to try to obtain the string from the
+    /// localization resources using the messageKey parameter.
+    /// If an entry is found it will build the message using the parameters in the provided readable message,
+    /// but if the resource isn't found, then it will use the readable messages and log a warning that there
+    /// isn't a resource with the given messageKey / ResourcesPath. 
+    /// </summary>
+    /// <param name="messageKey">This is a key for the localized message in the respective resource / culture.</param>
+    /// <param name="cultureOfMessage">This defines the culture of provided readable message, and if the <see cref="CultureInfo.CurrentUICulture"/>
+    /// matches, then the readable message is returned. Otherwise it will try the <see cref="IStringLocalizer"/> service (if available).
+    /// NOTE: The cultureOfMessage parameter is matched to the <see cref="CultureInfo.CurrentUICulture"/>.Name via the StartsWith method.
+    /// This means to can define a subset of the culture name, e.g. "en" would match "en-US" and "en-GB".</param>
+    /// <param name="formattableStrings">This takes one or more <see cref="FormattableString"/>s. and concatenates them into one message.
+    /// This allowed you to have multiple <see cref="FormattableString"/>s to handle long messages.
+    /// </param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException"></exception>
+    string LocalizeFormattedMessage(string messageKey, string cultureOfMessage, params FormattableString[] formattableStrings);
 }
