@@ -13,10 +13,18 @@ public class StatusGenericLocalizer<TReturn, TResourceType> : StatusGenericLocal
 {
     private TReturn? _result;
 
-    public StatusGenericLocalizer(ILocalizeWithDefault<TResourceType> localizerLogger, string cultureOfStrings, string header = "")
-        : base(localizerLogger, cultureOfStrings, header)
-    {
-    }
+    /// <summary>
+    /// Constructor to set up the StatusGenericLocalizer with Result
+    /// </summary>
+    /// <param name="cultureOfStrings">The culture of the errors/message strings in this service</param>
+    /// <param name="localizerWithDefault">Logger to return warnings/errors of there localization problems</param>
+    /// <param name="header">Optional: this will prefix each error with this string, e.g.
+    /// "MyClass" would produce error messages such as "MyClass: This is my error message."</param>
+    /// <exception cref="ArgumentNullException"></exception>
+    public StatusGenericLocalizer(string cultureOfStrings, ILocalizeWithDefault<TResourceType> localizerWithDefault,
+        string header = "")
+
+        : base(cultureOfStrings, localizerWithDefault, header) { }
 
     /// <summary>
     /// This is the returned result

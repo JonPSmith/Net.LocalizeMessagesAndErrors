@@ -47,6 +47,24 @@ public class TestLocalizeStringMessage
         message.ShouldEqual(expectedMessage);
     }
 
+    [Fact]
+    public void TestLocalizeStringMessage_NullMessageKey()
+    {
+        //SETUP
+        var stubLocalizer = new StubStringLocalizer<TestLocalizeStringMessage>(
+            new Dictionary<string, string> { { "test", "Message from resource file" } });
+        Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
+
+        var service = new LocalizeWithDefault<TestLocalizeStringMessage>(_logger, stubLocalizer);
+
+        //ATTEMPT
+        var message = service.LocalizeStringMessage(null, "fi-FI",
+            "Message from readable string");
+
+        //VERIFY
+        message.ShouldEqual("Message from readable string");
+    }
+
     //-----------------------------------------------------------------
     //error situations
 

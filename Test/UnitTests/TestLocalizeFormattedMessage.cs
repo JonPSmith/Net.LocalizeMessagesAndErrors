@@ -19,7 +19,6 @@ public class TestLocalizeFormattedMessage
     private readonly ILogger<LocalizeWithDefault<TestLocalizeFormattedMessage>> _logger;
     private List<LogOutput> _logs;
 
-
     public TestLocalizeFormattedMessage()
     {
         _logs = new List<LogOutput> (); //logs content is emptied before each test
@@ -66,6 +65,24 @@ public class TestLocalizeFormattedMessage
 
         //VERIFY
         message.ShouldEqual(expectedMessage);
+    }
+
+    [Fact]
+    public void TestLocalizeStringMessage_NullMessageKey()
+    {
+        //SETUP
+        var stubLocalizer = new StubStringLocalizer<TestLocalizeFormattedMessage>(
+            new Dictionary<string, string> { { "test", "Message from resource file" } });
+        Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
+
+        var service = new LocalizeWithDefault<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
+
+        //ATTEMPT
+        var message = service.LocalizeFormattedMessage(null, "fi-FI",
+            $"Message from readable string");
+
+        //VERIFY
+        message.ShouldEqual("Message from readable string");
     }
 
     //-----------------------------------------------------------------
