@@ -1,15 +1,39 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="GenericServices.StatusGeneric" Version="1.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="6.0.10" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<PackageId>Net.LocalizeMessagesAndErrors</PackageId>
+		<PackageVersion>1.0.0-preview001</PackageVersion>
+		<Authors>Jon P Smith</Authors>
+		<Description>Provides extra features to .NET Localization that makes the code easier to understand.</Description>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<PackageReleaseNotes>
+			First Version
+		</PackageReleaseNotes>
+		<Copyright>Copyright (c) 2022 Jon P Smith. Licenced under MIT licence</Copyright>
+		<PackageTags>Localization, Multilingual, Globalization, Status</PackageTags>
+		<IsPackable>true</IsPackable>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<ProjectUrl>https://github.com/JonPSmith/Net.LocalizeMessagesAndErrors</ProjectUrl>
+		<RepositoryUrl>https://github.com/JonPSmith/Net.LocalizeMessagesAndErrors</RepositoryUrl>
+		<PackageIcon>LocalizeMessagesAndErrorsNuGetIcon.png</PackageIcon>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="LocalizeMessagesAndErrorsNuGetIcon.png" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
 </Project>

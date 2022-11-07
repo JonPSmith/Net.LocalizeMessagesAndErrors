@@ -5,6 +5,9 @@ using System.Runtime.CompilerServices;
 
 namespace LocalizeMessagesAndErrors;
 
+/// <summary>
+/// Extension methods to build unique localizeKeys
+/// </summary>
 public static class LocalizeKeyExtensions
 {
     /// <summary>
@@ -17,8 +20,8 @@ public static class LocalizeKeyExtensions
     /// <param name="localKey"></param>
     /// <param name="callingClass">Use 'this' for this parameter, which will contain the method you are calling</param>
     /// <param name="memberName">DO NOT use. This a filled by the calling method name</param>
-    /// <returns></returns>
-    public static string ClassMethodMessageName(this string localKey, object callingClass,
+    /// <returns>localizeKey</returns>
+    public static string ClassMethodMessageKey(this string localKey, object callingClass,
         [CallerMemberName] string memberName = "")
     {
         var callingClassType = callingClass.GetType();
@@ -32,5 +35,19 @@ public static class LocalizeKeyExtensions
         return (classAttribute?.ClassUniqueName ?? callingClassType.FullName) + "_" +
                (methodAttribute?.ClassMethodName ?? memberName) + "_" +
                localKey;
+    }
+
+    /// <summary>
+    /// This creates a unique message name string in the form of {methodName}_{localKey}.
+    /// WARNING: your should not use this if you have multiple methods with the same name,
+    /// ass it won't be a unique localizeKey.
+    /// </summary>
+    /// <param name="localKey"></param>
+    /// <param name="memberName">DO NOT use. This a filled by the calling method name</param>
+    /// <returns>localizeKey</returns>
+    public static string MethodMessageKey(this string localKey,
+        [CallerMemberName] string memberName = "")
+    {
+        return memberName + "_" + localKey;
     }
 }

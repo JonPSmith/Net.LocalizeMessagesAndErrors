@@ -7,25 +7,28 @@ using Microsoft.Extensions.Logging;
 
 namespace LocalizeMessagesAndErrors;
 
+/// <summary>
+/// This provides a service that allows you to put readable messages in your code,
+/// while handling multiple languages. It uses your readable message if its culture
+/// matches the user's culture, otherwise it will use <see cref="IStringLocalizer{TResourceType}"/>
+/// to obtain the culture via resource files.
+/// </summary>
+/// <typeparam name="TResourceType"></typeparam>
 public class LocalizeWithDefault<TResourceType> : ILocalizeWithDefault<TResourceType>
 {
     private readonly IStringLocalizer<TResourceType>? _localizer;
-
-    /// <summary>
-    /// This provides to the logger within this class. Use it to log localization issues.
-    /// </summary>
-    public ILogger<LocalizeWithDefault<TResourceType>> Logger { get; }
+    private readonly ILogger<LocalizeWithDefault<TResourceType>>? _logger;
 
     /// <summary>
     /// Ctor
     /// </summary>
-    /// <param name="logger">Logger to report issues when using the <see cref="IStringLocalizer"/> service</param>
+    /// <param name="logger">_logger to report issues when using the <see cref="IStringLocalizer"/> service. Can be null for unit tests.</param>
     /// <param name="localizer">Optional: If no <see cref="IStringLocalizer"/> service, then readable string used.</param>
-    public LocalizeWithDefault(ILogger<LocalizeWithDefault<TResourceType>> logger,
+    public LocalizeWithDefault(ILogger<LocalizeWithDefault<TResourceType>>? logger,
         IStringLocalizer<TResourceType>? localizer = null)
     {
         _localizer = localizer;
-        Logger = logger;
+        _logger = logger;
     }
 
     /// <summary>
@@ -36,12 +39,13 @@ public class LocalizeWithDefault<TResourceType> : ILocalizeWithDefault<TResource
     /// the cultureOfMessage, or if <see cref="IStringLocalizer"/> service hasn't been registered.
     /// If the current <see cref="CultureInfo.CurrentUICulture"/> doesn't match the cultureOfMessage parameter,
     /// then it will use the <see cref="IStringLocalizer"/> service to try to obtain the string from the
-    /// localization resources using the messageKey parameter.
+    /// localization resources using the localizeKey parameter.
     /// If an entry is found it will build the message using the parameters in the provided readable message,
     /// but if the resource isn't found, then it will use the readable messages and log a warning that there
-    /// isn't a resource with the given messageKey / ResourcesPath. 
+    /// isn't a resource with the given localizeKey / ResourcesPath. 
     /// </summary>
-    /// <param name="localizeKey"></param>
+    /// <param name="localizeKey">This is a key for the localized message in the respective resource / culture.
+    /// If null, then the message won't get localized</param>
     /// <param name="cultureOfMessage">This defines the culture of provided readable message, and if the <see cref="CultureInfo.CurrentUICulture"/>
     ///     matches, then the readable message is returned. Otherwise it will try the <see cref="IStringLocalizer"/> service (if available).
     ///     NOTE: The cultureOfMessage parameter is matched to the <see cref="CultureInfo.CurrentUICulture"/>.Name via the StartsWith method.
@@ -57,7 +61,7 @@ public class LocalizeWithDefault<TResourceType> : ILocalizeWithDefault<TResource
             return "";
 
         if (localizeKey == null)
-            //we assume that not setting the messageKey means you don't want the message localized 
+            //we assume that not setting the localizeKey means you don't want the message localized 
             return message;
 
         if (Thread.CurrentThread.CurrentUICulture.Name.StartsWith(cultureOfMessage)
@@ -69,7 +73,7 @@ public class LocalizeWithDefault<TResourceType> : ILocalizeWithDefault<TResource
             return foundLocalization.Value;
 
         //Entry not found in the resources, so log this and return the given message
-        Logger.LogWarning("The entry with the name '{0}' and culture of '{1}' was not found in the '{2}' resource.",
+        _logger?.LogWarning("The entry with the name '{0}' and culture of '{1}' was not found in the '{2}' resource.",
             localizeKey, foundLocalization.SearchedLocation, Thread.CurrentThread.CurrentUICulture.Name);
         return message;
 
@@ -82,12 +86,13 @@ public class LocalizeWithDefault<TResourceType> : ILocalizeWithDefault<TResource
     /// the cultureOfMessage, or if <see cref="IStringLocalizer"/> service hasn't been registered.
     /// If the current <see cref="CultureInfo.CurrentUICulture"/> doesn't match the cultureOfMessage parameter,
     /// then it will use the <see cref="IStringLocalizer"/> service to try to obtain the string from the
-    /// localization resources using the messageKey parameter.
+    /// localization resources using the localizeKey parameter.
     /// If an entry is found it will build the message using the parameters in the provided readable message,
     /// but if the resource isn't found, then it will use the readable messages and log a warning that there
-    /// isn't a resource with the given messageKey / ResourcesPath. 
+    /// isn't a resource with the given localizeKey / ResourcesPath. 
     /// </summary>
-    /// <param name="localizeKey"></param>
+    /// <param name="localizeKey">This is a key for the localized message in the respective resource / culture.
+    /// If null, then the message won't get localized</param>
     /// <param name="cultureOfMessage">This defines the culture of provided readable message, and if the <see cref="CultureInfo.CurrentUICulture"/>
     ///     matches, then the readable message is returned. Otherwise it will try the <see cref="IStringLocalizer"/> service (if available).
     ///     NOTE: The cultureOfMessage parameter is matched to the <see cref="CultureInfo.CurrentUICulture"/>.Name via the StartsWith method.
@@ -110,7 +115,7 @@ public class LocalizeWithDefault<TResourceType> : ILocalizeWithDefault<TResource
         if (formattableStrings == null) throw new ArgumentNullException(nameof(formattableStrings));
 
         if (localizeKey == null)
-            //we assume that not setting the messageKey means you don't want the message localized 
+            //we assume that not setting the localizeKey means you don't want the message localized 
             return ReturnGivenMessage();
 
         if (Thread.CurrentThread.CurrentUICulture.Name.StartsWith(cultureOfMessage)
@@ -126,13 +131,13 @@ public class LocalizeWithDefault<TResourceType> : ILocalizeWithDefault<TResource
             }
             catch (FormatException e)
             {
-                Logger.LogError(e, "The resourced string '{0}' had the following FormatException error: {1}.",
+                _logger?.LogError(e, "The resourced string '{0}' had the following FormatException error: {1}.",
                     foundLocalization.Value, e.Message);
                 return ReturnGivenMessage();
             }
 
         //Entry not found in the resources, so log this and return the given message
-        Logger.LogWarning("The entry with the name '{0}' and culture of '{1}' was not found in the '{2}' resource.",
+        _logger?.LogWarning("The entry with the name '{0}' and culture of '{1}' was not found in the '{2}' resource.",
             localizeKey, Thread.CurrentThread.CurrentUICulture.Name, foundLocalization.SearchedLocation);
         return ReturnGivenMessage();
     }

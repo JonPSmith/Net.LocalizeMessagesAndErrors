@@ -3,18 +3,15 @@
 
 using System.Globalization;
 using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Logging;
 
 namespace LocalizeMessagesAndErrors;
 
+/// <summary>
+/// Interface for the <see cref="LocalizeWithDefault{TResourceType}"/>
+/// </summary>
+/// <typeparam name="TResourceType"></typeparam>
 public interface ILocalizeWithDefault<TResourceType>
 {
-    /// <summary>
-    /// Access to localized logger to log localization problems
-    /// </summary>
-    ILogger<LocalizeWithDefault<TResourceType>> Logger { get; }
-
-
     /// <summary>
     /// This is a localization adapter that allows you to have readable messages in your code via strings, 
     /// e.g. "This is my message".
@@ -28,7 +25,8 @@ public interface ILocalizeWithDefault<TResourceType>
     /// but if the resource isn't found, then it will use the readable messages and log a warning that there
     /// isn't a resource with the given localizeKey / ResourcesPath. 
     /// </summary>
-    /// <param name="localizeKey"></param>
+    /// <param name="localizeKey">This is a key for the localized message in the respective resource / culture.
+    /// If null, then the message won't get localized</param>
     /// <param name="cultureOfMessage">This defines the culture of provided readable message, and if the <see cref="CultureInfo.CurrentUICulture"/>
     ///     matches, then the readable message is returned. Otherwise it will try the <see cref="IStringLocalizer"/> service (if available).
     ///     NOTE: The cultureOfMessage parameter is matched to the <see cref="CultureInfo.CurrentUICulture"/>.Name via the StartsWith method.
@@ -50,7 +48,8 @@ public interface ILocalizeWithDefault<TResourceType>
     /// but if the resource isn't found, then it will use the readable messages and log a warning that there
     /// isn't a resource with the given localizeKey / ResourcesPath. 
     /// </summary>
-    /// <param name="localizeKey"></param>
+    /// <param name="localizeKey">This is a key for the localized message in the respective resource / culture.
+    /// If null, then the message won't get localized</param>
     /// <param name="cultureOfMessage">This defines the culture of provided readable message, and if the <see cref="CultureInfo.CurrentUICulture"/>
     ///     matches, then the readable message is returned. Otherwise it will try the <see cref="IStringLocalizer"/> service (if available).
     ///     NOTE: The cultureOfMessage parameter is matched to the <see cref="CultureInfo.CurrentUICulture"/>.Name via the StartsWith method.

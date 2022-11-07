@@ -23,7 +23,7 @@ public class TestLocalizeKeyExtensions
         //SETUP
 
         //ATTEMPT
-        var messageName = "test".ClassMethodMessageName(this);
+        var messageName = "test".ClassMethodMessageKey(this);
 
         //VERIFY
         _output.WriteLine(messageName);
@@ -39,7 +39,7 @@ public class TestLocalizeKeyExtensions
         //SETUP
 
         //ATTEMPT
-        var messageName = "test".ClassMethodMessageName(new ClassWithAttribute());
+        var messageName = "test".ClassMethodMessageKey(new ClassWithAttribute());
 
         //VERIFY
         _output.WriteLine(messageName);
@@ -53,10 +53,23 @@ public class TestLocalizeKeyExtensions
         //SETUP
 
         //ATTEMPT
-        var messageName = "test".ClassMethodMessageName(this);
+        var messageName = "test".ClassMethodMessageKey(this);
 
         //VERIFY
         _output.WriteLine(messageName);
         messageName.ShouldEqual("Test.UnitTests.TestLocalizeKeyExtensions_UniqueMethodName_test");
+    }
+    
+    [Fact]
+    public void TestMethodMessageKey()
+    {
+        //SETUP
+
+        //ATTEMPT
+        var messageName = "test".MethodMessageKey();
+
+        //VERIFY
+        _output.WriteLine(messageName);
+        messageName.ShouldEqual("TestMethodMessageKey_test");
     }
 }

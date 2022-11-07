@@ -6,17 +6,25 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LocalizeMessagesAndErrors;
 
+/// <summary>
+/// This provides a status system where you can add errors and success message which are localized.
+/// It based on the https://github.com/JonPSmith/GenericServices.StatusGeneric library.
+/// </summary>
+/// <typeparam name="TResourceType"></typeparam>
 public class StatusGenericLocalizer<TResourceType> : IStatusGenericLocalizer
 {
     private readonly ILocalizeWithDefault<TResourceType> _localizerWithDefault;
     private readonly string _cultureOfStrings;
 
     /// <summary>
-    /// This is the default success message.
+    /// This is the default success message. This isn't localized
     /// </summary>
-    public const string DefaultSuccessMessage = "Success";
-    protected readonly List<ErrorGeneric> _errors = new();
+    private const string DefaultSuccessMessage = "Success";
+    /// <summary>
+    /// This contains the localized success message set by the <see cref="SetMessageFormatted"/> method.
+    /// </summary>
     private string _successMessage = DefaultSuccessMessage;
+    private readonly List<ErrorGeneric> _errors = new();
 
     /// <summary>
     /// Constructor to set up the StatusGenericLocalizer
@@ -67,7 +75,7 @@ public class StatusGenericLocalizer<TResourceType> : IStatusGenericLocalizer
     /// <summary>
     /// On success this returns the message as set by the business logic, or the default messages
     /// If there are errors it contains the message "Failed with NN errors"
-    /// Both messages are localized, but the Message is only localized if the   
+    /// Both messages are localized, but the success Message is only localized if you use the <see cref="SetMessageFormatted"/> method.
     /// </summary>
     public string Message
     {
@@ -78,13 +86,22 @@ public class StatusGenericLocalizer<TResourceType> : IStatusGenericLocalizer
 
             return _successMessage;
         }
-        private set => _successMessage = value;
+        set => _successMessage = value;
     }
 
     //------------------------------------------------------
     //methods
 
-    public IStatusGenericLocalizer AddErrorString(string localizeKey, string errorMessage,
+    /// <summary>
+    /// This adds an error to the status using a string. Don't use this if you have dynamic values in the message.
+    /// </summary>
+    /// <param name="localizeKey">This is a key for the localized message in the respective resource / culture.
+    /// If null, then the message won't get localized</param>
+    /// <param name="errorMessage">The error message in the language / culture you defined when creating the
+    /// StatusGenericLocalizer.</param>
+    /// <param name="propertyNames">optional. A list of property names that this error applies to</param>
+    /// <returns>The StatusGenericLocalizer to allow fluent method calls.</returns>
+    public IStatusGenericLocalizer AddErrorString(string? localizeKey, string errorMessage,
         params string[] propertyNames)
     {
         var errorString = _localizerWithDefault.LocalizeStringMessage(localizeKey, _cultureOfStrings, errorMessage);
@@ -92,42 +109,75 @@ public class StatusGenericLocalizer<TResourceType> : IStatusGenericLocalizer
         return this;
     }
 
-    public IStatusGenericLocalizer AddErrorFormatted(string localizeKey, params FormattableString[] formattableStrings)
+    /// <summary>
+    /// This adds an error to the status using a <see cref="FormattableString"/>s, when you don't have and properties
+    /// to add to the <see cref="ValidationResult"/>. Using <see cref="FormattableString"/> allows you to place dynamic
+    /// values (e.g. $"The time is {DateTime.Now:T}") that are also sent to the localizer.
+    /// </summary>
+    /// <param name="localizeKey">This is a key for the localized message in the respective resource / culture.
+    /// If null, then the message won't get localized</param>
+    /// <param name="errorMessages">The error messages in the language / culture you defined when creating the
+    /// StatusGenericLocalizer. NOTE: this allows multiple <see cref="FormattableString"/>s to handle long messages.</param>
+    /// <returns>The StatusGenericLocalizer to allow fluent method calls.</returns>
+    public IStatusGenericLocalizer AddErrorFormatted(string? localizeKey, params FormattableString[] errorMessages)
     {
-        var errorString = _localizerWithDefault.LocalizeFormattedMessage(localizeKey, _cultureOfStrings, formattableStrings);
+        var errorString = _localizerWithDefault.LocalizeFormattedMessage(localizeKey, _cultureOfStrings, errorMessages);
         _errors.Add(new ErrorGeneric(Header, new ValidationResult(errorString)));
         return this;
     }
 
-    public IStatusGenericLocalizer AddErrorFormattedWithParams(string localizeKey, FormattableString formattableString,
+    /// <summary>
+    /// This adds an error to the status using a <see cref="FormattableString"/>s, when you don't have and properties
+    /// to add to the <see cref="ValidationResult"/>. Using <see cref="FormattableString"/> allows you to place dynamic
+    /// values (e.g. $"The time is {DateTime.Now:T}") that are also sent to the localizer.
+    /// </summary>
+    /// <param name="localizeKey">This is a key for the localized message in the respective resource / culture.
+    /// If null, then the message won't get localized</param>
+    /// <param name="errorMessage">The error message in the language / culture you defined when creating the
+    /// StatusGenericLocalizer.</param>
+    /// <param name="propertyNames">optional. A list of property names that this error applies to</param>
+    /// <returns>The StatusGenericLocalizer to allow fluent method calls.</returns>
+    public IStatusGenericLocalizer AddErrorFormattedWithParams(string? localizeKey, FormattableString errorMessage,
         params string[] propertyNames)
     {
-        var errorString = _localizerWithDefault.LocalizeFormattedMessage(localizeKey, _cultureOfStrings, formattableString);
+        var errorString = _localizerWithDefault.LocalizeFormattedMessage(localizeKey, _cultureOfStrings, errorMessage);
         _errors.Add(new ErrorGeneric(Header, new ValidationResult(errorString, propertyNames)));
         return this;
     }
-
-    public IStatusGenericLocalizer AddErrorFormattedWithParams(string localizeKey,
-        FormattableString[] formattableStrings, params string[] propertyNames)
-    {
-        var errorString = _localizerWithDefault.LocalizeFormattedMessage(localizeKey, _cultureOfStrings, formattableStrings);
-        _errors.Add(new ErrorGeneric(Header, new ValidationResult(errorString, propertyNames)));
-        return this;
-    }
-
-    //---------------------------------------------------
-    //Normal StatusGeneric methods
 
     /// <summary>
-    /// This allows you to alter the <see cref="IStatusGenericLocalizer.Message"/> with a localized string.
+    /// This adds an error to the status using a <see cref="FormattableString"/>s, when you don't have and properties
+    /// to add to the <see cref="ValidationResult"/>. Using <see cref="FormattableString"/> allows you to place dynamic
+    /// values (e.g. $"The time is {DateTime.Now:T}") that are also sent to the localizer.
     /// </summary>
-    /// <param name="localizeKey">The</param>
+    /// <param name="localizeKey">This is a key for the localized message in the respective resource / culture.
+    /// If null, then the message won't get localized</param>
+    /// <param name="errorMessages">This is an array of <see cref="FormattableString"/> containing the error message i
+    /// n the language / culture you defined when creating the  StatusGenericLocalizer.
+    /// NOTE: this allows multiple <see cref="FormattableString"/>s to handle long messages.</param>
+    /// <param name="propertyNames">optional. A list of property names that this error applies to</param>
+    /// <returns>The StatusGenericLocalizer to allow fluent method calls.</returns>
+    public IStatusGenericLocalizer AddErrorFormattedWithParams(string? localizeKey,
+        FormattableString[] errorMessages, params string[] propertyNames)
+    {
+        var errorString = _localizerWithDefault.LocalizeFormattedMessage(localizeKey, _cultureOfStrings, errorMessages);
+        _errors.Add(new ErrorGeneric(Header, new ValidationResult(errorString, propertyNames)));
+        return this;
+    }
+
+    /// <summary>
+    /// This allows you to set the <see cref="IStatusGeneric.Message"/> with a localized string.
+    /// </summary>
+    /// <param name="localizeKey">This is a key for the localized message in the respective resource / culture.</param>
     /// <param name="formattableStrings"></param>
     public IStatusGenericLocalizer SetMessageFormatted(string localizeKey, params FormattableString[] formattableStrings)
     {
         Message = _localizerWithDefault.LocalizeFormattedMessage(localizeKey, _cultureOfStrings, formattableStrings);
         return this;
     }
+
+    //---------------------------------------------------
+    //Normal StatusGeneric methods
 
     /// <summary>
     /// This allows statuses to be combined. Copies over any errors and replaces the Message if the current message is null
@@ -136,7 +186,7 @@ public class StatusGenericLocalizer<TResourceType> : IStatusGenericLocalizer
     /// The result would be error message in status2 would be updates to start with "MyClass>MyProp: This is my error message."
     /// </summary>
     /// <param name="status"></param>
-    public IStatusGenericLocalizer CombineStatuses(IStatusGenericLocalizer status)
+    public IStatusGeneric CombineStatuses(IStatusGeneric status)
     {
         if (!status.IsValid)
         {

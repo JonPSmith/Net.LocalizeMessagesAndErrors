@@ -3,13 +3,24 @@
 
 namespace LocalizeMessagesAndErrors;
 
+/// <summary>
+/// This is used with the <see cref="LocalizeKeyExtensions.ClassMethodMessageKey"/>
+/// to provide a unique name instead of the method.
+/// Useful if there are multiple methods with the same name.
+/// </summary>
 [AttributeUsage(AttributeTargets.Method)]
 public class LocalizeSetMethodNameAttribute : Attribute
 {
+    /// <summary>
+    /// ctor: sets the replacement name of the method
+    /// </summary>
+    /// <param name="classMethodName"></param>
     public LocalizeSetMethodNameAttribute(string classMethodName)
     {
         ClassMethodName = classMethodName;
     }
-
+    /// <summary>
+    /// Contains the replacement name of the method
+    /// </summary>
     public string ClassMethodName { get;}
 }
