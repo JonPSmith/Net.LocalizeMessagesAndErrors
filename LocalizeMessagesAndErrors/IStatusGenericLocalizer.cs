@@ -20,7 +20,7 @@ public interface IStatusGenericLocalizer : IStatusGeneric
     /// StatusGenericLocalizer.</param>
     /// <param name="propertyNames">optional. A list of property names that this error applies to</param>
     /// <returns>The StatusGenericLocalizer to allow fluent method calls.</returns>
-    IStatusGenericLocalizer AddErrorString(string? localizeKey, string errorMessage, params string[] propertyNames);
+    IStatusGeneric AddErrorString(string localizeKey, string errorMessage, params string[] propertyNames);
 
     /// <summary>
     /// This adds an error to the status using a <see cref="FormattableString"/>s, when you don't have and properties
@@ -32,7 +32,7 @@ public interface IStatusGenericLocalizer : IStatusGeneric
     /// <param name="errorMessages">The error messages in the language / culture you defined when creating the
     /// StatusGenericLocalizer. NOTE: this allows multiple <see cref="FormattableString"/>s to handle long messages.</param>
     /// <returns>The StatusGenericLocalizer to allow fluent method calls.</returns>
-    IStatusGenericLocalizer AddErrorFormatted(string? localizeKey, params FormattableString[] errorMessages);
+    IStatusGeneric AddErrorFormatted(string localizeKey, params FormattableString[] errorMessages);
 
     /// <summary>
     /// This adds an error to the status using a <see cref="FormattableString"/>s, when you don't have and properties
@@ -45,7 +45,7 @@ public interface IStatusGenericLocalizer : IStatusGeneric
     /// StatusGenericLocalizer.</param>
     /// <param name="propertyNames">optional. A list of property names that this error applies to</param>
     /// <returns>The StatusGenericLocalizer to allow fluent method calls.</returns>
-    IStatusGenericLocalizer AddErrorFormattedWithParams(string? localizeKey, FormattableString errorMessage,
+    IStatusGeneric AddErrorFormattedWithParams(string localizeKey, FormattableString errorMessage,
         params string[] propertyNames);
 
     /// <summary>
@@ -60,7 +60,7 @@ public interface IStatusGenericLocalizer : IStatusGeneric
     /// NOTE: this allows multiple <see cref="FormattableString"/>s to handle long messages.</param>
     /// <param name="propertyNames">optional. A list of property names that this error applies to</param>
     /// <returns>The StatusGenericLocalizer to allow fluent method calls.</returns>
-    IStatusGenericLocalizer AddErrorFormattedWithParams(string? localizeKey, FormattableString[] errorMessages,
+    IStatusGeneric AddErrorFormattedWithParams(string localizeKey, FormattableString[] errorMessages,
         params string[] propertyNames);
 
     /// <summary>
@@ -72,5 +72,5 @@ public interface IStatusGenericLocalizer : IStatusGeneric
     ///     This takes one or more <see cref="FormattableString"/>s. and concatenates them into one message.
     ///     This allowed you to have multiple <see cref="FormattableString"/>s to handle long messages.
     /// </param>
-    IStatusGenericLocalizer SetMessageFormatted(string localizeKey, params FormattableString[] formattableStrings);
+    IStatusGeneric SetMessageFormatted(string localizeKey, params FormattableString[] formattableStrings);
 }

@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
@@ -15,7 +14,7 @@
 
 	<PropertyGroup>
 		<PackageId>Net.LocalizeMessagesAndErrors</PackageId>
-		<PackageVersion>1.0.0-preview001</PackageVersion>
+		<PackageVersion>1.0.0-preview007</PackageVersion>
 		<Authors>Jon P Smith</Authors>
 		<Description>Provides extra features to .NET Localization that makes the code easier to understand.</Description>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>

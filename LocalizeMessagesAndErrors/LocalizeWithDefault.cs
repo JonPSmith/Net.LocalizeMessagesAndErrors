@@ -16,16 +16,16 @@ namespace LocalizeMessagesAndErrors;
 /// <typeparam name="TResourceType"></typeparam>
 public class LocalizeWithDefault<TResourceType> : ILocalizeWithDefault<TResourceType>
 {
-    private readonly IStringLocalizer<TResourceType>? _localizer;
-    private readonly ILogger<LocalizeWithDefault<TResourceType>>? _logger;
+    private readonly IStringLocalizer<TResourceType> _localizer;
+    private readonly ILogger<LocalizeWithDefault<TResourceType>> _logger;
 
     /// <summary>
     /// Ctor
     /// </summary>
     /// <param name="logger">_logger to report issues when using the <see cref="IStringLocalizer"/> service. Can be null for unit tests.</param>
     /// <param name="localizer">Optional: If no <see cref="IStringLocalizer"/> service, then readable string used.</param>
-    public LocalizeWithDefault(ILogger<LocalizeWithDefault<TResourceType>>? logger,
-        IStringLocalizer<TResourceType>? localizer = null)
+    public LocalizeWithDefault(ILogger<LocalizeWithDefault<TResourceType>> logger,
+        IStringLocalizer<TResourceType> localizer = null)
     {
         _localizer = localizer;
         _logger = logger;
@@ -53,12 +53,10 @@ public class LocalizeWithDefault<TResourceType> : ILocalizeWithDefault<TResource
     /// <param name="message">This contains your default message for the culture defined by the cultureOfMessage parameter.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
-    public string LocalizeStringMessage(string? localizeKey, string cultureOfMessage, string message)
+    public string LocalizeStringMessage(string localizeKey, string cultureOfMessage, string message)
     {
-
         if (cultureOfMessage == null) throw new ArgumentNullException(nameof(cultureOfMessage));
-        if (string.IsNullOrEmpty(message))
-            return "";
+        if (message == null) throw new ArgumentNullException(nameof(message));
 
         if (localizeKey == null)
             //we assume that not setting the localizeKey means you don't want the message localized 
@@ -103,7 +101,7 @@ public class LocalizeWithDefault<TResourceType> : ILocalizeWithDefault<TResource
     /// </param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
-    public string LocalizeFormattedMessage(string? localizeKey, string cultureOfMessage,
+    public string LocalizeFormattedMessage(string localizeKey, string cultureOfMessage,
         params FormattableString[] formattableStrings)
     {
         string ReturnGivenMessage()

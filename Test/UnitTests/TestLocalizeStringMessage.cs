@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2022 Jon P Smith, GitHub: JonPSmith, web: http://www.thereformedprogrammer.net/
 // Licensed under MIT license. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -86,5 +87,22 @@ public class TestLocalizeStringMessage
         message.ShouldEqual("Message from readable string");
         _logs.Single().Message.ShouldEqual(
             "The entry with the name 'test' and culture of 'TestLocalizeStringMessage' was not found in the 'en-GB' resource.");
+    }
+
+    [Fact] public void TestLocalizeStringMessage_NullMessage()
+    {
+        //SETUP
+        var stubLocalizer = new StubStringLocalizer<TestLocalizeStringMessage>(
+            new Dictionary<string, string>());
+        Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
+
+        var service = new LocalizeWithDefault<TestLocalizeStringMessage>(_logger, stubLocalizer);
+
+        //ATTEMPT
+        var ex = Assert.Throws<ArgumentNullException>(() => 
+            service.LocalizeStringMessage("test", "en-GB", null));
+
+        //VERIFY
+        ex.Message.ShouldEqual("Value cannot be null. (Parameter 'message')");
     }
 }

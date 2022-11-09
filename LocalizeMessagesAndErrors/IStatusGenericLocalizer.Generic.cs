@@ -10,10 +10,12 @@ namespace LocalizeMessagesAndErrors;
 /// Useful if you want to return something with the status.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public interface IStatusGenericLocalizer<out T> : IStatusGenericLocalizer
+public interface IStatusGenericLocalizer<out T> : IStatusGeneric
 {
     /// <summary>
     /// This contains the return result, or if there are errors it will return default(T)
     /// </summary>
-    T? Result { get; }
+    T Result { get; }
+
+
 }

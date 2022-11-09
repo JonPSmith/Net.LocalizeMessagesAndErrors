@@ -26,11 +26,11 @@ public static class LocalizeKeyExtensions
     {
         var callingClassType = callingClass.GetType();
 
-        var classAttribute =   (LocalizeSetClassNameAttribute?)Attribute.GetCustomAttribute(callingClassType, 
+        var classAttribute =   (LocalizeSetClassNameAttribute)Attribute.GetCustomAttribute(callingClassType, 
             typeof(LocalizeSetClassNameAttribute));
         var methodInfo = callingClassType.GetMethod(memberName);
         var methodAttribute = methodInfo == null ? null :
-            (LocalizeSetMethodNameAttribute?)Attribute.GetCustomAttribute(methodInfo, typeof(LocalizeSetMethodNameAttribute));
+            (LocalizeSetMethodNameAttribute)Attribute.GetCustomAttribute(methodInfo, typeof(LocalizeSetMethodNameAttribute));
 
         return (classAttribute?.ClassUniqueName ?? callingClassType.FullName) + "_" +
                (methodAttribute?.ClassMethodName ?? memberName) + "_" +

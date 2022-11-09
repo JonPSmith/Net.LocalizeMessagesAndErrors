@@ -34,7 +34,7 @@ public interface ILocalizeWithDefault<TResourceType>
     /// <param name="message">This contains your default message for the culture defined by the cultureOfMessage parameter.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
-    string LocalizeStringMessage(string? localizeKey, string cultureOfMessage, string message);
+    string LocalizeStringMessage(string localizeKey, string cultureOfMessage, string message);
 
     /// <summary>
     /// This is a localization adapter that allows you to have readable messages in your code using 
@@ -60,6 +60,6 @@ public interface ILocalizeWithDefault<TResourceType>
     /// </param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
-    string LocalizeFormattedMessage(string? localizeKey, string cultureOfMessage,
+    string LocalizeFormattedMessage(string localizeKey, string cultureOfMessage,
         params FormattableString[] formattableStrings);
 }
