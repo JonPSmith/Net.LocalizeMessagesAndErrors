@@ -1,21 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-	<LangVersion>latest</LangVersion>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+	  <ImplicitUsings>enable</ImplicitUsings>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="GenericServices.StatusGeneric" Version="1.1.0" />
-		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="6.0.10" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0'">
+		<PackageReference Include="GenericServices.StatusGeneric" Version="1.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="6.0.11" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.11" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net7.0'">
+		<PackageReference Include="GenericServices.StatusGeneric" Version="1.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
 	</ItemGroup>
 
 	<PropertyGroup>
 		<PackageId>Net.LocalizeMessagesAndErrors</PackageId>
-		<PackageVersion>1.0.0-preview007</PackageVersion>
+		<PackageVersion>1.0.0-preview013</PackageVersion>
 		<Authors>Jon P Smith</Authors>
 		<Description>Provides extra features to .NET Localization that makes the code easier to understand.</Description>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
