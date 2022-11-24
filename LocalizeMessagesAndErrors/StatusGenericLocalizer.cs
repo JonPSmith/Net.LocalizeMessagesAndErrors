@@ -172,7 +172,23 @@ public class StatusGenericLocalizer<TResourceType> : IStatusGenericLocalizer
     /// This allows you to set the <see cref="IStatusGeneric.Message"/> with a localized string.
     /// </summary>
     /// <param name="localizeKey">This is a key for the localized message in the respective resource / culture.</param>
-    /// <param name="formattableStrings"></param>
+    /// <param name="message">string that can be localized to set the <see cref="Message"/> property</param>
+    public IStatusGeneric SetMessageString(string localizeKey, string message)
+    {
+        Message = _localizerWithDefault.LocalizeStringMessage(localizeKey, _cultureOfStrings, message);
+        return this;
+    }
+
+    /// <summary>
+    /// This allows you to set the <see cref="IStatusGeneric.Message"/> with localized FormattableStrings.
+    /// NOTE: this allows multiple <see cref="FormattableString"/>s to handle long messages.
+    /// </summary>
+    /// <param name="localizeKey">This is a key for the localized message in the respective resource / culture.</param>
+    /// <param name="formattableStrings">A array of <see cref="FormattableString"/>s that can be localized to
+    /// set the <see cref="IStatusGeneric.Message"/> property
+    /// This takes one or more <see cref="FormattableString"/>s. and concatenates them into one message.
+    /// This allowed you to have multiple <see cref="FormattableString"/>s to handle long messages.
+    /// </param>
     public IStatusGeneric SetMessageFormatted(string localizeKey, params FormattableString[] formattableStrings)
     {
         Message = _localizerWithDefault.LocalizeFormattedMessage(localizeKey, _cultureOfStrings, formattableStrings);
