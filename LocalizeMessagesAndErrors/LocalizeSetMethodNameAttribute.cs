@@ -4,7 +4,7 @@
 namespace LocalizeMessagesAndErrors;
 
 /// <summary>
-/// This is used with the <see cref="LocalizeKeyExtensions.ClassMethodMessageKey"/>
+/// This is used with the <see cref="LocalizeKeyExtensions.ClassMethodLocalizeKey"/>
 /// to provide a unique name instead of the method.
 /// Useful if there are multiple methods with the same name.
 /// </summary>

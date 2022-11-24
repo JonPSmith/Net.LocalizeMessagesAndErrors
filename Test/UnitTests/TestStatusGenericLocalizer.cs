@@ -35,14 +35,14 @@ public class TestStatusGenericLocalizer
     {
         //SETUP
         var stubLocalizer = new StubStringLocalizer<TestStatusGenericLocalizer>(
-            new Dictionary<string, string> { { "test", "Error from resource file" } });
+            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).ToString(), "Error from resource file" } });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var defaultLocalizer = new LocalizeWithDefault<TestStatusGenericLocalizer>(_logger, stubLocalizer);
         var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>(cultureOfMessage, defaultLocalizer); 
 
         //ATTEMPT
-        var errors = status.AddErrorString("test", "Error from readable string");
+        var errors = status.AddErrorString("test".ClassLocalizeKey(this), "Error from readable string");
 
         //VERIFY
         status.GetAllErrors().ShouldEqual(expectedMessage);
@@ -55,14 +55,14 @@ public class TestStatusGenericLocalizer
     {
         //SETUP
         var stubLocalizer = new StubStringLocalizer<TestStatusGenericLocalizer>(
-            new Dictionary<string, string> { { "test", "Error {0} from resource file" } });
+            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).ToString(), "Error {0} from resource file" } });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var defaultLocalizer = new LocalizeWithDefault<TestStatusGenericLocalizer>(_logger, stubLocalizer);
         var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>(cultureOfMessage, defaultLocalizer);
 
         //ATTEMPT
-        var errors = status.AddErrorFormatted("test", $"Error {123} from readable string");
+        var errors = status.AddErrorFormatted("test".ClassLocalizeKey(this), $"Error {123} from readable string");
 
         //VERIFY
         status.GetAllErrors().ShouldEqual(expectedMessage);
@@ -75,14 +75,14 @@ public class TestStatusGenericLocalizer
     {
         //SETUP
         var stubLocalizer = new StubStringLocalizer<TestStatusGenericLocalizer>(
-            new Dictionary<string, string> { { "test", "Error {0} from resource file" } });
+            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).ToString(), "Error {0} from resource file" } });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var defaultLocalizer = new LocalizeWithDefault<TestStatusGenericLocalizer>(_logger, stubLocalizer);
         var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>(cultureOfMessage, defaultLocalizer);
 
         //ATTEMPT
-        var errors = status.AddErrorFormattedWithParams("test", 
+        var errors = status.AddErrorFormattedWithParams("test".ClassLocalizeKey(this), 
             $"Error {123} from readable string", "MyProperty");
 
         //VERIFY
@@ -98,14 +98,14 @@ public class TestStatusGenericLocalizer
     {
         //SETUP
         var stubLocalizer = new StubStringLocalizer<TestStatusGenericLocalizer>(
-            new Dictionary<string, string> { { "test", "Error {0}, {1} from resource file" } });
+            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).ToString(), "Error {0}, {1} from resource file" } });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var defaultLocalizer = new LocalizeWithDefault<TestStatusGenericLocalizer>(_logger, stubLocalizer);
         var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>(cultureOfMessage, defaultLocalizer);
 
         //ATTEMPT
-        var errors = status.AddErrorFormattedWithParams("test", new FormattableString[]
+        var errors = status.AddErrorFormattedWithParams("test".ClassLocalizeKey(this), new FormattableString[]
         {
             $"Error {123},", $" {456} from readable string"
         }, "MyProperty");
@@ -128,14 +128,14 @@ public class TestStatusGenericLocalizer
         var stubLocalizer = new StubStringLocalizer<TestStatusGenericLocalizer>(
             new Dictionary<string, string>
             {
-                { "SuccessMessage", "Success from resource file" },
+                { "SuccessMessage".ClassLocalizeKey(this).ToString(), "Success from resource file" },
                 { "StatusGenericLocalizer_MessageHasErrors", "Failed with 1 error" }
             });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var defaultLocalizer = new LocalizeWithDefault<TestStatusGenericLocalizer>(_logger, stubLocalizer);
         var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>(cultureOfMessage, defaultLocalizer);
-        status.SetMessageFormatted("SuccessMessage", $"Success from readable string");
+        status.SetMessageFormatted("SuccessMessage".ClassLocalizeKey(this), $"Success from readable string");
 
         //VERIFY
         status.Message.ShouldEqual(expectedMessage);
@@ -150,14 +150,14 @@ public class TestStatusGenericLocalizer
         var stubLocalizer = new StubStringLocalizer<TestStatusGenericLocalizer>(
             new Dictionary<string, string>
             {
-                { "SuccessMessage", "Success from resource file" },
+                { "SuccessMessage".ClassLocalizeKey(this).ToString(), "Success from resource file" },
                 { "StatusGenericLocalizer_MessageHasErrors", "Resource file: Failed with {0} error{1}" }
             });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var defaultLocalizer = new LocalizeWithDefault<TestStatusGenericLocalizer>(_logger, stubLocalizer);
         var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>(cultureOfMessage, defaultLocalizer);
-        status.AddErrorString("test", "there is an error");
+        status.AddErrorString("test".ClassLocalizeKey(this), "there is an error");
 
         //VERIFY
         status.Message.ShouldEqual(expectedMessage);

@@ -18,16 +18,43 @@ public class TestLocalizeKeyExtensions
     }
 
     [Fact]
+    public void TestClassLocalizeKey_NoAttributes()
+    {
+        //SETUP
+
+        //ATTEMPT
+        var localizeKey = "test".ClassLocalizeKey(this);
+
+        //VERIFY
+        _output.WriteLine(localizeKey.ToString());
+        localizeKey.ToString().ShouldEqual("Test.UnitTests.TestLocalizeKeyExtensions_test");
+    }
+
+
+    [Fact]
+    public void TestClassLocalizeKey_WithClassAttributes()
+    {
+        //SETUP
+
+        //ATTEMPT
+        var localizeKey = "test".ClassLocalizeKey(new ClassWithAttribute());
+
+        //VERIFY
+        _output.WriteLine(localizeKey.ToString());
+        localizeKey.ToString().ShouldEqual("UniqueClassName_test");
+    }
+
+    [Fact]
     public void TestClassMethodMessageName_NoAttributes()
     {
         //SETUP
 
         //ATTEMPT
-        var messageName = "test".ClassMethodMessageKey(this);
+        var localizeKey = "test".ClassMethodLocalizeKey(this);
 
         //VERIFY
-        _output.WriteLine(messageName);
-        messageName.ShouldEqual("Test.UnitTests.TestLocalizeKeyExtensions_TestClassMethodMessageName_NoAttributes_test");
+        _output.WriteLine(localizeKey.ToString());
+        localizeKey.ToString().ShouldEqual("Test.UnitTests.TestLocalizeKeyExtensions_TestClassMethodMessageName_NoAttributes_test");
     }
 
     [LocalizeSetClassName("UniqueClassName")]
@@ -39,11 +66,11 @@ public class TestLocalizeKeyExtensions
         //SETUP
 
         //ATTEMPT
-        var messageName = "test".ClassMethodMessageKey(new ClassWithAttribute());
+        var localizeKey = "test".ClassMethodLocalizeKey(new ClassWithAttribute());
 
         //VERIFY
-        _output.WriteLine(messageName);
-        messageName.ShouldEqual("UniqueClassName_TestClassMethodMessageName_ClassAttribute_test");
+        _output.WriteLine(localizeKey.ToString());
+        localizeKey.ToString().ShouldEqual("UniqueClassName_TestClassMethodMessageName_ClassAttribute_test");
     }
 
     [Fact]
@@ -53,11 +80,11 @@ public class TestLocalizeKeyExtensions
         //SETUP
 
         //ATTEMPT
-        var messageName = "test".ClassMethodMessageKey(this);
+        var localizeKey = "test".ClassMethodLocalizeKey(this);
 
         //VERIFY
-        _output.WriteLine(messageName);
-        messageName.ShouldEqual("Test.UnitTests.TestLocalizeKeyExtensions_UniqueMethodName_test");
+        _output.WriteLine(localizeKey.ToString());
+        localizeKey.ToString().ShouldEqual("Test.UnitTests.TestLocalizeKeyExtensions_UniqueMethodName_test");
     }
     
     [Fact]
@@ -66,10 +93,10 @@ public class TestLocalizeKeyExtensions
         //SETUP
 
         //ATTEMPT
-        var messageName = "test".MethodMessageKey();
+        var localizeKey = "test".MethodLocalizeKey(this);
 
         //VERIFY
-        _output.WriteLine(messageName);
-        messageName.ShouldEqual("TestMethodMessageKey_test");
+        _output.WriteLine(localizeKey.ToString());
+        localizeKey.ToString().ShouldEqual("TestMethodMessageKey_test");
     }
 }

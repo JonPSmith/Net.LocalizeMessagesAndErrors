@@ -58,7 +58,7 @@ public class StatusGenericLocalizer<TReturn, TResourceType> : StatusGenericLocal
     /// StatusGenericLocalizer.</param>
     /// <param name="propertyNames">optional. A list of property names that this error applies to</param>
     /// <returns>The StatusGenericLocalizer to allow fluent method calls.</returns>
-    public new IStatusGeneric<TReturn> AddErrorString(string localizeKey, string errorMessage,
+    public new IStatusGeneric<TReturn> AddErrorString(LocalizeKeyClass localizeKey, string errorMessage,
         params string[] propertyNames)
     {
         var errorString = _localizerWithDefault.LocalizeStringMessage(localizeKey, _cultureOfStrings, errorMessage);
@@ -76,7 +76,7 @@ public class StatusGenericLocalizer<TReturn, TResourceType> : StatusGenericLocal
     /// <param name="errorMessages">The error messages in the language / culture you defined when creating the
     /// StatusGenericLocalizer. NOTE: this allows multiple <see cref="FormattableString"/>s to handle long messages.</param>
     /// <returns>The StatusGenericLocalizer to allow fluent method calls.</returns>
-    public new IStatusGeneric<TReturn> AddErrorFormatted(string localizeKey, params FormattableString[] errorMessages)
+    public new IStatusGeneric<TReturn> AddErrorFormatted(LocalizeKeyClass localizeKey, params FormattableString[] errorMessages)
     {
         var errorString = _localizerWithDefault.LocalizeFormattedMessage(localizeKey, _cultureOfStrings, errorMessages);
         _errors.Add(new ErrorGeneric(Header, new ValidationResult(errorString)));
@@ -94,7 +94,7 @@ public class StatusGenericLocalizer<TReturn, TResourceType> : StatusGenericLocal
     /// StatusGenericLocalizer.</param>
     /// <param name="propertyNames">optional. A list of property names that this error applies to</param>
     /// <returns>The StatusGenericLocalizer to allow fluent method calls.</returns>
-    public new IStatusGeneric<TReturn> AddErrorFormattedWithParams(string localizeKey, FormattableString errorMessage,
+    public new IStatusGeneric<TReturn> AddErrorFormattedWithParams(LocalizeKeyClass localizeKey, FormattableString errorMessage,
         params string[] propertyNames)
     {
         var errorString = _localizerWithDefault.LocalizeFormattedMessage(localizeKey, _cultureOfStrings, errorMessage);
@@ -114,7 +114,7 @@ public class StatusGenericLocalizer<TReturn, TResourceType> : StatusGenericLocal
     /// NOTE: this allows multiple <see cref="FormattableString"/>s to handle long messages.</param>
     /// <param name="propertyNames">optional. A list of property names that this error applies to</param>
     /// <returns>The StatusGenericLocalizer to allow fluent method calls.</returns>
-    public new IStatusGeneric<TReturn> AddErrorFormattedWithParams(string localizeKey,
+    public new IStatusGeneric<TReturn> AddErrorFormattedWithParams(LocalizeKeyClass localizeKey,
         FormattableString[] errorMessages, params string[] propertyNames)
     {
         var errorString = _localizerWithDefault.LocalizeFormattedMessage(localizeKey, _cultureOfStrings, errorMessages);
