@@ -20,7 +20,7 @@ public static class LocalizeKeyExtensions
     /// <param name="localKey">This is local key part of the localizedKey.</param>
     /// <param name="callingClass">Use 'this' for this parameter, which will contain the class you are calling from.
     /// This is used to get the Class name.</param>
-    /// <returns>localizeKey</returns>
+    /// <returns>LocalizeKeyClass</returns>
     public static LocalizeKeyClass ClassLocalizeKey(this string localKey, object callingClass)
     {
         var callingClassType = callingClass.GetType();
@@ -45,7 +45,7 @@ public static class LocalizeKeyExtensions
     /// <param name="callingClass">Use 'this' for this parameter, which will contain the class you are calling from.
     /// This is used to get the Class name.</param>
     /// <param name="memberName">DO NOT use. This a filled by the calling method name</param>
-    /// <returns>localizeKey</returns>
+    /// <returns>LocalizeKeyClass</returns>
     public static LocalizeKeyClass ClassMethodLocalizeKey(this string localKey, object callingClass,
         [CallerMemberName] string memberName = "")
     {
@@ -71,7 +71,7 @@ public static class LocalizeKeyExtensions
     /// <param name="callingClass">Use 'this' for this parameter. this is used find is there is a
     /// <see cref="LocalizeSetMethodNameAttribute"/> which changes the method name.</param>
     /// <param name="memberName">DO NOT use. This a filled by the calling method name</param>
-    /// <returns>localizeKey</returns>
+    /// <returns>LocalizeKeyClass</returns>
     public static LocalizeKeyClass MethodLocalizeKey(this string localKey, object callingClass,
         [CallerMemberName] string memberName = "")
     {
@@ -84,5 +84,14 @@ public static class LocalizeKeyExtensions
         return new LocalizeKeyClass(null,
             methodAttribute?.ClassMethodName ?? memberName,
             localKey);
+    }
+
+    /// <summary>
+    /// Use this if the message has already been localized
+    /// </summary>
+    /// <returns>LocalizeKeyClass</returns>
+    public static LocalizeKeyClass AlreadyLocalized()
+    {
+        return new LocalizeKeyClass(null, null, null);
     }
 }

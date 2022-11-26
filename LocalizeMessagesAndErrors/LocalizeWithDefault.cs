@@ -44,7 +44,7 @@ public class LocalizeWithDefault<TResourceType> : ILocalizeWithDefault<TResource
     /// but if the resource isn't found, then it will use the readable messages and log a warning that there
     /// isn't a resource with the given localizeKey / ResourcesPath. 
     /// </summary>
-    /// <param name="LocalizeKey">This contains the localizeKey and the calling class to log errors with a logger containing the called class.</param>
+    /// <param name="localizeKey">This contains the localizeKey and the calling class to log errors with a logger containing the called class.</param>
     /// <param name="cultureOfMessage">This defines the culture of provided readable message, and if the <see cref="CultureInfo.CurrentUICulture"/>
     ///     matches, then the readable message is returned. Otherwise it will try the <see cref="IStringLocalizer"/> service (if available).
     ///     NOTE: The cultureOfMessage parameter is matched to the <see cref="CultureInfo.CurrentUICulture"/>.Name via the StartsWith method.
@@ -52,32 +52,35 @@ public class LocalizeWithDefault<TResourceType> : ILocalizeWithDefault<TResource
     /// <param name="message">This contains your default message for the culture defined by the cultureOfMessage parameter.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
-    public string LocalizeStringMessage(LocalizeKeyClass LocalizeKey, string cultureOfMessage, string message)
+    public string LocalizeStringMessage(LocalizeKeyClass localizeKey, string cultureOfMessage, string message)
     {
         if (cultureOfMessage == null) throw new ArgumentNullException(nameof(cultureOfMessage));
         if (message == null) throw new ArgumentNullException(nameof(message));
 
-        if (LocalizeKey == null)
+        if (localizeKey == null)
         {
-            //This is assumed to be an error. We log this and return the given message
+            //This is an error. We log this and return the given message
             _logger?.LogError("The message '{0}' had no localizeKey. This can happen if you set the StatusGeneric Message directly.",
                 message);
             return message;
         }
 
         if (Thread.CurrentThread.CurrentUICulture.Name.StartsWith(cultureOfMessage)
+            || localizeKey.ToString() == null
             || _localizer == null)
-            //Return given message if a) the CurrentUICulture starts with the cultureOfMessage parameter
-            //or b) if there is no localizer service to look up another language
+            //Return given message if
+            //a) the CurrentUICulture starts with the cultureOfMessage parameter, i.e. the message is already in the correct language
+            //b) The localizeKey is null, which means the message has already been localized.
+            //c) if there is no localizer service, then we assume the application isn't (yet) using localization. 
             return message;
 
-        var foundLocalization = _localizer[LocalizeKey.ToString()];
+        var foundLocalization = _localizer[localizeKey.ToString()];
         if (!foundLocalization.ResourceNotFound) 
             return foundLocalization.Value;
 
         //Entry not found in the resources, so log this and return the given message
         _logger?.LogWarning("The entry with the name '{0}' and culture of '{1}' was not found in the '{2}' resource.",
-            LocalizeKey.ToString(), Thread.CurrentThread.CurrentUICulture.Name, foundLocalization.SearchedLocation);
+            localizeKey.ToString(), Thread.CurrentThread.CurrentUICulture.Name, foundLocalization.SearchedLocation);
         return message;
 
     }
@@ -105,7 +108,7 @@ public class LocalizeWithDefault<TResourceType> : ILocalizeWithDefault<TResource
     /// </param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
-    public string LocalizeFormattedMessage(LocalizeKeyClass LocalizeKey, string cultureOfMessage,
+    public string LocalizeFormattedMessage(LocalizeKeyClass localizeKey, string cultureOfMessage,
         params FormattableString[] formattableStrings)
     {
         string ReturnGivenMessage()
@@ -116,7 +119,7 @@ public class LocalizeWithDefault<TResourceType> : ILocalizeWithDefault<TResource
         if (cultureOfMessage == null) throw new ArgumentNullException(nameof(cultureOfMessage));
         if (formattableStrings == null) throw new ArgumentNullException(nameof(formattableStrings));
 
-        if (LocalizeKey == null)
+        if (localizeKey == null)
         {
             //This is assumed to be an error. We log this and return the given message
             _logger?.LogError("The message '{0}' had no localizeKey. This can happen if you set the StatusGeneric Message directly.",
@@ -125,13 +128,16 @@ public class LocalizeWithDefault<TResourceType> : ILocalizeWithDefault<TResource
         }
 
         if (Thread.CurrentThread.CurrentUICulture.Name.StartsWith(cultureOfMessage)
+            || localizeKey.ToString() == null
             || _localizer == null)
-            //Return given message if a) the CurrentUICulture starts with the cultureOfMessage parameter
-            //or b) if there is no localizer service to look up another language
+            //Return given message if
+            //a) the CurrentUICulture starts with the cultureOfMessage parameter, i.e. the message is already in the correct language
+            //b) The localizeKey is null, which means the message has already been localized.
+            //c) if there is no localizer service, then we assume the application isn't (yet) using localization. 
             return ReturnGivenMessage();
 
         var args = formattableStrings.SelectMany(x => x.GetArguments()).ToArray();
-        var foundLocalization = _localizer[LocalizeKey.ToString()];
+        var foundLocalization = _localizer[localizeKey.ToString()];
         if (!foundLocalization.ResourceNotFound)
             try
             {
@@ -146,7 +152,7 @@ public class LocalizeWithDefault<TResourceType> : ILocalizeWithDefault<TResource
 
         //Entry not found in the resources, so log this and return the given message
         _logger?.LogWarning("The entry with the name '{0}' and culture of '{1}' was not found in the '{2}' resource.",
-            LocalizeKey.ToString(), Thread.CurrentThread.CurrentUICulture.Name, foundLocalization.SearchedLocation);
+            localizeKey.ToString(), Thread.CurrentThread.CurrentUICulture.Name, foundLocalization.SearchedLocation);
         return ReturnGivenMessage();
     }
 }

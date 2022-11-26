@@ -43,7 +43,7 @@ public class LocalizeKeyClass
     /// </summary>
     public string LocalKey { get; }
 
-    /// <summary>Returns a string that represents the current object.</summary>
+    /// <summary>Returns the localizeKey string. If null, then the message is already localized.</summary>
     /// <returns>A string that represents the current object.</returns>
     public override string ToString()
     {
@@ -55,8 +55,6 @@ public class LocalizeKeyClass
         if (LocalKey != null)
             result += (result == "" ? "" : "_") + LocalKey;
 
-        if (result == "")
-            throw new InvalidOperationException("The LocalizeKey was empty.");
-        return result;
+        return result == "" ? null : result;
     }
 }

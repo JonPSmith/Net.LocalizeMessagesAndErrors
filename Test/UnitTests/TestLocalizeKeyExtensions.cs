@@ -99,4 +99,16 @@ public class TestLocalizeKeyExtensions
         _output.WriteLine(localizeKey.ToString());
         localizeKey.ToString().ShouldEqual("TestMethodMessageKey_test");
     }
+
+    [Fact]
+    public void TestAlreadyLocalized()
+    {
+        //SETUP
+
+        //ATTEMPT
+        var localizeKey = LocalizeKeyExtensions.AlreadyLocalized();
+
+        //VERIFY
+        localizeKey.ToString().ShouldBeNull();
+    }
 }

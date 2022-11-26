@@ -50,6 +50,28 @@ public class TestLocalizeStringMessage
     }
 
     [Fact]
+    public void TestLocalizeStringMessage_AlreadyLocalized()
+    {
+        //SETUP
+        var stubLocalizer = new StubStringLocalizer<TestLocalizeStringMessage>(
+            new Dictionary<string, string> {});
+        Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
+
+        var service = new LocalizeWithDefault<TestLocalizeStringMessage>(_logger, stubLocalizer);
+
+        //ATTEMPT
+        var message = service.LocalizeStringMessage(LocalizeKeyExtensions.AlreadyLocalized(), "en-US",
+            "This message is already localized");
+
+        //VERIFY
+        message.ShouldEqual("This message is already localized");
+    }
+
+    //-----------------------------------------------------------------
+    //error situations
+
+
+    [Fact]
     public void TestLocalizeStringMessage_NullMessageKey()
     {
         //SETUP
@@ -69,9 +91,6 @@ public class TestLocalizeStringMessage
         _logs.Single().Message.ShouldStartWith("The message 'Message from readable string' had no localizeKey. " +
                                                "This can happen if you set the StatusGeneric Message directly.");
     }
-
-    //-----------------------------------------------------------------
-    //error situations
 
     [Fact]
     public void TestLocalizeStringMessage_MissingResource()

@@ -25,7 +25,7 @@ public interface ILocalizeWithDefault<TResourceType>
     /// but if the resource isn't found, then it will use the readable messages and log a warning that there
     /// isn't a resource with the given localizeKey / ResourcesPath. 
     /// </summary>
-    /// <param name="LocalizeKey">This contains the localizeKey and the calling class to log errors with a logger containing the called class.</param>
+    /// <param name="localizeKey">This contains the localizeKey and the calling class to log errors with a logger containing the called class.</param>
     /// <param name="cultureOfMessage">This defines the culture of provided readable message, and if the <see cref="CultureInfo.CurrentUICulture"/>
     ///     matches, then the readable message is returned. Otherwise it will try the <see cref="IStringLocalizer"/> service (if available).
     ///     NOTE: The cultureOfMessage parameter is matched to the <see cref="CultureInfo.CurrentUICulture"/>.Name via the StartsWith method.
@@ -33,7 +33,7 @@ public interface ILocalizeWithDefault<TResourceType>
     /// <param name="message">This contains your default message for the culture defined by the cultureOfMessage parameter.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
-    string LocalizeStringMessage(LocalizeKeyClass LocalizeKey, string cultureOfMessage, string message);
+    string LocalizeStringMessage(LocalizeKeyClass localizeKey, string cultureOfMessage, string message);
 
     /// <summary>
     /// This is a localization adapter that allows you to have readable messages in your code using 
@@ -58,6 +58,6 @@ public interface ILocalizeWithDefault<TResourceType>
     /// </param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
-    string LocalizeFormattedMessage(LocalizeKeyClass LocalizeKey, string cultureOfMessage,
+    string LocalizeFormattedMessage(LocalizeKeyClass localizeKey, string cultureOfMessage,
         params FormattableString[] formattableStrings);
 }
