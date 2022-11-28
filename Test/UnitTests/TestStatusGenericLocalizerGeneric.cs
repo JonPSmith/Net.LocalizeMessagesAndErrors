@@ -43,7 +43,7 @@ public class TestStatusGenericLocalizerGeneric
 
         //ATTEMPT
         status.SetResult("some data");
-        if (addError) status.AddErrorString(null, "An error");
+        if (addError) status.AddErrorString("test".ClassLocalizeKey(this), "An error");
 
         //VERIFY
         status.Result.ShouldEqual( addError ? null : "some data");
@@ -56,7 +56,7 @@ public class TestStatusGenericLocalizerGeneric
     {
         //SETUP
         var stubLocalizer = new StubStringLocalizer<TestStatusGenericLocalizerGeneric>(
-            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).ToString(), "Error from resource file" } });
+            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).LocalizeKey, "Error from resource file" } });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var defaultLocalizer = new LocalizeWithDefault<TestStatusGenericLocalizerGeneric>(_logger, stubLocalizer);
@@ -76,7 +76,7 @@ public class TestStatusGenericLocalizerGeneric
     {
         //SETUP
         var stubLocalizer = new StubStringLocalizer<TestStatusGenericLocalizerGeneric>(
-            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).ToString(), "Error {0} from resource file" } });
+            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).LocalizeKey, "Error {0} from resource file" } });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var defaultLocalizer = new LocalizeWithDefault<TestStatusGenericLocalizerGeneric>(_logger, stubLocalizer);
@@ -96,7 +96,7 @@ public class TestStatusGenericLocalizerGeneric
     {
         //SETUP
         var stubLocalizer = new StubStringLocalizer<TestStatusGenericLocalizerGeneric>(
-            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).ToString(), "Error {0} from resource file" } });
+            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).LocalizeKey, "Error {0} from resource file" } });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var defaultLocalizer = new LocalizeWithDefault<TestStatusGenericLocalizerGeneric>(_logger, stubLocalizer);
@@ -119,7 +119,7 @@ public class TestStatusGenericLocalizerGeneric
     {
         //SETUP
         var stubLocalizer = new StubStringLocalizer<TestStatusGenericLocalizerGeneric>(
-            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).ToString(), "Error {0}, {1} from resource file" } });
+            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).LocalizeKey, "Error {0}, {1} from resource file" } });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var defaultLocalizer = new LocalizeWithDefault<TestStatusGenericLocalizerGeneric>(_logger, stubLocalizer);
@@ -149,7 +149,7 @@ public class TestStatusGenericLocalizerGeneric
         var stubLocalizer = new StubStringLocalizer<TestStatusGenericLocalizerGeneric>(
             new Dictionary<string, string>
             {
-                { "SuccessMessage".ClassLocalizeKey(this).ToString(), "Success from resource file" },
+                { "SuccessMessage".ClassLocalizeKey(this).LocalizeKey, "Success from resource file" },
                 { "StatusGenericLocalizer_MessageHasErrors", "Failed with 1 error" }
             });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
@@ -160,6 +160,7 @@ public class TestStatusGenericLocalizerGeneric
 
         //VERIFY
         status.Message.ShouldEqual(expectedMessage);
+        _logs.Any().ShouldBeFalse();
     }
 
     [Theory]
@@ -171,7 +172,7 @@ public class TestStatusGenericLocalizerGeneric
         var stubLocalizer = new StubStringLocalizer<TestStatusGenericLocalizerGeneric>(
             new Dictionary<string, string>
             {
-                { "SuccessMessage".ClassLocalizeKey(this).ToString(), "Success from resource file" },
+                { "SuccessMessage".ClassLocalizeKey(this).LocalizeKey, "Success from resource file" },
                 { "StatusGenericLocalizer_MessageHasErrors", "Resource file: Failed with {0} error{1}" }
             });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");

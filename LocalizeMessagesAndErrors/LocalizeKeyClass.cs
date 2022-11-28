@@ -5,56 +5,47 @@ namespace LocalizeMessagesAndErrors;
 
 /// <summary>
 /// This contains the parts to make a unique localize key for a message.
-/// It also holds the the Type of the class in which the localize key is called from
+/// It also holds information on where the message was added. This allows you to
+/// collect this information when running your unit tests
 /// </summary>
-public class LocalizeKeyClass
+public class LocalizeKeyData
 {
     /// <summary>
     /// ctor
     /// </summary>
-    /// <param name="className"></param>
+    /// <param name="localizeKey">The unique localizeKey for a message/</param>
+    /// <param name="callingClass"></param>
     /// <param name="methodName"></param>
-    /// <param name="localKey"></param>
-    public LocalizeKeyClass(string className, string methodName, string localKey)
+    /// <param name="sourceLineNumber"></param>
+    public LocalizeKeyData(string localizeKey, Type callingClass, string methodName, int sourceLineNumber)
     {
-        ClassName = className;
+        LocalizeKey = localizeKey;
+        CallingClass = callingClass;
         MethodName = methodName;
-        LocalKey = localKey;
+        SourceLineNumber = sourceLineNumber;
     }
 
     /// <summary>
-    /// This contains a name that defines a Class of which the message was sent from.
-    /// It can be the FullName of the class, or if a <see cref="LocalizeSetClassNameAttribute"/> is
-    /// added to the class, then the developer can define a shorter (but unique) name.  
-    /// Can be null.
+    /// This contains the localization key for this message.
     /// </summary>
-    public string ClassName { get; }
+    public string LocalizeKey { get; }
+
+    /// <summary>
+    /// This contains a name that defines a Class of which the message was sent from.
+    /// This is used to collect information during your unit tests on what localization resource you need
+    /// </summary>
+    public Type CallingClass { get; }
 
     /// <summary>
     /// This contains the name of the method in which the message was sent from.
-    /// It can be the name of the calling method, or if a <see cref="LocalizeSetMethodNameAttribute"/> is
-    /// added to the class, then the developer can define a shorter (but unique) name.  
-    /// Can be null.
+    /// This is used to collect information during your unit tests on what localization resource you need
     /// </summary>
     public string MethodName { get; }
 
     /// <summary>
-    /// This contains a string provided by the developer for a specific message. Can be null.
+    /// This contains the line number where the LocalizeKeyExtensions were called.
+    /// This is used to collect information during your unit tests on what localization resource you need
     /// </summary>
-    public string LocalKey { get; }
+    public int SourceLineNumber { get; }
 
-    /// <summary>Returns the localizeKey string. If null, then the message is already localized.</summary>
-    /// <returns>A string that represents the current object.</returns>
-    public override string ToString()
-    {
-        var result = "";
-        if (ClassName != null)
-            result += (result == "" ? "" : "_") + ClassName;
-        if (MethodName != null)
-            result += (result == "" ? "" : "_") + MethodName;
-        if (LocalKey != null)
-            result += (result == "" ? "" : "_") + LocalKey;
-
-        return result == "" ? null : result;
-    }
 }

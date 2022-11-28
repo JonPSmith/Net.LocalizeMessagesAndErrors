@@ -20,16 +20,21 @@ public static class LocalizeKeyExtensions
     /// <param name="localKey">This is local key part of the localizedKey.</param>
     /// <param name="callingClass">Use 'this' for this parameter, which will contain the class you are calling from.
     /// This is used to get the Class name.</param>
-    /// <returns>LocalizeKeyClass</returns>
-    public static LocalizeKeyClass ClassLocalizeKey(this string localKey, object callingClass)
+    /// <param name="memberName">DO NOT use. This a filled by the calling method name</param>
+    /// <param name="sourceLineNumber">DO NOT use. This a filled by the calling line number</param>
+    /// <returns>LocalizeKeyData</returns>
+    public static LocalizeKeyData ClassLocalizeKey<TClass>(this string localKey, TClass callingClass,
+        [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0) where TClass : class
     {
         var callingClassType = callingClass.GetType();
 
         var classAttribute = (LocalizeSetClassNameAttribute)Attribute.GetCustomAttribute(callingClassType,
             typeof(LocalizeSetClassNameAttribute));
 
-        return new LocalizeKeyClass(classAttribute?.ClassUniqueName ?? callingClassType.FullName,
-            null, localKey);
+        var localizeKey = (classAttribute?.ClassUniqueName ?? callingClassType.FullName) + "_" +
+                          localKey;
+
+        return new LocalizeKeyData(localizeKey, callingClassType, memberName, sourceLineNumber);
     }
 
     /// <summary>
@@ -45,9 +50,10 @@ public static class LocalizeKeyExtensions
     /// <param name="callingClass">Use 'this' for this parameter, which will contain the class you are calling from.
     /// This is used to get the Class name.</param>
     /// <param name="memberName">DO NOT use. This a filled by the calling method name</param>
-    /// <returns>LocalizeKeyClass</returns>
-    public static LocalizeKeyClass ClassMethodLocalizeKey(this string localKey, object callingClass,
-        [CallerMemberName] string memberName = "")
+    /// <param name="sourceLineNumber">DO NOT use. This a filled by the calling line number</param>
+    /// <returns>LocalizeKeyData</returns>
+    public static LocalizeKeyData ClassMethodLocalizeKey<TClass>(this string localKey, TClass callingClass,
+        [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0) where TClass : class
     {
         var callingClassType = callingClass.GetType();
 
@@ -57,9 +63,11 @@ public static class LocalizeKeyExtensions
         var methodAttribute = methodInfo == null ? null :
             (LocalizeSetMethodNameAttribute)Attribute.GetCustomAttribute(methodInfo, typeof(LocalizeSetMethodNameAttribute));
 
-        return new LocalizeKeyClass(classAttribute?.ClassUniqueName ?? callingClassType.FullName,
-            methodAttribute?.ClassMethodName ?? memberName, 
-            localKey);
+        var localizeKey = (classAttribute?.ClassUniqueName ?? callingClassType.FullName) + "_" +
+                          (methodAttribute?.MethodName ?? memberName) + "_" +
+                          localKey;
+
+        return new LocalizeKeyData(localizeKey, callingClassType, memberName, sourceLineNumber);
     }
 
     /// <summary>
@@ -68,12 +76,12 @@ public static class LocalizeKeyExtensions
     /// (otherwise this message could create a non-unique localizeKey).
     /// </summary>
     /// <param name="localKey">This is local key part of the localizedKey.</param>
-    /// <param name="callingClass">Use 'this' for this parameter. this is used find is there is a
-    /// <see cref="LocalizeSetMethodNameAttribute"/> which changes the method name.</param>
+    /// <param name="callingClass">Use 'this' for this parameter. This is used to know what class it was called from.</param>
     /// <param name="memberName">DO NOT use. This a filled by the calling method name</param>
-    /// <returns>LocalizeKeyClass</returns>
-    public static LocalizeKeyClass MethodLocalizeKey(this string localKey, object callingClass,
-        [CallerMemberName] string memberName = "")
+    /// <param name="sourceLineNumber">DO NOT use. This a filled by the calling line number</param>
+    /// <returns>LocalizeKeyData</returns>
+    public static LocalizeKeyData MethodLocalizeKey<TClass>(this string localKey, TClass callingClass,
+        [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0) where TClass : class
     {
         var callingClassType = callingClass.GetType();
 
@@ -81,17 +89,20 @@ public static class LocalizeKeyExtensions
         var methodAttribute = methodInfo == null ? null :
             (LocalizeSetMethodNameAttribute)Attribute.GetCustomAttribute(methodInfo, typeof(LocalizeSetMethodNameAttribute));
 
-        return new LocalizeKeyClass(null,
-            methodAttribute?.ClassMethodName ?? memberName,
-            localKey);
+        return new LocalizeKeyData((methodAttribute?.MethodName ?? memberName) + $"_{localKey}",
+            callingClassType, memberName, sourceLineNumber);
     }
 
     /// <summary>
     /// Use this if the message has already been localized
     /// </summary>
-    /// <returns>LocalizeKeyClass</returns>
-    public static LocalizeKeyClass AlreadyLocalized()
+    /// <param name="callingClass">Use 'this' for this parameter. This is used to know what class it was called from.</param>
+    /// <param name="memberName">DO NOT use. This a filled by the calling method name</param>
+    /// <param name="sourceLineNumber">DO NOT use. This a filled by the calling line number</param>
+    /// <returns>LocalizeKeyData</returns>
+    public static LocalizeKeyData AlreadyLocalized<TClass>(this TClass callingClass,
+        [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0) where TClass : class
     {
-        return new LocalizeKeyClass(null, null, null);
+        return new LocalizeKeyData(null, callingClass.GetType(), memberName, sourceLineNumber);
     }
 }

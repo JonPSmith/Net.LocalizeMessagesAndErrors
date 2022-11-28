@@ -34,7 +34,7 @@ public class TestLocalizeFormattedMessage
     {
         //SETUP
         var stubLocalizer = new StubStringLocalizer<TestLocalizeFormattedMessage>(
-            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).ToString(), "Message {0} from resource file" } });
+            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).LocalizeKey, "Message {0} from resource file" } });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var service = new LocalizeWithDefault<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
@@ -54,7 +54,7 @@ public class TestLocalizeFormattedMessage
     {
         //SETUP
         var stubLocalizer = new StubStringLocalizer<TestLocalizeFormattedMessage>(
-            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).ToString(), "Message1 {0} Message2 {1} from resource file" } });
+            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).LocalizeKey, "Message1 {0} Message2 {1} from resource file" } });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var service = new LocalizeWithDefault<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
@@ -78,7 +78,7 @@ public class TestLocalizeFormattedMessage
         var service = new LocalizeWithDefault<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
 
         //ATTEMPT
-        var message = service.LocalizeFormattedMessage(LocalizeKeyExtensions.AlreadyLocalized(), "en-US",
+        var message = service.LocalizeFormattedMessage(this.AlreadyLocalized(), "en-US",
             $"This message is already localized");
 
         //VERIFY
@@ -87,27 +87,6 @@ public class TestLocalizeFormattedMessage
 
     //-----------------------------------------------------------------
     //error situations
-
-    [Fact]
-    public void TestLocalizeFormattedMessage_NullMessageKey()
-    {
-        //SETUP
-        var stubLocalizer = new StubStringLocalizer<TestLocalizeFormattedMessage>(
-            new Dictionary<string, string> { { "test", "Message from resource file" } });
-        Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
-
-        var service = new LocalizeWithDefault<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
-
-        //ATTEMPT
-        var message = service.LocalizeFormattedMessage(null, "fi-FI",
-            $"Message from readable string");
-
-        //VERIFY
-        message.ShouldEqual("Message from readable string");
-        _logs.Count.ShouldEqual(1);
-        _logs.Single().Message.ShouldStartWith("The message 'Message from readable string' had no localizeKey. " +
-                                               "This can happen if you set the StatusGeneric Message directly.");
-    }
 
     [Fact]
     public void TestLocalizeStringMessage_MissingResource()
@@ -135,7 +114,7 @@ public class TestLocalizeFormattedMessage
     {
         //SETUP
         var stubLocalizer = new StubStringLocalizer<TestLocalizeFormattedMessage>(
-            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).ToString(), "Message {0}{1} from resource file" } });
+            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).LocalizeKey, "Message {0}{1} from resource file" } });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var service = new LocalizeWithDefault<TestLocalizeFormattedMessage>(_logger, stubLocalizer);

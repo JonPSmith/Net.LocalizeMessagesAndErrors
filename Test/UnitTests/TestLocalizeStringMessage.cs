@@ -36,7 +36,7 @@ public class TestLocalizeStringMessage
     {
         //SETUP
         var stubLocalizer = new StubStringLocalizer<TestLocalizeStringMessage>(
-            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).ToString(), "Message from resource file" } });
+            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).LocalizeKey, "Message from resource file" } });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var service = new LocalizeWithDefault<TestLocalizeStringMessage>(_logger, stubLocalizer);
@@ -60,7 +60,7 @@ public class TestLocalizeStringMessage
         var service = new LocalizeWithDefault<TestLocalizeStringMessage>(_logger, stubLocalizer);
 
         //ATTEMPT
-        var message = service.LocalizeStringMessage(LocalizeKeyExtensions.AlreadyLocalized(), "en-US",
+        var message = service.LocalizeStringMessage(this.AlreadyLocalized(), "en-US",
             "This message is already localized");
 
         //VERIFY
@@ -69,28 +69,6 @@ public class TestLocalizeStringMessage
 
     //-----------------------------------------------------------------
     //error situations
-
-
-    [Fact]
-    public void TestLocalizeStringMessage_NullMessageKey()
-    {
-        //SETUP
-        var stubLocalizer = new StubStringLocalizer<TestLocalizeStringMessage>(
-            new Dictionary<string, string> { { "test", "Message from resource file" } });
-        Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
-
-        var service = new LocalizeWithDefault<TestLocalizeStringMessage>(_logger, stubLocalizer);
-
-        //ATTEMPT
-        var message = service.LocalizeStringMessage(null, "fi-FI",
-            "Message from readable string");
-
-        //VERIFY
-        message.ShouldEqual("Message from readable string");
-        _logs.Count.ShouldEqual(1);
-        _logs.Single().Message.ShouldStartWith("The message 'Message from readable string' had no localizeKey. " +
-                                               "This can happen if you set the StatusGeneric Message directly.");
-    }
 
     [Fact]
     public void TestLocalizeStringMessage_MissingResource()

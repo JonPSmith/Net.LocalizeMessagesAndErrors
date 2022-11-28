@@ -19,7 +19,7 @@ public interface IStatusGenericLocalizer : IStatusGeneric
     /// StatusGenericLocalizer.</param>
     /// <param name="propertyNames">optional. A list of property names that this error applies to</param>
     /// <returns>The StatusGenericLocalizer to allow fluent method calls.</returns>
-    IStatusGeneric AddErrorString(LocalizeKeyClass localizeKey, string errorMessage,
+    IStatusGeneric AddErrorString(LocalizeKeyData localizeKey, string errorMessage,
         params string[] propertyNames);
 
     /// <summary>
@@ -31,7 +31,7 @@ public interface IStatusGenericLocalizer : IStatusGeneric
     /// <param name="errorMessages">The error messages in the language / culture you defined when creating the
     /// StatusGenericLocalizer. NOTE: this allows multiple <see cref="FormattableString"/>s to handle long messages.</param>
     /// <returns>The StatusGenericLocalizer to allow fluent method calls.</returns>
-    IStatusGeneric AddErrorFormatted(LocalizeKeyClass localizeKey, params FormattableString[] errorMessages);
+    IStatusGeneric AddErrorFormatted(LocalizeKeyData localizeKey, params FormattableString[] errorMessages);
 
     /// <summary>
     /// This adds an error to the status using a <see cref="FormattableString"/>s, when you don't have and properties
@@ -43,7 +43,7 @@ public interface IStatusGenericLocalizer : IStatusGeneric
     /// StatusGenericLocalizer.</param>
     /// <param name="propertyNames">optional. A list of property names that this error applies to</param>
     /// <returns>The StatusGenericLocalizer to allow fluent method calls.</returns>
-    IStatusGeneric AddErrorFormattedWithParams(LocalizeKeyClass localizeKey, FormattableString errorMessage,
+    IStatusGeneric AddErrorFormattedWithParams(LocalizeKeyData localizeKey, FormattableString errorMessage,
         params string[] propertyNames);
 
     /// <summary>
@@ -57,7 +57,7 @@ public interface IStatusGenericLocalizer : IStatusGeneric
     /// NOTE: this allows multiple <see cref="FormattableString"/>s to handle long messages.</param>
     /// <param name="propertyNames">optional. A list of property names that this error applies to</param>
     /// <returns>The StatusGenericLocalizer to allow fluent method calls.</returns>
-    IStatusGeneric AddErrorFormattedWithParams(LocalizeKeyClass localizeKey,
+    IStatusGeneric AddErrorFormattedWithParams(LocalizeKeyData localizeKey,
         FormattableString[] errorMessages, params string[] propertyNames);
 
     /// <summary>
@@ -65,7 +65,7 @@ public interface IStatusGenericLocalizer : IStatusGeneric
     /// </summary>
     /// <param name="localizeKey">This is the key for finding the localized message in your respective resources / cultures.</param>
     /// <param name="message">string that can be localized to set the <see cref="StatusGenericLocalizer{TResourceType}.Message"/> property</param>
-    IStatusGeneric SetMessageString(LocalizeKeyClass localizeKey, string message);
+    IStatusGeneric SetMessageString(LocalizeKeyData localizeKey, string message);
 
     /// <summary>
     /// This allows you to set the <see cref="IStatusGeneric.Message"/> with localized FormattableStrings.
@@ -77,5 +77,5 @@ public interface IStatusGenericLocalizer : IStatusGeneric
     /// This takes one or more <see cref="FormattableString"/>s. and concatenates them into one message.
     /// This allowed you to have multiple <see cref="FormattableString"/>s to handle long messages.
     /// </param>
-    IStatusGeneric SetMessageFormatted(LocalizeKeyClass localizeKey, params FormattableString[] formattableStrings);
+    IStatusGeneric SetMessageFormatted(LocalizeKeyData localizeKey, params FormattableString[] formattableStrings);
 }

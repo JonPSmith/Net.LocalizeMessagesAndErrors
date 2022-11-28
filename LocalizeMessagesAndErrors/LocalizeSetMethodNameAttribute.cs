@@ -14,13 +14,13 @@ public class LocalizeSetMethodNameAttribute : Attribute
     /// <summary>
     /// ctor: sets the replacement name of the method
     /// </summary>
-    /// <param name="classMethodName"></param>
-    public LocalizeSetMethodNameAttribute(string classMethodName)
+    /// <param name="methodName"></param>
+    public LocalizeSetMethodNameAttribute(string methodName)
     {
-        ClassMethodName = classMethodName;
+        MethodName = methodName;
     }
     /// <summary>
     /// Contains the replacement name of the method
     /// </summary>
-    public string ClassMethodName { get;}
+    public string MethodName { get;}
 }
