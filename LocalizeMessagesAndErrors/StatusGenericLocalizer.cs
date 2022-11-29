@@ -86,7 +86,7 @@ public class StatusGenericLocalizer<TResourceType> : IStatusGenericLocalizer
         {
             if (HasErrors)
                 return _localizerWithDefault.LocalizeFormattedMessage(
-                    new LocalizeKeyData(LocalizeKeyFailedMessage, null, null, 0),
+                    new LocalizeKeyData(LocalizeKeyFailedMessage, GetType(), "Message_Get", 0),
                     _cultureOfStrings,
                     $"Failed with {_errors.Count} error{(_errors.Count == 1 ? "" : "s")}");
 
