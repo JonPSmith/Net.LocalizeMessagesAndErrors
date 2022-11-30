@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Index_ExampleMessage" xml:space="preserve">
-    <value>Localized via {0} with culture '{1}'.</value>
+    <value>Localized via {0} service with culture '{1}'.</value>
   </data>
 </root>

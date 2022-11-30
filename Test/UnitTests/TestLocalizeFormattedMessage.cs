@@ -104,9 +104,11 @@ public class TestLocalizeFormattedMessage
 
         //VERIFY
         message.ShouldEqual("Message 123 from readable string");
+        
         _logs.Single().Message.ShouldEqual(
-            "The entry with the name 'Test.UnitTests.TestLocalizeFormattedMessage_test' and culture of " +
-            "'en-GB' was not found in the 'TestLocalizeFormattedMessage' resource.");
+            "The message with the localizeKey name of 'Test.UnitTests.TestLocalizeFormattedMessage_test' " +
+            "and culture of 'en-GB' was not found in the 'TestLocalizeFormattedMessage' resource. " +
+            "The message came from TestLocalizeFormattedMessage.TestLocalizeStringMessage_MissingResource, line 102.");
     }
 
     [Fact]

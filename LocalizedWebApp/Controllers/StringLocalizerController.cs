@@ -1,22 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 
-namespace LocalizedWebApp.Controllers
+namespace LocalizedWebApp.Controllers;
+
+public class StringLocalizerController : Controller
 {
-    public class StringLocalizerController : Controller
+    private readonly IStringLocalizer<HomeController> _localizer;
+
+    public StringLocalizerController(IStringLocalizer<HomeController> localizer)
     {
-        private readonly IStringLocalizer<HomeController> _localizer;
+        _localizer = localizer;
+    }
 
-        public StringLocalizerController(IStringLocalizer<HomeController> localizer)
-        {
-            _localizer = localizer;
-        }
+    public IActionResult Index()
+    {
+        var nameOfService = nameof(IStringLocalizer);
+        var cultureName = Thread.CurrentThread.CurrentUICulture.Name;
 
-        public IActionResult Index()
-        {
-            return View((object)_localizer["Index_ExampleMessage", 
-                nameof(IStringLocalizer),
-                Thread.CurrentThread.CurrentUICulture.Name].Value);
-        }
+        return View((object)_localizer["Index_ExampleMessage",
+            nameOfService,
+            cultureName].Value);
+    }
+
+    public IActionResult MissingResourceEntry()
+    {
+        return View((object)_localizer["MissingEntry_ExampleMessage", DateTime.Now].Value);
     }
 }

@@ -87,8 +87,9 @@ public class TestLocalizeStringMessage
         //VERIFY
         message.ShouldEqual("Message from readable string");
         _logs.Single().Message.ShouldEqual(
-            "The entry with the name 'Test.UnitTests.TestLocalizeStringMessage_test' and culture of " +
-            "'en-GB' was not found in the 'TestLocalizeStringMessage' resource.");
+            "The message with the localizeKey name of 'Test.UnitTests.TestLocalizeStringMessage_test' " +
+            "and culture of 'en-GB' was not found in the 'TestLocalizeStringMessage' resource. " +
+            "The message came from TestLocalizeStringMessage.TestLocalizeStringMessage_MissingResource, line 84.");
     }
 
     [Fact] public void TestLocalizeStringMessage_NullMessage()
