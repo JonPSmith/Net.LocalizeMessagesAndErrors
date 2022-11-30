@@ -129,8 +129,9 @@ public class LocalizeWithDefault<TResourceType> : ILocalizeWithDefault<TResource
             }
             catch (FormatException e)
             {
-                _logger?.LogError(e, "The resourced string '{0}' had the following FormatException error: {1}.",
-                    foundLocalization.Value, e.Message);
+                _logger?.LogError(e, "The resourced string '{0}' had the following FormatException error: {1}. The message came from {2}.",
+                    foundLocalization.Value, e.Message,
+                    $"{localizeData.CallingClass.Name}.{localizeData.MethodName}, line {localizeData.SourceLineNumber}");
                 return ReturnGivenMessage();
             }
 
@@ -138,13 +139,13 @@ public class LocalizeWithDefault<TResourceType> : ILocalizeWithDefault<TResource
         return ReturnGivenMessage();
     }
 
-    private void LogWarningOnMissingResource(LocalizeKeyData localizeKey, LocalizedString foundLocalization)
+    private void LogWarningOnMissingResource(LocalizeKeyData localizeData, LocalizedString foundLocalization)
     {
         //Entry not found in the resources, so log this and return the given message
         _logger?.LogWarning(
             "The message with the localizeKey name of '{0}' and culture of '{1}' was not found in the '{2}' resource. " +
             "The message came from {3}.",
-            localizeKey.LocalizeKey, Thread.CurrentThread.CurrentUICulture.Name, 
-            foundLocalization.SearchedLocation, $"{localizeKey.CallingClass.Name}.{localizeKey.MethodName}, line {localizeKey.SourceLineNumber}");
+            localizeData.LocalizeKey, Thread.CurrentThread.CurrentUICulture.Name, 
+            foundLocalization.SearchedLocation, $"{localizeData.CallingClass.Name}.{localizeData.MethodName}, line {localizeData.SourceLineNumber}");
     }
 }
