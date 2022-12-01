@@ -120,4 +120,7 @@
   <data name="Index_ExampleMessage" xml:space="preserve">
     <value>Localisé via {0} le service avec culture '{1}'.</value>
   </data>
+  <data name="StringMessage_ExampleMessage" xml:space="preserve">
+    <value>Bonjour de ma part !</value>
+  </data>
 </root>

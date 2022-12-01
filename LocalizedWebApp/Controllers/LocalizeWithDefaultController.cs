@@ -25,6 +25,15 @@ public class LocalizeWithDefaultController : Controller
         ));
     }
 
+    public IActionResult StringMessage()
+    {
+        return View((object)_localizer.LocalizeStringMessage(
+            "ExampleMessage".MethodLocalizeKey(this),     //This creates a localizeKey of "StringMessage_ExampleMessage"
+            "en",                                      //This defines the culture of the default message
+            "Hello from me!" //static Message, using string
+        ));
+    }
+
     public IActionResult MissingResourceEntry()
     {
         return View((object)_localizer.LocalizeFormattedMessage(

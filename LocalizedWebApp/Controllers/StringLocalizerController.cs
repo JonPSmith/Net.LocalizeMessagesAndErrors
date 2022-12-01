@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LocalizeMessagesAndErrors;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 
 namespace LocalizedWebApp.Controllers;
@@ -20,6 +21,11 @@ public class StringLocalizerController : Controller
         return View((object)_localizer["Index_ExampleMessage",
             nameOfService,
             cultureName].Value);
+    }
+
+    public IActionResult StringMessage()
+    {
+        return View((object)_localizer["StringMessage_ExampleMessage"].Value);
     }
 
     public IActionResult MissingResourceEntry()

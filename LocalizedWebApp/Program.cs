@@ -1,5 +1,4 @@
-using Microsoft.AspNetCore.Localization;
-using System.Globalization;
+
 using LocalizeMessagesAndErrors;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,18 +6,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//=======================================================
-//REGISTERING .NET Localization
+#region REGISTERING .NET Localization
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
-//========================================================
-//REGISTERING Net.LocalizeMessagesAndError
+#endregion
+
+#region REGISTERING Net.LocalizeMessagesAndError
 builder.Services.AddSingleton(typeof(ILocalizeWithDefault<>), typeof(LocalizeWithDefault<>));
-//========================================================
+#endregion
 
 var app = builder.Build();
 
-//========================================================
-//OPTIONAL: Set up the accepted cultures and turn on getting the user culture via the user/browser 
+#region Set up the accepted cultures and turn on getting the user culture via the user/browser 
 var supportedCultures = new[] { "en", "fi" };
 var localizationOptions =
     new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[0])
@@ -26,6 +24,7 @@ var localizationOptions =
         .AddSupportedUICultures(supportedCultures);
 
 app.UseRequestLocalization(localizationOptions);
+#endregion
 //========================================================
 
 

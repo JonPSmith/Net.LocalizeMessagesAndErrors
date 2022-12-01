@@ -13,9 +13,11 @@
     <li>
         <h4>.NET localization service: StringLocalizer</h4>
         <ul>
-            <li><a asp-area="" asp-controller="StringLocalizer" asp-action="Index">Example: culture from browser.</a></li>
-            <li><a asp-area="" asp-controller="StringLocalizer" asp-action="Index" asp-route-ui-culture="en">Example: English</a></li>
-            <li><a asp-area="" asp-controller="StringLocalizer" asp-action="Index" asp-route-ui-culture="fi">Example: French</a></li>
+            <li><a asp-area="" asp-controller="StringLocalizer" asp-action="Index">Index: culture from browser.</a></li>
+            <li><a asp-area="" asp-controller="StringLocalizer" asp-action="Index" asp-route-ui-culture="en">Index: English</a></li>
+            <li><a asp-area="" asp-controller="StringLocalizer" asp-action="Index" asp-route-ui-culture="fi">Index: French</a></li>
+            <li><a asp-area="" asp-controller="StringLocalizer" asp-action="StringMessage" asp-route-ui-culture="en">StringMessage: English</a></li>
+            <li><a asp-area="" asp-controller="StringLocalizer" asp-action="StringMessage" asp-route-ui-culture="fi">StringMessage: French</a></li>
             <li><a asp-area="" asp-controller="StringLocalizer" asp-action="MissingResourceEntry" asp-route-ui-culture="fi">Missing resource: French</a></li>
         </ul>
     </li>
@@ -23,8 +25,10 @@
         <h4>Net.LocalizeMessagesAndErrors service: LocalizeWithDefault</h4>
         <ul>
             <li><a asp-area="" asp-controller="LocalizeWithDefault" asp-action="Index">Example: culture from browser.</a></li>
-            <li><a asp-area="" asp-controller="LocalizeWithDefault" asp-action="Index" asp-route-ui-culture="en">Example: English</a></li>
-            <li><a asp-area="" asp-controller="LocalizeWithDefault" asp-action="Index" asp-route-ui-culture="fi">Example: French</a></li>
+            <li><a asp-area="" asp-controller="LocalizeWithDefault" asp-action="Index" asp-route-ui-culture="en">Index: English</a></li>
+            <li><a asp-area="" asp-controller="LocalizeWithDefault" asp-action="Index" asp-route-ui-culture="fi">Index: French</a></li>
+            <li><a asp-area="" asp-controller="LocalizeWithDefault" asp-action="StringMessage" asp-route-ui-culture="en">StringMessage: English</a></li>
+            <li><a asp-area="" asp-controller="LocalizeWithDefault" asp-action="StringMessage" asp-route-ui-culture="fi">StringMessage: French</a></li>
             <li><a asp-area="" asp-controller="LocalizeWithDefault" asp-action="MissingResourceEntry" asp-route-ui-culture="fi">Missing resource: French</a></li>
         </ul>
     </li>
