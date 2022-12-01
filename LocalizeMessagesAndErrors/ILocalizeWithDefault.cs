@@ -7,10 +7,10 @@ using Microsoft.Extensions.Localization;
 namespace LocalizeMessagesAndErrors;
 
 /// <summary>
-/// This is the interface for the <see cref="LocalizeWithDefault{TResourceType}"/> class
+/// This is the interface for the <see cref="LocalizeWithDefault{TResource}"/> class
 /// </summary>
-/// <typeparam name="TResourceType"></typeparam>
-public interface ILocalizeWithDefault<TResourceType>
+/// <typeparam name="TResource"></typeparam>
+public interface ILocalizeWithDefault<TResource>
 {
     /// <summary>
     /// This is a localization adapter that allows you to have readable messages in your code via strings, 

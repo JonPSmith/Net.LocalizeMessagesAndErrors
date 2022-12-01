@@ -10,10 +10,10 @@ namespace LocalizeMessagesAndErrors;
 /// This provides a status system where you can add errors and success message which are localized.
 /// It based on the https://github.com/JonPSmith/GenericServices.StatusGeneric library.
 /// </summary>
-/// <typeparam name="TResourceType"></typeparam>
-public class StatusGenericLocalizer<TResourceType> : IStatusGenericLocalizer
+/// <typeparam name="TResource"></typeparam>
+public class StatusGenericLocalizer<TResource> : IStatusGenericLocalizer
 {
-    private readonly ILocalizeWithDefault<TResourceType> _localizerWithDefault;
+    private readonly ILocalizeWithDefault<TResource> _localizerWithDefault;
     private readonly string _cultureOfStrings;
 
     /// <summary>
@@ -37,7 +37,7 @@ public class StatusGenericLocalizer<TResourceType> : IStatusGenericLocalizer
     /// <param name="header">Optional: this will prefix each error with this string, e.g.
     /// "MyClass" would produce error messages such as "MyClass: This is my error message."</param>
     /// <exception cref="ArgumentNullException"></exception>
-    public StatusGenericLocalizer(string cultureOfStrings, ILocalizeWithDefault<TResourceType> localizerWithDefault,
+    public StatusGenericLocalizer(string cultureOfStrings, ILocalizeWithDefault<TResource> localizerWithDefault,
         string header = "")
     {
         _localizerWithDefault = localizerWithDefault ?? throw new ArgumentNullException(nameof(localizerWithDefault));

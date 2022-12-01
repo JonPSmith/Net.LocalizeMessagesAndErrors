@@ -10,22 +10,22 @@ namespace LocalizeMessagesAndErrors;
 /// <summary>
 /// This provides a service that allows you to put readable messages in your code,
 /// while handling multiple languages. It uses your readable message if its culture
-/// matches the user's culture, otherwise it will use <see cref="IStringLocalizer{TResourceType}"/>
+/// matches the user's culture, otherwise it will use <see cref="IStringLocalizer{TResource}"/>
 /// to obtain the culture via resource files.
 /// </summary>
-/// <typeparam name="TResourceType"></typeparam>
-public class LocalizeWithDefault<TResourceType> : ILocalizeWithDefault<TResourceType>
+/// <typeparam name="TResource"></typeparam>
+public class LocalizeWithDefault<TResource> : ILocalizeWithDefault<TResource>
 {
-    private readonly IStringLocalizer<TResourceType> _localizer;
-    private readonly ILogger<LocalizeWithDefault<TResourceType>> _logger;
+    private readonly IStringLocalizer<TResource> _localizer;
+    private readonly ILogger<LocalizeWithDefault<TResource>> _logger;
 
     /// <summary>
     /// Ctor
     /// </summary>
     /// <param name="logger">_logger to report issues when using the <see cref="IStringLocalizer"/> service. Can be null for unit tests.</param>
     /// <param name="localizer">Optional: If no <see cref="IStringLocalizer"/> service, then readable string used.</param>
-    public LocalizeWithDefault(ILogger<LocalizeWithDefault<TResourceType>> logger,
-        IStringLocalizer<TResourceType> localizer = null)
+    public LocalizeWithDefault(ILogger<LocalizeWithDefault<TResource>> logger,
+        IStringLocalizer<TResource> localizer = null)
     {
         _localizer = localizer;
         _logger = logger;

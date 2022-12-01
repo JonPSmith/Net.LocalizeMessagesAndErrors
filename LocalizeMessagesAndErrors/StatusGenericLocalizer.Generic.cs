@@ -10,9 +10,9 @@ namespace LocalizeMessagesAndErrors;
 /// <summary>
 /// This contains the error handling part of the GenericBizRunner
 /// </summary>
-public class StatusGenericLocalizer<TReturn, TResourceType> : StatusGenericLocalizer<TResourceType>, IStatusGeneric<TReturn>
+public class StatusGenericLocalizer<TReturn, TResource> : StatusGenericLocalizer<TResource>, IStatusGeneric<TReturn>
 {
-    private readonly ILocalizeWithDefault<TResourceType> _localizerWithDefault;
+    private readonly ILocalizeWithDefault<TResource> _localizerWithDefault;
     private readonly string _cultureOfStrings;
 
     private TReturn _result;
@@ -25,7 +25,7 @@ public class StatusGenericLocalizer<TReturn, TResourceType> : StatusGenericLocal
     /// <param name="header">Optional: this will prefix each error with this string, e.g.
     /// "MyClass" would produce error messages such as "MyClass: This is my error message."</param>
     /// <exception cref="ArgumentNullException"></exception>
-    public StatusGenericLocalizer(string cultureOfStrings, ILocalizeWithDefault<TResourceType> localizerWithDefault,
+    public StatusGenericLocalizer(string cultureOfStrings, ILocalizeWithDefault<TResource> localizerWithDefault,
         string header = "")
         : base(cultureOfStrings, localizerWithDefault, header)
     {

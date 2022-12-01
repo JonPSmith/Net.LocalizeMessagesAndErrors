@@ -7,13 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalizeMessagesAndErrors",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{324F57A2-BC0E-4649-992B-11C84196BDD9}"
 	ProjectSection(SolutionItems) = preProject
+		LICENSE.txt = LICENSE.txt
 		README.md = README.md
 		ReleaseNotes.md = ReleaseNotes.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{097F42AB-114A-4A7B-85AA-94A30CD09831}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizedWebApp", "LocalizedWebApp\LocalizedWebApp.csproj", "{EF3EA298-E999-4975-91DC-F75D17C168FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalizedWebApp", "LocalizedWebApp\LocalizedWebApp.csproj", "{EF3EA298-E999-4975-91DC-F75D17C168FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

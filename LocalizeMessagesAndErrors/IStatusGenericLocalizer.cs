@@ -7,7 +7,7 @@ using StatusGeneric;
 namespace LocalizeMessagesAndErrors;
 
 /// <summary>
-/// Interface for the <see cref="StatusGenericLocalizer{TResourceType}"/>
+/// Interface for the <see cref="StatusGenericLocalizer{TResource}"/>
 /// </summary>
 public interface IStatusGenericLocalizer : IStatusGeneric
 {
@@ -64,7 +64,7 @@ public interface IStatusGenericLocalizer : IStatusGeneric
     /// This allows you to set the <see cref="IStatusGeneric.Message"/> with a localized string.
     /// </summary>
     /// <param name="localizeKey">This is the key for finding the localized message in your respective resources / cultures.</param>
-    /// <param name="message">string that can be localized to set the <see cref="StatusGenericLocalizer{TResourceType}.Message"/> property</param>
+    /// <param name="message">string that can be localized to set the <see cref="StatusGenericLocalizer{TResource}.Message"/> property</param>
     IStatusGeneric SetMessageString(LocalizeKeyData localizeKey, string message);
 
     /// <summary>

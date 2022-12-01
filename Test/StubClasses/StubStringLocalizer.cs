@@ -8,7 +8,7 @@ using Microsoft.Extensions.Localization;
 
 namespace Test.StubClasses;
 
-public class StubStringLocalizer<TResourceType> : IStringLocalizer<TResourceType>
+public class StubStringLocalizer<TResource> : IStringLocalizer<TResource>
 {
     public StubStringLocalizer(Dictionary<string, string> resource)
     {
@@ -36,10 +36,10 @@ public class StubStringLocalizer<TResourceType> : IStringLocalizer<TResourceType
         {
             if (Resource.ContainsKey(name))
             {
-                return new LocalizedString(name, Resource[name], false, typeof(TResourceType).Name);
+                return new LocalizedString(name, Resource[name], false, typeof(TResource).Name);
             }
 
-            return new LocalizedString(name, "", true, typeof(TResourceType).Name);
+            return new LocalizedString(name, "", true, typeof(TResource).Name);
         }
     }
 
