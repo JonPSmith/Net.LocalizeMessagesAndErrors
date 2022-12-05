@@ -21,7 +21,7 @@ public class LocalizeWithDefaultController : Controller
         return View((object)_localizer.LocalizeFormattedMessage(
             "ExampleMessage".MethodLocalizeKey(this),     //This creates a localizeKey of "Index_ExampleMessage"
             "en",                                      //This defines the culture of the default message
-            $"Localized via {nameOfService} service with culture '{cultureName}'." //Message, using FormattableString
+            $"Localized via {nameOfService} service with culture '{cultureName}' on {DateTime.Now:M}." //Message, using FormattableString
         ));
     }
 

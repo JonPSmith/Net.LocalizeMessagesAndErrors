@@ -115,6 +115,18 @@ public class TestLocalizeKeyExtensions
     }
 
     [Fact]
+    public void TestGlobalLocalizeKey()
+    {
+        //SETUP
+
+        //ATTEMPT
+        var localizeData = "test".GlobalLocalizeKey(this);
+
+        //VERIFY
+        localizeData.LocalizeKey.ShouldEqual("test");
+    }
+
+    [Fact]
     public void TestAlreadyLocalized()
     {
         //SETUP

@@ -19,7 +19,8 @@ public class StringLocalizerController : Controller
 
         return View((object)_localizer["Index_ExampleMessage",
             nameOfService,
-            cultureName].Value);
+            cultureName,
+            DateTime.Now].Value);
     }
 
     public IActionResult StringMessage()
