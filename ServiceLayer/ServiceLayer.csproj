@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LocalizedWebApp\LocalizedWebApp.csproj" />
+    <ProjectReference Include="..\LocalizeMessagesAndErrors\LocalizeMessagesAndErrors.csproj" />
   </ItemGroup>
 
 </Project>

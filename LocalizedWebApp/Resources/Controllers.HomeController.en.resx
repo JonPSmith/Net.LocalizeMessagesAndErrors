@@ -117,8 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CheckNull_Success" xml:space="preserve">
+    <value>Successful completion.</value>
+  </data>
+  <data name="CreateDate_BadDate" xml:space="preserve">
+    <value>The day {0}, month {1}, year {2} doesn't turn into a valid date.</value>
+  </data>
+  <data name="CreateDate_Success" xml:space="preserve">
+    <value>Successfully created the date {0:D}.</value>
+  </data>
   <data name="Index_ExampleMessage" xml:space="preserve">
     <value>Localized via {0} service with culture '{1}' on {2:M}.</value>
+  </data>
+  <data name="NullParam" xml:space="preserve">
+    <value>The input must not be null.</value>
+  </data>
+  <data name="StatusGenericWithResult_NumberNegative" xml:space="preserve">
+    <value>The property should not be negative.</value>
   </data>
   <data name="StringMessage_ExampleMessage" xml:space="preserve">
     <value>Hello from me!</value>

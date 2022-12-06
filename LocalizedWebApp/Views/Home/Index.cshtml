@@ -15,10 +15,10 @@
         <ul>
             <li><a asp-area="" asp-controller="StringLocalizer" asp-action="Index">Index: culture from browser.</a></li>
             <li><a asp-area="" asp-controller="StringLocalizer" asp-action="Index" asp-route-ui-culture="en">Index: English</a></li>
-            <li><a asp-area="" asp-controller="StringLocalizer" asp-action="Index" asp-route-ui-culture="fi">Index: French</a></li>
+            <li><a asp-area="" asp-controller="StringLocalizer" asp-action="Index" asp-route-ui-culture="fr">Index: French</a></li>
             <li><a asp-area="" asp-controller="StringLocalizer" asp-action="StringMessage" asp-route-ui-culture="en">StringMessage: English</a></li>
-            <li><a asp-area="" asp-controller="StringLocalizer" asp-action="StringMessage" asp-route-ui-culture="fi">StringMessage: French</a></li>
-            <li><a asp-area="" asp-controller="StringLocalizer" asp-action="MissingResourceEntry" asp-route-ui-culture="fi">Missing resource: French</a></li>
+            <li><a asp-area="" asp-controller="StringLocalizer" asp-action="StringMessage" asp-route-ui-culture="fr">StringMessage: French</a></li>
+            <li><a asp-area="" asp-controller="StringLocalizer" asp-action="MissingResourceEntry" asp-route-ui-culture="fr">Missing resource: French</a></li>
         </ul>
     </li>
     <li>
@@ -26,10 +26,21 @@
         <ul>
             <li><a asp-area="" asp-controller="LocalizeWithDefault" asp-action="Index">Example: culture from browser.</a></li>
             <li><a asp-area="" asp-controller="LocalizeWithDefault" asp-action="Index" asp-route-ui-culture="en">Index: English</a></li>
-            <li><a asp-area="" asp-controller="LocalizeWithDefault" asp-action="Index" asp-route-ui-culture="fi">Index: French</a></li>
+            <li><a asp-area="" asp-controller="LocalizeWithDefault" asp-action="Index" asp-route-ui-culture="fr">Index: French</a></li>
             <li><a asp-area="" asp-controller="LocalizeWithDefault" asp-action="StringMessage" asp-route-ui-culture="en">StringMessage: English</a></li>
-            <li><a asp-area="" asp-controller="LocalizeWithDefault" asp-action="StringMessage" asp-route-ui-culture="fi">StringMessage: French</a></li>
-            <li><a asp-area="" asp-controller="LocalizeWithDefault" asp-action="MissingResourceEntry" asp-route-ui-culture="fi">Missing resource: French</a></li>
+            <li><a asp-area="" asp-controller="LocalizeWithDefault" asp-action="StringMessage" asp-route-ui-culture="fr">StringMessage: French</a></li>
+            <li><a asp-area="" asp-controller="LocalizeWithDefault" asp-action="MissingResourceEntry" asp-route-ui-culture="fr">Missing resource: French</a></li>
+        </ul>
+    </li>
+    <li>
+        <h4>StatusGenericLocalizerController examples</h4>
+        <ul>
+            <li><a asp-area="" asp-controller="StatusGenericLocalizer" asp-action="CheckNull">CheckNull: culture from browser.</a></li>
+            <li><a asp-area="" asp-controller="StatusGenericLocalizer" asp-action="CheckNull" asp-route-ui-culture="en">CheckNull: English</a></li>
+            <li><a asp-area="" asp-controller="StatusGenericLocalizer" asp-action="CheckNull" asp-route-ui-culture="fr">CheckNull: French</a></li>
+            <li><a asp-area="" asp-controller="StatusGenericLocalizer" asp-action="CreateDate">CreateDate: culture from browser.</a></li>
+            <li><a asp-area="" asp-controller="StatusGenericLocalizer" asp-action="CreateDate" asp-route-ui-culture="en">CreateDate: English</a></li>
+            <li><a asp-area="" asp-controller="StatusGenericLocalizer" asp-action="CreateDate" asp-route-ui-culture="fr">CreateDate: French</a></li>
         </ul>
     </li>
 </ul>

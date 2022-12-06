@@ -1,5 +1,8 @@
 
 using LocalizeMessagesAndErrors;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.DependencyInjection;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,17 +19,17 @@ builder.Services.AddSingleton(typeof(ILocalizeWithDefault<>), typeof(LocalizeWit
 
 var app = builder.Build();
 
-#region Set up the accepted cultures and turn on getting the user culture via the user/browser 
-var supportedCultures = new[] { "en", "fi" };
+#region SETUP
+var supportedCultures = new[] { "en", "fr" };
 var localizationOptions =
     new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[0])
         .AddSupportedCultures(supportedCultures)
         .AddSupportedUICultures(supportedCultures);
 
+localizationOptions.ApplyCurrentCultureToResponseHeaders = true;
+
 app.UseRequestLocalization(localizationOptions);
 #endregion
-//========================================================
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
