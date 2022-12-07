@@ -17,8 +17,7 @@ public class StatusGenericLocalizerController : Controller
 
     public IActionResult Index(string? message)
     {
-        if(message != null)
-            ViewBag.Message = $"Message = {message}";
+        ViewBag.Message = message;
         return View();
     }
 

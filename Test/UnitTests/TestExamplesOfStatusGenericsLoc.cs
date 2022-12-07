@@ -18,7 +18,7 @@ public class TestExamplesOfStatusGenericsLoc
 
 
     [Fact]
-    public void TestBasicUsage_Success()
+    public void TestCheckNull_Success()
     {
         //SETUP
         var stubDefaultLoc = new StubLocalizeDefaultWithLogging<HomeController>();
@@ -35,7 +35,7 @@ public class TestExamplesOfStatusGenericsLoc
     }
 
     [Fact]
-    public void TestBasicUsage_Errors()
+    public void TestCheckNull_Errors()
     {
         //SETUP
         var stubDefaultLoc = new StubLocalizeDefaultWithLogging<HomeController>();
@@ -49,7 +49,7 @@ public class TestExamplesOfStatusGenericsLoc
         //VERIFY
         status.IsValid.ShouldBeFalse();
         status.Errors.Single().ErrorResult.ErrorMessage.ShouldEqual("The input must not be null.");
-        status.Errors.Single().ErrorResult.MemberNames.Single().ShouldEqual("someString");
+        status.Errors.Single().ErrorResult.MemberNames.Single().ShouldEqual("Month");
     }
 
     [Fact]
@@ -85,7 +85,7 @@ public class TestExamplesOfStatusGenericsLoc
         //VERIFY
         status.IsValid.ShouldBeFalse();
         status.Errors.Single().ErrorResult.ErrorMessage.ShouldEqual("The property should not be negative.");
-        status.Errors.Single().ErrorResult.MemberNames.Single().ShouldEqual("someInt");
+        status.Errors.Single().ErrorResult.MemberNames.Single().ShouldEqual("Year");
         status.Result.ShouldEqual(default);
     }
 

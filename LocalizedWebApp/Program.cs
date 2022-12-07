@@ -19,13 +19,16 @@ builder.Services.AddSingleton(typeof(ILocalizeWithDefault<>), typeof(LocalizeWit
 
 var app = builder.Build();
 
-#region SETUP
+#region SETUP locatization
 var supportedCultures = new[] { "en", "fr" };
 var localizationOptions =
     new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[0])
         .AddSupportedCultures(supportedCultures)
         .AddSupportedUICultures(supportedCultures);
 
+//This allows one action to pass on the culture to the next action 
+//This is needed when using the QueryStringRequestCultureProvider in an ASP.NET Core MVC app.
+//thanks to https://www.codeproject.com/Articles/5324504/Localization-in-ASP-NET-Core-Web-API
 localizationOptions.ApplyCurrentCultureToResponseHeaders = true;
 
 app.UseRequestLocalization(localizationOptions);
