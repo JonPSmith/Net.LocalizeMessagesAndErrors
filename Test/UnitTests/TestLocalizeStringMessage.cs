@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using LocalizeMessagesAndErrors;
+using LocalizeMessagesAndErrors.UnitTestingCode;
 using Microsoft.Extensions.Logging;
 using Test.StubClasses;
 using TestSupport.EfHelpers;
@@ -75,7 +76,7 @@ public class TestLocalizeStringMessage
     {
         //SETUP
         var stubLocalizer = new StubStringLocalizer<TestLocalizeStringMessage>(
-            new Dictionary<string, string>());
+            new Dictionary<string, string>(), false);
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var service = new LocalizeWithDefault<TestLocalizeStringMessage>(_logger, stubLocalizer);
@@ -86,10 +87,10 @@ public class TestLocalizeStringMessage
 
         //VERIFY
         message.ShouldEqual("Message from readable string");
-        _logs.Single().Message.ShouldEqual(
+        _logs.Single().Message.ShouldStartWith(
             "The message with the localizeKey name of 'Test.UnitTests.TestLocalizeStringMessage_test' " +
             "and culture of 'en-GB' was not found in the 'TestLocalizeStringMessage' resource. " +
-            "The message came from TestLocalizeStringMessage.TestLocalizeStringMessage_MissingResource, line 84.");
+            "The message came from TestLocalizeStringMessage.TestLocalizeStringMessage_MissingResource");
     }
 
     [Fact] public void TestLocalizeStringMessage_NullMessage()

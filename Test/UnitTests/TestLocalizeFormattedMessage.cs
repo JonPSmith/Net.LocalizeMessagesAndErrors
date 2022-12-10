@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using LocalizeMessagesAndErrors;
+using LocalizeMessagesAndErrors.UnitTestingCode;
 using Microsoft.Extensions.Logging;
 using Test.StubClasses;
 using TestSupport.EfHelpers;
@@ -26,6 +27,30 @@ public class TestLocalizeFormattedMessage
                 new[] { new MyLoggerProviderActionOut(log => _logs.Add(log)) })
             .CreateLogger<LocalizeWithDefault<TestLocalizeFormattedMessage>>();
     }
+
+    [Fact]
+    public void TestStubStringLocalizer()
+    {
+        //SETUP
+        var stubLocalizer = new StubStringLocalizer<TestLocalizeFormattedMessage>(
+            new Dictionary<string, string>
+            {
+                { "constant string", "Message from resource file" },
+                { "dynamic string", "Message {0} from resource file" }
+            }, false);
+
+        //ATTEMPT
+        var message1 = stubLocalizer["constant string"];
+        var message2 = stubLocalizer["dynamic string", 1];
+        var message3 = stubLocalizer["missing"];
+
+        //VERIFY
+        message1.Value.ShouldEqual("Message from resource file");
+        message2.Value.ShouldEqual("Message 1 from resource file");
+        message3.ResourceNotFound.ShouldBeTrue();
+    }
+
+
 
     [Theory]
     [InlineData("en", "Message 123 from readable string")]
@@ -93,7 +118,7 @@ public class TestLocalizeFormattedMessage
     {
         //SETUP
         var stubLocalizer = new StubStringLocalizer<TestLocalizeFormattedMessage>(
-            new Dictionary<string, string>());
+            new Dictionary<string, string>(), false);
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var service = new LocalizeWithDefault<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
@@ -105,10 +130,10 @@ public class TestLocalizeFormattedMessage
         //VERIFY
         message.ShouldEqual("Message 123 from readable string");
         
-        _logs.Single().Message.ShouldEqual(
+        _logs.Single().Message.ShouldStartWith(
             "The message with the localizeKey name of 'Test.UnitTests.TestLocalizeFormattedMessage_test' " +
             "and culture of 'en-GB' was not found in the 'TestLocalizeFormattedMessage' resource. " +
-            "The message came from TestLocalizeFormattedMessage.TestLocalizeStringMessage_MissingResource, line 102.");
+            "The message came from TestLocalizeFormattedMessage.TestLocalizeStringMessage_MissingResource");
     }
 
     [Fact]

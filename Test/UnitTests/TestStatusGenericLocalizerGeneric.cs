@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using LocalizeMessagesAndErrors.UnitTestingCode;
 using Test.StubClasses;
 using TestSupport.EfHelpers;
 using Xunit.Extensions.AssertExtensions;

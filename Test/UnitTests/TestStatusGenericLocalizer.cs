@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using LocalizeMessagesAndErrors.UnitTestingCode;
 using Test.StubClasses;
 using TestSupport.EfHelpers;
 using Xunit.Extensions.AssertExtensions;
@@ -181,7 +182,7 @@ public class TestStatusGenericLocalizer
             new Dictionary<string, string>
             {
                 { "test".ClassLocalizeKey(this).LocalizeKey, "Error {0} from resource file" },
-                { "StatusGenericLocalizer_MessageHasManyErrors", "Failed with 1 error from resource file"}
+                { "StatusGenericLocalizer_MessageHasOneError", "Failed with 1 error from resource file"}
             });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
@@ -195,7 +196,7 @@ public class TestStatusGenericLocalizer
         status.Errors.Count.ShouldEqual(1);
         status.HasErrors.ShouldBeTrue();
         status.IsValid.ShouldBeFalse();
-        status.Message.ShouldEqual("Failed with 1 error.");
+        status.Message.ShouldEqual("Failed with 1 error from resource file");
     }
 
     [Fact]
