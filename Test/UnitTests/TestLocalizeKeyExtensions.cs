@@ -2,6 +2,7 @@
 // Licensed under MIT license. See License.txt in the project root for license information.
 
 using LocalizeMessagesAndErrors;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Extensions.AssertExtensions;
@@ -115,12 +116,12 @@ public class TestLocalizeKeyExtensions
     }
 
     [Fact]
-    public void TestGlobalLocalizeKey()
+    public void TestJustThisLocalizeKey()
     {
         //SETUP
 
         //ATTEMPT
-        var localizeData = "test".GlobalLocalizeKey(this);
+        var localizeData = "test".JustThisLocalizeKey(this);
 
         //VERIFY
         localizeData.LocalizeKey.ShouldEqual("test");
@@ -138,6 +139,49 @@ public class TestLocalizeKeyExtensions
         localizeData.LocalizeKey.ShouldBeNull();
     }
 
+    //------------------------------------------------------------
+    //Testing extensions when not in a method
+
+    public LocalizeKeyData GetLocalised => "test".MethodLocalizeKey(this);
+
+
+    [Fact]
+    public void TestClassMethodLocalizeKey_InGet()
+    {
+        //SETUP
+
+        //ATTEMPT
+        var localizeData = GetLocalised;
+
+        //VERIFY
+        localizeData.CallingClass.ShouldEqual(GetType());
+        localizeData.MethodName.ShouldEqual("GetLocalised");
+        localizeData.SourceLineNumber.ShouldNotEqual(0);
+    }
+
+
+    public static class StaticClass
+    {
+        public static LocalizeKeyData TestKeyExtensions(object callerClass)
+        {
+            return "test".ClassLocalizeKey(callerClass);
+        }
+    }
+
+
+    [Fact]
+    public void TestClassLocalizeKey_InStatic()
+    {
+        //SETUP
+
+        //ATTEMPT
+        var localizeData = StaticClass.TestKeyExtensions(this);
+
+        //VERIFY
+        localizeData.CallingClass.ShouldEqual(GetType());
+        localizeData.MethodName.ShouldEqual("TestKeyExtensions");
+        localizeData.SourceLineNumber.ShouldNotEqual(0);
+    }
     //------------------------------------------------------------
     //class data
 
@@ -180,6 +224,20 @@ public class TestLocalizeKeyExtensions
         //VERIFY
         localizeData.CallingClass.ShouldEqual(GetType());
         localizeData.MethodName.ShouldEqual("TestMethodLocalizeKey_Logging");
+        localizeData.SourceLineNumber.ShouldNotEqual(0);
+    }
+
+    [Fact]
+    public void TestJustThisLocalizeKey_Logging()
+    {
+        //SETUP
+
+        //ATTEMPT
+        var localizeData = "test".JustThisLocalizeKey(this);
+
+        //VERIFY
+        localizeData.CallingClass.ShouldEqual(GetType());
+        localizeData.MethodName.ShouldEqual("TestJustThisLocalizeKey_Logging");
         localizeData.SourceLineNumber.ShouldNotEqual(0);
     }
 

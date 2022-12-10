@@ -34,7 +34,7 @@ public class ExamplesOfStatusGenericsLoc<TResource>
         if (month == null)
             //You can return just an error message, but adding the property name will improve
             //the error feedback in ASP.NET Core etc. (Note the use of the CamelToPascal method)
-            return status.AddErrorString("NullParam".GlobalLocalizeKey(this), 
+            return status.AddErrorString("NullParam".JustThisLocalizeKey(this), 
                 "The input must not be null.", nameof(month).CamelToPascal());
 
         //This 

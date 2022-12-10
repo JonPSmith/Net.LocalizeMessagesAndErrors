@@ -70,10 +70,16 @@ public class StatusGenericLocalizer<TResource> : IStatusGenericLocalizer
     public bool HasErrors => _errors.Any();
 
     /// <summary>
-    /// This defines the name for the localization entry for localize the Message when the status is "HasErrors"
+    /// This defines the name for the localization entry for localize the Message when the status has one error
     /// NOTE: The error message is the same for all StatusGenericLocalizer classes.
     /// </summary>
-    public string LocalizeKeyFailedMessage { get; set; } = "StatusGenericLocalizer_MessageHasErrors";
+    public string LocalizeKeyOneErrorMessage { get; set; } = "StatusGenericLocalizer_MessageHasOneError";
+
+    /// <summary>
+    /// This defines the name for the localization entry for localize the Message when the status has many errors
+    /// NOTE: The error message is the same for all StatusGenericLocalizer classes.
+    /// </summary>
+    public string LocalizeKeyManyErrorsMessage { get; set; } = "StatusGenericLocalizer_MessageHasManyErrors";
 
     /// <summary>
     /// On success this returns the message as set by the business logic, or the default messages
@@ -85,10 +91,20 @@ public class StatusGenericLocalizer<TResource> : IStatusGenericLocalizer
         get
         {
             if (HasErrors)
+            {
+                if (_errors.Count == 1)
+                    //single error message
+                    return _localizerWithDefault.LocalizeStringMessage(
+                        LocalizeKeyOneErrorMessage.JustThisLocalizeKey(this),
+                        _cultureOfStrings,
+                        "Failed with 1 error.");
+
+                //else there are multiple errors
                 return _localizerWithDefault.LocalizeFormattedMessage(
-                    new LocalizeKeyData(LocalizeKeyFailedMessage, GetType(), "Message_Get", 0),
+                    LocalizeKeyManyErrorsMessage.JustThisLocalizeKey(this),
                     _cultureOfStrings,
-                    $"Failed with {_errors.Count} error{(_errors.Count == 1 ? "" : "s")}");
+                    $"Failed with {_errors.Count} errors.");
+            }
 
             return _successMessage;
         }

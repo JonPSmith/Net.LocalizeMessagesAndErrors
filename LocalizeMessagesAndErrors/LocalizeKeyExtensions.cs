@@ -95,17 +95,17 @@ public static class LocalizeKeyExtensions
 
     /// <summary>
     /// This creates a message name string in the form of {localKey}.
-    /// This is useful if you have a message that is the same everywhere within the resource file.
+    /// This is useful if you have a message that is the same everywhere within the resource file,
+    /// or you want to create your own localize key.
     /// </summary>
     /// <param name="localKey">This is local key part of the localizedKey.</param>
     /// <param name="callingClass">Use 'this' for this parameter. This is used to know what class it was called from.</param>
     /// <param name="memberName">DO NOT use. This a filled by the calling method name</param>
     /// <param name="sourceLineNumber">DO NOT use. This a filled by the calling line number</param>
     /// <returns>LocalizeKeyData</returns>
-    public static LocalizeKeyData GlobalLocalizeKey<TClass>(this string localKey, TClass callingClass,
+    public static LocalizeKeyData JustThisLocalizeKey<TClass>(this string localKey, TClass callingClass,
         [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0) where TClass : class
     {
-
         return new LocalizeKeyData(localKey, callingClass.GetType(), memberName, sourceLineNumber);
     }
 

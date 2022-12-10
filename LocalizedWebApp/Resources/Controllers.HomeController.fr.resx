@@ -132,6 +132,12 @@
   <data name="NullParam" xml:space="preserve">
     <value>L'entrée ne doit pas être nulle.</value>
   </data>
+  <data name="StatusGenericLocalizer_MessageHasManyErrors" xml:space="preserve">
+    <value>Échec avec {0} erreurs.</value>
+  </data>
+  <data name="StatusGenericLocalizer_MessageHasOneError" xml:space="preserve">
+    <value>Échec avec 1 erreur.</value>
+  </data>
   <data name="StatusGenericWithResult_NumberNegative" xml:space="preserve">
     <value>La propriété ne doit pas être négative.</value>
   </data>
