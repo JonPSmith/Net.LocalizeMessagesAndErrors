@@ -50,6 +50,7 @@ public class TestExamplesOfStatusGenericsLoc
         status.IsValid.ShouldBeFalse();
         status.Errors.Single().ErrorResult.ErrorMessage.ShouldEqual("The input must not be null.");
         status.Errors.Single().ErrorResult.MemberNames.Single().ShouldEqual("Month");
+        status.Message.ShouldEqual("Failed with 1 error.");
     }
 
     [Fact]
