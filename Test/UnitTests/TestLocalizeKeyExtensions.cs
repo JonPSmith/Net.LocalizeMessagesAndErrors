@@ -2,7 +2,6 @@
 // Licensed under MIT license. See License.txt in the project root for license information.
 
 using LocalizeMessagesAndErrors;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Extensions.AssertExtensions;
@@ -18,31 +17,35 @@ public class TestLocalizeKeyExtensions
         _output = output;
     }
 
-    [Fact]
-    public void TestClassLocalizeKey_NoAttributes()
+    [Theory]
+    [InlineData(true, "TestLocalizeKeyExtensions_test")]
+    [InlineData(false, "Test.UnitTests.TestLocalizeKeyExtensions_test")]
+    public void TestClassLocalizeKey_NoAttributes(bool nameIsUnique, string expectedKeyString)
     {
         //SETUP
 
         //ATTEMPT
-        var localizeData = "test".ClassLocalizeKey(this);
+        var localizeData = "test".ClassLocalizeKey<TestLocalizeKeyExtensions>(nameIsUnique);
 
         //VERIFY
         _output.WriteLine(localizeData.LocalizeKey);
-        localizeData.LocalizeKey.ShouldEqual("Test.UnitTests.TestLocalizeKeyExtensions_test");
+        localizeData.LocalizeKey.ShouldEqual(expectedKeyString);
     }
 
 
-    [Fact]
-    public void TestClassLocalizeKey_WithClassAttributes()
+    [Theory]
+    [InlineData(true, "TestLocalizeKeyExtensions_test")]
+    [InlineData(false, "Test.UnitTests.TestLocalizeKeyExtensions_test")]
+    public void TestClassLocalizeKey_WithClassAttributes(bool nameIsUnique, string expectedKeyString)
     {
         //SETUP
 
         //ATTEMPT
-        var localizeData = "test".ClassLocalizeKey(new ClassWithAttribute());
+        var localizeData = "test".ClassLocalizeKey<TestLocalizeKeyExtensions>(nameIsUnique);
 
         //VERIFY
         _output.WriteLine(localizeData.LocalizeKey);
-        localizeData.LocalizeKey.ShouldEqual("UniqueClassName_test");
+        localizeData.LocalizeKey.ShouldEqual(expectedKeyString);
     }
 
     [Fact]
@@ -75,20 +78,6 @@ public class TestLocalizeKeyExtensions
     }
 
     [Fact]
-    [LocalizeSetMethodName("UniqueMethodName")]
-    public void TestClassMethodMessageName_MethodAttributes()
-    {
-        //SETUP
-
-        //ATTEMPT
-        var localizeData = "test".ClassMethodLocalizeKey(this);
-
-        //VERIFY
-        _output.WriteLine(localizeData.LocalizeKey);
-        localizeData.LocalizeKey.ShouldEqual("Test.UnitTests.TestLocalizeKeyExtensions_UniqueMethodName_test");
-    }
-    
-    [Fact]
     public void TestMethodMessageKey()
     {
         //SETUP
@@ -99,20 +88,6 @@ public class TestLocalizeKeyExtensions
         //VERIFY
         _output.WriteLine(localizeData.LocalizeKey);
         localizeData.LocalizeKey.ShouldEqual("TestMethodMessageKey_test");
-    }
-
-    [Fact]
-    [LocalizeSetMethodName("UniqueMethodName")]
-    public void TestMethodMessageKey_MethodAttributes()
-    {
-        //SETUP
-
-        //ATTEMPT
-        var localizeData = "test".MethodLocalizeKey(this);
-
-        //VERIFY
-        _output.WriteLine(localizeData.LocalizeKey);
-        localizeData.LocalizeKey.ShouldEqual("UniqueMethodName_test");
     }
 
     [Fact]
@@ -164,7 +139,7 @@ public class TestLocalizeKeyExtensions
     {
         public static LocalizeKeyData TestKeyExtensions(object callerClass)
         {
-            return "test".ClassLocalizeKey(callerClass);
+            return "test".ClassLocalizeKey<TestLocalizeKeyExtensions>(true);
         }
     }
 
@@ -191,7 +166,7 @@ public class TestLocalizeKeyExtensions
         //SETUP
 
         //ATTEMPT
-        var localizeData = "test".ClassLocalizeKey(this);
+        var localizeData = "test".ClassLocalizeKey<TestLocalizeKeyExtensions>(true);
 
         //VERIFY
         localizeData.CallingClass.ShouldEqual(GetType());

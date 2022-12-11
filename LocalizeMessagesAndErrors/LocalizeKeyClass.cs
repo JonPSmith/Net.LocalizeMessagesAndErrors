@@ -32,7 +32,8 @@ public class LocalizeKeyData
 
     /// <summary>
     /// This contains a name that defines a Class of which the message was sent from.
-    /// This is used to collect information during your unit tests on what localization resource you need
+    /// This is used to collect information during your unit tests on what localization resource you need.
+    /// Can be null.
     /// </summary>
     public Type CallingClass { get; }
 
