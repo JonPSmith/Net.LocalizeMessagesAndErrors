@@ -7,6 +7,7 @@ using System.Globalization;
 
 namespace ServiceLayer;
 
+[LocalizeSetClassName("StatusExamples")]
 public class ExamplesOfStatusGenericsLoc<TResource>
 {
     private readonly ILocalizeWithDefault<TResource> _localizeDefault;
@@ -38,7 +39,7 @@ public class ExamplesOfStatusGenericsLoc<TResource>
                 "The input must not be null.", nameof(month).CamelToPascal());
 
         //This 
-        status.SetMessageString("Success".MethodLocalizeKey(this), 
+        status.SetMessageString("Success".ClassMethodLocalizeKey(this, false), 
             "Successful completion.");
 
         //If no errors were added then:
@@ -61,7 +62,7 @@ public class ExamplesOfStatusGenericsLoc<TResource>
 
         //add error and return immediately
         if (year < 0)
-            return status.AddErrorString("NumberNegative".MethodLocalizeKey(this),
+            return status.AddErrorString("NumberNegative".ClassMethodLocalizeKey(this, false),
                 "The property should not be negative.", nameof(year).CamelToPascal());
 
         //This sets the Result property in the generic status
@@ -100,13 +101,13 @@ public class ExamplesOfStatusGenericsLoc<TResource>
         {
             var dateInput = $"{month}, {day}, {year}";
             var parsedDate = DateTime.Parse(dateInput, new CultureInfo("en-US"));
-            status.SetMessageFormatted("Success".MethodLocalizeKey(this),
+            status.SetMessageFormatted("Success".ClassMethodLocalizeKey(this, false),
                 $"Successfully created the date {parsedDate:D}.");
             return status.SetResult(parsedDate);
         }
         catch (FormatException)
         {
-            return status.AddErrorFormatted("BadDate".MethodLocalizeKey(this),
+            return status.AddErrorFormatted("BadDate".ClassMethodLocalizeKey(this, false),
                 $"The day {day}, month {month}, year {year} doesn't turn into a valid date.");
         }
 

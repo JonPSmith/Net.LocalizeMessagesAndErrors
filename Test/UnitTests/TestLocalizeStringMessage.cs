@@ -37,13 +37,13 @@ public class TestLocalizeStringMessage
     {
         //SETUP
         var stubLocalizer = new StubStringLocalizer<TestLocalizeStringMessage>(
-            new Dictionary<string, string> { { "test".ClassLocalizeKey(this).LocalizeKey, "Message from resource file" } });
+            new Dictionary<string, string> { { "test".ClassLocalizeKey(this, true).LocalizeKey, "Message from resource file" } });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var service = new LocalizeWithDefault<TestLocalizeStringMessage>(_logger, stubLocalizer);
 
         //ATTEMPT
-        var message = service.LocalizeStringMessage("test".ClassLocalizeKey(this), cultureOfMessage, 
+        var message = service.LocalizeStringMessage("test".ClassLocalizeKey(this, true), cultureOfMessage, 
             "Message from readable string");
 
         //VERIFY
@@ -82,14 +82,14 @@ public class TestLocalizeStringMessage
         var service = new LocalizeWithDefault<TestLocalizeStringMessage>(_logger, stubLocalizer);
 
         //ATTEMPT
-        var message = service.LocalizeStringMessage("test".ClassLocalizeKey(this), "fi-FI",
+        var message = service.LocalizeStringMessage("test".ClassLocalizeKey(this, true), "fi-FI",
             "Message from readable string");
 
         //VERIFY
         message.ShouldEqual("Message from readable string");
         _logs.Single().Message.ShouldStartWith(
-            "The message with the localizeKey name of 'Test.UnitTests.TestLocalizeStringMessage_test' " +
-            "and culture of 'en-GB' was not found in the 'TestLocalizeStringMessage' resource. " +
+            "The message with the localizeKey name of 'TestLocalizeStringMessage_test' and culture " +
+            "of 'en-GB' was not found in the 'TestLocalizeStringMessage' resource. " +
             "The message came from TestLocalizeStringMessage.TestLocalizeStringMessage_MissingResource");
     }
 
@@ -104,7 +104,7 @@ public class TestLocalizeStringMessage
 
         //ATTEMPT
         var ex = Assert.Throws<ArgumentNullException>(() => 
-            service.LocalizeStringMessage("test".ClassLocalizeKey(this), "en-GB", null));
+            service.LocalizeStringMessage("test".ClassLocalizeKey(this, true), "en-GB", null));
 
         //VERIFY
         ex.Message.ShouldEqual("Value cannot be null. (Parameter 'message')");

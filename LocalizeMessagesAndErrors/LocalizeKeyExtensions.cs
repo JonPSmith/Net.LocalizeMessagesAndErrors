@@ -12,28 +12,35 @@ public static class LocalizeKeyExtensions
 {
     /// <summary>
     /// This creates a localize key of the form of {className}_{localKey}.
-    /// This is useful when you have multiple messages that all have the same format. 
-    /// The className part is taking the FullName of the callingClass object, but if a
-    /// <see cref="LocalizeSetClassNameAttribute"/> is applied to the class, then attribute's
-    /// <see cref="LocalizeSetClassNameAttribute.ClassUniqueName"/> value is used.
+    /// This is useful when you have multiple messages that all have the same format in one class.
+    /// The {className} part is effected by the nameIsUnique parameter and the
+    /// <see cref="LocalizeSetClassNameAttribute"/>.
     /// </summary>
     /// <param name="localKey">This is local key part of the localizedKey.</param>
-    /// <param name="callingClass">Use 'this' for this parameter, which will contain the class you are calling from.
-    /// This is used to get the Class name.</param>
+    /// <param name="callingClass">Use 'this' for this parameter, which will contain the class / struct you are calling from.
+    ///     This is used to get the Class name.</param>
+    /// <param name="nameIsUnique">If true, then the Name of callingClass is used, otherwise
+    /// it looks for the the <see cref="LocalizeSetClassNameAttribute"/> for a {className}, otherwise it
+    /// uses the FullName of the callingClass param</param>
     /// <param name="memberName">DO NOT use. This a filled by the calling method name</param>
     /// <param name="sourceLineNumber">DO NOT use. This a filled by the calling line number</param>
     /// <returns>LocalizeKeyData</returns>
     public static LocalizeKeyData ClassLocalizeKey<TClass>(this string localKey, TClass callingClass,
-        [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0) where TClass : class
+        bool nameIsUnique,
+        [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
         var callingClassType = callingClass.GetType();
 
-        var classAttribute = (LocalizeSetClassNameAttribute)Attribute.GetCustomAttribute(callingClassType,
-            typeof(LocalizeSetClassNameAttribute));
-
-        var localizeKey = (classAttribute?.ClassUniqueName ?? callingClassType.FullName) + "_" +
-                          localKey;
-
+        string classPartOfKey;
+        if (nameIsUnique)
+            classPartOfKey = callingClassType.Name;
+        else
+        {
+            var classAttribute = (LocalizeSetClassNameAttribute)Attribute.GetCustomAttribute(callingClassType,
+                typeof(LocalizeSetClassNameAttribute));
+            classPartOfKey = classAttribute?.ClassUniqueName ?? callingClassType.FullName;
+        }
+        var localizeKey = classPartOfKey + "_" + localKey;
         return new LocalizeKeyData(localizeKey, callingClassType, memberName, sourceLineNumber);
     }
 
@@ -41,31 +48,35 @@ public static class LocalizeKeyExtensions
     /// This creates a localize key of the form of {className}_{methodName}_{localKey}.
     /// This is useful if your Resource class is used over multiple classes, because this 
     /// method creates a unique localizeKey containing the class name.
-    /// The className part is taking the FullName of the callingClass object, but if a
-    /// <see cref="LocalizeSetClassNameAttribute"/> is applied to the class, then it's value is used
-    /// The methodName part is taken from the method that called it, but if a
-    /// <see cref="LocalizeSetMethodNameAttribute"/> is applied to the method, then it's value is used
+    /// The {className} part is effected by the nameIsUnique parameter and the
+    /// <see cref="LocalizeSetClassNameAttribute"/>.
     /// </summary>
     /// <param name="localKey">This is local key part of the localizedKey.</param>
-    /// <param name="callingClass">Use 'this' for this parameter, which will contain the class you are calling from.
-    /// This is used to get the Class name.</param>
+    /// <param name="callingClass">Use 'this' for this parameter, which will contain the class / struct you are calling from.
+    ///     This is used to get the Class name.</param>
+    /// <param name="nameIsUnique">If true, then the Name of callingClass is used, otherwise
+    /// it looks for the the <see cref="LocalizeSetClassNameAttribute"/> for a {className}, otherwise it
+    /// uses the FullName of the callingClass param</param>
     /// <param name="memberName">DO NOT use. This a filled by the calling method name</param>
     /// <param name="sourceLineNumber">DO NOT use. This a filled by the calling line number</param>
     /// <returns>LocalizeKeyData</returns>
     public static LocalizeKeyData ClassMethodLocalizeKey<TClass>(this string localKey, TClass callingClass,
-        [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0) where TClass : class
+        bool nameIsUnique,
+        [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
         var callingClassType = callingClass.GetType();
 
-        var classAttribute =   (LocalizeSetClassNameAttribute)Attribute.GetCustomAttribute(callingClassType, 
-            typeof(LocalizeSetClassNameAttribute));
-        var methodInfo = callingClassType.GetMethod(memberName);
-        var methodAttribute = methodInfo == null ? null :
-            (LocalizeSetMethodNameAttribute)Attribute.GetCustomAttribute(methodInfo, typeof(LocalizeSetMethodNameAttribute));
+        string classPartOfKey;
+        if (nameIsUnique)
+            classPartOfKey = callingClassType.Name;
+        else
+        {
+            var classAttribute = (LocalizeSetClassNameAttribute)Attribute.GetCustomAttribute(callingClassType,
+                typeof(LocalizeSetClassNameAttribute));
+            classPartOfKey = classAttribute?.ClassUniqueName ?? callingClassType.FullName;
+        }
 
-        var localizeKey = (classAttribute?.ClassUniqueName ?? callingClassType.FullName) + "_" +
-                          (methodAttribute?.MethodName ?? memberName) + "_" +
-                          localKey;
+        var localizeKey = classPartOfKey + "_" + memberName + "_" + localKey;
 
         return new LocalizeKeyData(localizeKey, callingClassType, memberName, sourceLineNumber);
     }
@@ -76,20 +87,16 @@ public static class LocalizeKeyExtensions
     /// (otherwise this message could create a non-unique localizeKey).
     /// </summary>
     /// <param name="localKey">This is local key part of the localizedKey.</param>
-    /// <param name="callingClass">Use 'this' for this parameter. This is used to know what class it was called from.</param>
+    /// <param name="callingClass">Use 'this' for this parameter, which will contain the class / struct you are calling from.</param>
     /// <param name="memberName">DO NOT use. This a filled by the calling method name</param>
     /// <param name="sourceLineNumber">DO NOT use. This a filled by the calling line number</param>
     /// <returns>LocalizeKeyData</returns>
     public static LocalizeKeyData MethodLocalizeKey<TClass>(this string localKey, TClass callingClass,
-        [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0) where TClass : class
+        [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
         var callingClassType = callingClass.GetType();
 
-        var methodInfo = callingClassType.GetMethod(memberName);
-        var methodAttribute = methodInfo == null ? null :
-            (LocalizeSetMethodNameAttribute)Attribute.GetCustomAttribute(methodInfo, typeof(LocalizeSetMethodNameAttribute));
-
-        return new LocalizeKeyData((methodAttribute?.MethodName ?? memberName) + $"_{localKey}",
+        return new LocalizeKeyData( $"{memberName}_{localKey}",
             callingClassType, memberName, sourceLineNumber);
     }
 
@@ -99,12 +106,12 @@ public static class LocalizeKeyExtensions
     /// or you want to create your own localize key.
     /// </summary>
     /// <param name="localKey">This is local key part of the localizedKey.</param>
-    /// <param name="callingClass">Use 'this' for this parameter. This is used to know what class it was called from.</param>
+    /// <param name="callingClass">Use 'this' for this parameter, which will contain the class / struct you are calling from.</param>
     /// <param name="memberName">DO NOT use. This a filled by the calling method name</param>
     /// <param name="sourceLineNumber">DO NOT use. This a filled by the calling line number</param>
     /// <returns>LocalizeKeyData</returns>
     public static LocalizeKeyData JustThisLocalizeKey<TClass>(this string localKey, TClass callingClass,
-        [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0) where TClass : class
+        [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
         return new LocalizeKeyData(localKey, callingClass.GetType(), memberName, sourceLineNumber);
     }
@@ -112,12 +119,12 @@ public static class LocalizeKeyExtensions
     /// <summary>
     /// Use this if the message has already been localized
     /// </summary>
-    /// <param name="callingClass">Use 'this' for this parameter. This is used to know what class it was called from.</param>
+    /// <param name="callingClass">Use 'this' for this parameter, which will contain the class / struct you are calling from.</param>
     /// <param name="memberName">DO NOT use. This a filled by the calling method name</param>
     /// <param name="sourceLineNumber">DO NOT use. This a filled by the calling line number</param>
     /// <returns>LocalizeKeyData</returns>
     public static LocalizeKeyData AlreadyLocalized<TClass>(this TClass callingClass,
-        [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0) where TClass : class
+        [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
         return new LocalizeKeyData(null, callingClass.GetType(), memberName, sourceLineNumber);
     }
