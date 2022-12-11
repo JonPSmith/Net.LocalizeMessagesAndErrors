@@ -4,11 +4,11 @@
 namespace LocalizeMessagesAndErrors;
 
 /// <summary>
-/// This is used with any of the <see cref="LocalizeKeyExtensions"/> methods that has "Class" in their name.
-/// It allows you to  provide a unique name instead of the fullname of the class, struct or interface
+/// This is used with the <see cref="LocalizeKeyExtensions.ClassMethodLocalizeKey"/>
+/// to provide a unique name instead of the fullname of the class.
 /// Useful to make the localizeKey shorter.
 /// </summary>
-[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface)]
+[AttributeUsage(AttributeTargets.Class)]
 public class LocalizeSetClassNameAttribute : Attribute
 {
     /// <summary>

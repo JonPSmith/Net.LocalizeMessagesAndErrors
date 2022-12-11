@@ -61,7 +61,7 @@ public class ExamplesOfStatusGenericsLoc<TResource>
 
         //add error and return immediately
         if (year < 0)
-            return status.AddErrorString("NumberNegative".ClassMethodLocalizeKey(this),
+            return status.AddErrorString("NumberNegative".MethodLocalizeKey(this),
                 "The property should not be negative.", nameof(year).CamelToPascal());
 
         //This sets the Result property in the generic status
@@ -106,7 +106,7 @@ public class ExamplesOfStatusGenericsLoc<TResource>
         }
         catch (FormatException)
         {
-            return status.AddErrorFormatted("BadDate".ClassMethodLocalizeKey(this),
+            return status.AddErrorFormatted("BadDate".MethodLocalizeKey(this),
                 $"The day {day}, month {month}, year {year} doesn't turn into a valid date.");
         }
 

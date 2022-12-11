@@ -12,35 +12,29 @@ public static class LocalizeKeyExtensions
 {
     /// <summary>
     /// This creates a localize key of the form of {className}_{localKey}.
-    /// This is useful when you have multiple messages that all have the same format in one class.
-    /// The {className} part is effected by the nameIsUnique parameter and
-    /// <see cref="LocalizeSetClassNameAttribute"/>.
+    /// This is useful when you have multiple messages that all have the same format. 
+    /// The className part is taking the FullName of the callingClass object, but if a
+    /// <see cref="LocalizeSetClassNameAttribute"/> is applied to the class, then attribute's
+    /// <see cref="LocalizeSetClassNameAttribute.ClassUniqueName"/> value is used.
     /// </summary>
-    /// <typeparam name="TThis">This is used to obtain the class information</typeparam>
     /// <param name="localKey">This is local key part of the localizedKey.</param>
-    /// <param name="nameIsUnique">If true, then the <see type="TThis"/> Name of the type is used, otherwise
-    /// it looks for the the <see cref="LocalizeSetClassNameAttribute"/> for a {className}, otherwise it
-    /// uses the FullName of the <see type="TThis"/></param>
+    /// <param name="callingClass">Use 'this' for this parameter, which will contain the class you are calling from.
+    /// This is used to get the Class name.</param>
     /// <param name="memberName">DO NOT use. This a filled by the calling method name</param>
     /// <param name="sourceLineNumber">DO NOT use. This a filled by the calling line number</param>
     /// <returns>LocalizeKeyData</returns>
-    public static LocalizeKeyData ClassLocalizeKey<TThis>(this string localKey,
-        bool nameIsUnique,
-        [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
+    public static LocalizeKeyData ClassLocalizeKey<TClass>(this string localKey, TClass callingClass,
+        [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0) where TClass : class
     {
+        var callingClassType = callingClass.GetType();
 
-        string classPartOfKey;
-        if (nameIsUnique)
-            classPartOfKey = typeof(TThis).Name;
-        else
-        {
-            var classAttribute = (LocalizeSetClassNameAttribute)Attribute.GetCustomAttribute(typeof(TThis),
-                typeof(LocalizeSetClassNameAttribute));
-            classPartOfKey = classAttribute?.ClassUniqueName ?? typeof(TThis).FullName;
-        }
+        var classAttribute = (LocalizeSetClassNameAttribute)Attribute.GetCustomAttribute(callingClassType,
+            typeof(LocalizeSetClassNameAttribute));
 
-        var localizeKey = classPartOfKey + "_" + localKey;
-        return new LocalizeKeyData(localizeKey, typeof(TThis), memberName, sourceLineNumber);
+        var localizeKey = (classAttribute?.ClassUniqueName ?? callingClassType.FullName) + "_" +
+                          localKey;
+
+        return new LocalizeKeyData(localizeKey, callingClassType, memberName, sourceLineNumber);
     }
 
     /// <summary>
@@ -65,9 +59,13 @@ public static class LocalizeKeyExtensions
 
         var classAttribute =   (LocalizeSetClassNameAttribute)Attribute.GetCustomAttribute(callingClassType, 
             typeof(LocalizeSetClassNameAttribute));
+        var methodInfo = callingClassType.GetMethod(memberName);
+        var methodAttribute = methodInfo == null ? null :
+            (LocalizeSetMethodNameAttribute)Attribute.GetCustomAttribute(methodInfo, typeof(LocalizeSetMethodNameAttribute));
 
         var localizeKey = (classAttribute?.ClassUniqueName ?? callingClassType.FullName) + "_" +
-                           memberName + "_" + localKey;
+                          (methodAttribute?.MethodName ?? memberName) + "_" +
+                          localKey;
 
         return new LocalizeKeyData(localizeKey, callingClassType, memberName, sourceLineNumber);
     }
@@ -87,7 +85,11 @@ public static class LocalizeKeyExtensions
     {
         var callingClassType = callingClass.GetType();
 
-        return new LocalizeKeyData($"{memberName}_{localKey}",
+        var methodInfo = callingClassType.GetMethod(memberName);
+        var methodAttribute = methodInfo == null ? null :
+            (LocalizeSetMethodNameAttribute)Attribute.GetCustomAttribute(methodInfo, typeof(LocalizeSetMethodNameAttribute));
+
+        return new LocalizeKeyData((methodAttribute?.MethodName ?? memberName) + $"_{localKey}",
             callingClassType, memberName, sourceLineNumber);
     }
 
