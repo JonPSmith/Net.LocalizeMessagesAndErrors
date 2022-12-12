@@ -34,25 +34,21 @@ public class StatusGenericLocalizer<TResource> : IStatusGenericLocalizer
     /// </summary>
     /// <param name="cultureOfStrings">The culture of the errors/message strings in this service</param>
     /// <param name="localizerWithDefault">Logger to return warnings/errors of there localization problems</param>
-    /// <param name="header">Optional: this will prefix each error with this string, e.g.
-    /// "MyClass" would produce error messages such as "MyClass: This is my error message."</param>
     /// <exception cref="ArgumentNullException"></exception>
-    public StatusGenericLocalizer(string cultureOfStrings, ILocalizeWithDefault<TResource> localizerWithDefault,
-        string header = "")
+    public StatusGenericLocalizer(string cultureOfStrings, ILocalizeWithDefault<TResource> localizerWithDefault)
     {
         _localizerWithDefault = localizerWithDefault ?? throw new ArgumentNullException(nameof(localizerWithDefault));
         _cultureOfStrings = cultureOfStrings ?? throw new ArgumentNullException(nameof(cultureOfStrings));
-        Header = header;
     }
 
     //------------------------------------------------------
     //properties
 
     /// <summary>
-    /// The header provides a prefix to any errors you add. Useful if you want to have a general prefix to all your errors
-    /// e.g. a header if "MyClass" would produce error messages such as "MyClass: This is my error message."
+    /// The header provides a prefix to any errors you add. This isn't used because it
+    /// makes localization more difficult (and I haven't used the header feature in years) 
     /// </summary>
-    public string Header { get; set; }
+    public string Header { get; } = "";
 
     /// <summary>
     /// This holds the list of ValidationResult errors. If the collection is empty, then there were no errors
@@ -116,14 +112,14 @@ public class StatusGenericLocalizer<TResource> : IStatusGenericLocalizer
     //------------------------------------------------------
     //methods
 
-        /// <summary>
-        /// This adds an error to the status using a string. Don't use this if you have dynamic values in the message.
-        /// </summary>
-        /// <param name="localizeKey">This is the key for finding the localized error in your respective resources / cultures.</param>
-        /// <param name="errorMessage">The error message in the language / culture you defined when creating the
-        /// StatusGenericLocalizer.</param>
-        /// <param name="propertyNames">optional. A list of property names that this error applies to</param>
-        /// <returns>The StatusGenericLocalizer to allow fluent method calls.</returns>
+    /// <summary>
+    /// This adds an error to the status using a string. Don't use this if you have dynamic values in the message.
+    /// </summary>
+    /// <param name="localizeKey">This is the key for finding the localized error in your respective resources / cultures.</param>
+    /// <param name="errorMessage">The error message in the language / culture you defined when creating the
+    /// StatusGenericLocalizer.</param>
+    /// <param name="propertyNames">optional. A list of property names that this error applies to</param>
+    /// <returns>The StatusGenericLocalizer to allow fluent method calls.</returns>
     public IStatusGeneric AddErrorString(LocalizeKeyData localizeKey, string errorMessage,
         params string[] propertyNames)
     {
