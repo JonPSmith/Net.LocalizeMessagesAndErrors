@@ -27,7 +27,7 @@ public class ExamplesOfStatusGenericsLoc<TResource>
     {
         //The StatusGenericLocalizer constructor takes:
         //<TResource>, which defines part of the resource file's name where the other languages are stored in
-        //param1: The culture of the message / errors within this method
+        //param1: The culture of the message / errors within this method - in this case, generic English
         //param2: An instance of the ILocalizeWithDefault<TResource> service
         var status = new StatusGenericLocalizer<TResource>("en", _localizeDefault);
 
@@ -46,7 +46,7 @@ public class ExamplesOfStatusGenericsLoc<TResource>
         //- The Message contain the localized message you set.
         //- HasErrors and IsValid properties are false and true respectively
         //If there are errors then:
-        //- the Message has the format of "Failed with NN errors".
+        //- the Message has the format of "Failed with NN errors", but localized.
         //- HasErrors and IsValid properties are true and false respectively
         return status;
     }

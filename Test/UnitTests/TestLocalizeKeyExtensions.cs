@@ -140,27 +140,29 @@ public class TestLocalizeKeyExtensions
     }
 
 
-    public static class StaticClass
+    private static class StaticClass
     {
-        public static LocalizeKeyData TestKeyExtensions(object callerClass)
+        public static LocalizeKeyData TestStaticKey(bool addClassPart, bool addMethodPart, bool nameIsUnique)
         {
-            return "test".ClassLocalizeKey(callerClass, true);
+            return "test".LocalizeKeyBuilder(typeof(StaticClass), addClassPart, addMethodPart, nameIsUnique);
         }
     }
 
-
-    [Fact]
-    public void TestClassLocalizeKey_InStatic()
+    [Theory]
+    [InlineData(false, false, false, "test")]
+    [InlineData(true, false, false, "Test.UnitTests.TestLocalizeKeyExtensions+StaticClass_test")]
+    [InlineData(true, false, true, "StaticClass_test")]
+    [InlineData(true, true, false, "Test.UnitTests.TestLocalizeKeyExtensions+StaticClass_TestStaticKey_test")]
+    [InlineData(true, true, true, "StaticClass_TestStaticKey_test")]
+    public void TestLocalizeKeyBuilder_InStatic(bool addClassPart, bool addMethodPart, bool nameIsUnique, string expectedKey)
     {
         //SETUP
 
         //ATTEMPT
-        var localizeData = StaticClass.TestKeyExtensions(this);
+        var localizeData = StaticClass.TestStaticKey(addClassPart, addMethodPart, nameIsUnique);
 
         //VERIFY
-        localizeData.CallingClass.ShouldEqual(GetType());
-        localizeData.MethodName.ShouldEqual("TestKeyExtensions");
-        localizeData.SourceLineNumber.ShouldNotEqual(0);
+        localizeData.LocalizeKey.ShouldEqual(expectedKey);
     }
     //------------------------------------------------------------
     //class data
