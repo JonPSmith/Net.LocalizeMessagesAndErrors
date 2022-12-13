@@ -18,6 +18,7 @@ public static class NameExtension
     public static string CamelToPascal(this string name)
     {
         if (name == null) throw new ArgumentNullException(nameof(name));
-        return char.ToUpper(name[0]) + name.Substring(1);
+
+        return name.Length == 0 ? "" : char.ToUpper(name[0]) + name.Substring(1);
     }
 }
