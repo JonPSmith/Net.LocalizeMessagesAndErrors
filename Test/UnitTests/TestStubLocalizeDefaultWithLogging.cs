@@ -5,12 +5,19 @@ using LocalizeMessagesAndErrors;
 using System.Linq;
 using Test.StubClasses;
 using Xunit;
+using Xunit.Abstractions;
 using Xunit.Extensions.AssertExtensions;
 
 namespace Test.UnitTests;
 
 public class TestStubLocalizeDefaultWithLogging
 {
+    private readonly ITestOutputHelper _output;
+
+    public TestStubLocalizeDefaultWithLogging(ITestOutputHelper output)
+    {
+        _output = output;
+    }
 
     [Fact]
     public void TestAddErrorString()
@@ -24,7 +31,7 @@ public class TestStubLocalizeDefaultWithLogging
 
         //VERIFY
         status.Errors.Single().ToString().ShouldEqual("An Error");
-        stubLocalizer.SameKeyButDiffFormat.ShouldEqual(false);
+        stubLocalizer.PossibleError.ShouldBeNull();
     }
 
     [Fact]
@@ -39,7 +46,7 @@ public class TestStubLocalizeDefaultWithLogging
 
         //VERIFY
         status.Message.ShouldEqual("Status Message1");
-        stubLocalizer.SameKeyButDiffFormat.ShouldEqual(false);
+        stubLocalizer.PossibleError.ShouldBeNull();
     }
 
 
@@ -55,7 +62,7 @@ public class TestStubLocalizeDefaultWithLogging
 
         //VERIFY
         status.Message.ShouldEqual("Status Message2");
-        stubLocalizer.SameKeyButDiffFormat.ShouldEqual(false);
+        stubLocalizer.PossibleError.ShouldBeNull();
     }
 
     [Fact]
@@ -70,6 +77,7 @@ public class TestStubLocalizeDefaultWithLogging
         status.AddErrorString("test".MethodLocalizeKey(this), "Second Error message");
 
         //VERIFY
-        stubLocalizer.SameKeyButDiffFormat.ShouldEqual(true);
+        _output.WriteLine(stubLocalizer.PossibleError ?? "- no error -");
+        stubLocalizer.PossibleError.ShouldNotBeNull();
     }
 }

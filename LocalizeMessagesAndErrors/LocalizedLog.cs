@@ -60,10 +60,12 @@ public class LocalizedLog
     /// </summary>
     public string MessageFormat { get; set; }
     /// <summary>
-    /// This is true if another entry with the same <see cref="LocalizeKey"/>, but a different message / format
-    /// This can be null if the the database wasn't used - null means "I don't know"
+    /// This will contain a string if:
+    /// 1. It finds the same key, but different format
+    /// 2. It find the same format, but different keys
+    /// If no problems, then it is null
     /// </summary>
-    public bool? SameKeyButDiffFormat { get; set; }
+    public string PossibleErrors { get; set; }
     /// <summary>
     /// The name of the class where the LocalizeKey was created
     /// </summary>

@@ -32,11 +32,11 @@ public class LocalizationCaptureCommands
         var entries = stub.ListLocalizationCaptureDb();
 
         _output.WriteLine($"There are {entries.Count} captured localizations, " +
-                          $"with {entries.Count(x => x.SameKeyButDiffFormat != false)} so problems.");
+                          $"with {entries.Count(x => x.PossibleErrors != null)} so problems.");
         foreach (var entry in entries)
         {
             _output.WriteLine($"ResourceClassFullName = {entry.ResourceClassFullName}");
-            _output.WriteLine($"     LocalizeKey = {entry.LocalizeKey}, {(entry.SameKeyButDiffFormat ?? true ? "BAD" : "")}");
+            _output.WriteLine($"     LocalizeKey = {entry.LocalizeKey}, {(entry.PossibleErrors == null ? "" : entry.PossibleErrors)}");
             _output.WriteLine($"     Actual Message = {entry.ActualMessage}");
             if (entry.MessageFormat != null )
                 _output.WriteLine($"     Message Format = {entry.MessageFormat}");
