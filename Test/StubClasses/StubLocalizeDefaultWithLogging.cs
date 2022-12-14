@@ -36,7 +36,7 @@ public class StubLocalizeDefaultWithLogging<TResource> : ILocalizeWithDefault<TR
     /// <summary>
     /// Start of a possible error
     /// </summary>
-    public const string SameKeyButDiffFormatPrefix = "ERROR-SameKeyButDiffFormat: ";
+    public const string SameKeyButDiffFormatPrefix = "Possible SameKeyButDiffFormat: ";
 
     public string LocalizeStringMessage(LocalizeKeyData localizeKeyData, string cultureOfMessage, string message)
     {
