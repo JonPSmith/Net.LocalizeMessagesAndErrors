@@ -17,6 +17,32 @@ public class TestLocalizeKeyExtensions
         _output = output;
     }
 
+    //----------------------------------------------------
+    //classes to use in tests
+
+    private static class StaticClass { }
+
+    [LocalizeSetClassName("UniqueClassName")]
+    private class ClassWithAttribute { }
+
+    //----------------------------------------------------
+
+    [Theory]
+    [InlineData(true, "StaticClass_test")]
+    [InlineData(false, "Test.UnitTests.TestLocalizeKeyExtensions+StaticClass_test")]
+    public void TestStaticClassLocalizeKey_NoAttributes(bool nameIsUnique, string expectedKeyString)
+    {
+        //SETUP
+
+        //ATTEMPT
+        var localizeData = "test".StaticClassLocalizeKey(typeof(StaticClass), nameIsUnique);
+
+        //VERIFY
+        _output.WriteLine(localizeData.LocalizeKey);
+        localizeData.LocalizeKey.ShouldEqual(expectedKeyString);
+        localizeData.CallingClass.ShouldEqual(typeof(StaticClass));
+    }
+
     [Theory]
     [InlineData(true, "TestLocalizeKeyExtensions_test")]
     [InlineData(false, "Test.UnitTests.TestLocalizeKeyExtensions_test")]
@@ -30,10 +56,8 @@ public class TestLocalizeKeyExtensions
         //VERIFY
         _output.WriteLine(localizeData.LocalizeKey);
         localizeData.LocalizeKey.ShouldEqual(expectedKeyString);
+        localizeData.CallingClass.ShouldEqual(typeof(TestLocalizeKeyExtensions));
     }
-
-    [LocalizeSetClassName("UniqueClassName")]
-    private class ClassWithAttribute { }
 
     [Theory]
     [InlineData(true, "ClassWithAttribute_test")]
@@ -65,8 +89,6 @@ public class TestLocalizeKeyExtensions
         localizeData.LocalizeKey.ShouldEqual(expectedKeyString);
     }
 
-
-
     [Theory]
     [InlineData(true, "ClassWithAttribute_TestClassMethodMessageName_ClassAttribute_test")]
     [InlineData(false, "UniqueClassName_TestClassMethodMessageName_ClassAttribute_test")]
@@ -76,6 +98,21 @@ public class TestLocalizeKeyExtensions
 
         //ATTEMPT
         var localizeData = "test".ClassMethodLocalizeKey(new ClassWithAttribute(), nameIsUnique);
+
+        //VERIFY
+        _output.WriteLine(localizeData.LocalizeKey);
+        localizeData.LocalizeKey.ShouldEqual(expectedKeyString);
+    }
+
+    [Theory]
+    [InlineData(true, "StaticClass_TestStaticClassMethodLocalizeKey_test")]
+    [InlineData(false, "Test.UnitTests.TestLocalizeKeyExtensions+StaticClass_TestStaticClassMethodLocalizeKey_test")]
+    public void TestStaticClassMethodLocalizeKey(bool nameIsUnique, string expectedKeyString)
+    {
+        //SETUP
+
+        //ATTEMPT
+        var localizeData = "test".StaticClassMethodLocalizeKey(typeof(StaticClass), nameIsUnique);
 
         //VERIFY
         _output.WriteLine(localizeData.LocalizeKey);
@@ -96,6 +133,19 @@ public class TestLocalizeKeyExtensions
     }
 
     [Fact]
+    public void TestStaticMethodLocalizeKey()
+    {
+        //SETUP
+
+        //ATTEMPT
+        var localizeData = "test".StaticMethodLocalizeKey(typeof(StaticClass));
+
+        //VERIFY
+        _output.WriteLine(localizeData.LocalizeKey);
+        localizeData.LocalizeKey.ShouldEqual("TestStaticMethodLocalizeKey_test");
+    }
+
+    [Fact]
     public void TestJustThisLocalizeKey()
     {
         //SETUP
@@ -108,12 +158,36 @@ public class TestLocalizeKeyExtensions
     }
 
     [Fact]
+    public void TestStaticJustThisLocalizeKey()
+    {
+        //SETUP
+
+        //ATTEMPT
+        var localizeData = "test".StaticJustThisLocalizeKey(typeof(StaticClass));
+
+        //VERIFY
+        localizeData.LocalizeKey.ShouldEqual("test");
+    }
+
+    [Fact]
     public void TestAlreadyLocalized()
     {
         //SETUP
 
         //ATTEMPT
         var localizeData = this.AlreadyLocalized();
+
+        //VERIFY
+        localizeData.LocalizeKey.ShouldBeNull();
+    }
+
+    [Fact]
+    public void TestStaticAlreadyLocalized()
+    {
+        //SETUP
+
+        //ATTEMPT
+        var localizeData = typeof(StaticClass).StaticAlreadyLocalized();
 
         //VERIFY
         localizeData.LocalizeKey.ShouldBeNull();
@@ -139,31 +213,6 @@ public class TestLocalizeKeyExtensions
         localizeData.SourceLineNumber.ShouldNotEqual(0);
     }
 
-
-    private static class StaticClass
-    {
-        public static LocalizeKeyData TestStaticKey(bool addClassPart, bool addMethodPart, bool nameIsUnique)
-        {
-            return "test".LocalizeKeyBuilder(typeof(StaticClass), addClassPart, addMethodPart, nameIsUnique);
-        }
-    }
-
-    [Theory]
-    [InlineData(false, false, false, "test")]
-    [InlineData(true, false, false, "Test.UnitTests.TestLocalizeKeyExtensions+StaticClass_test")]
-    [InlineData(true, false, true, "StaticClass_test")]
-    [InlineData(true, true, false, "Test.UnitTests.TestLocalizeKeyExtensions+StaticClass_TestStaticKey_test")]
-    [InlineData(true, true, true, "StaticClass_TestStaticKey_test")]
-    public void TestLocalizeKeyBuilder_InStatic(bool addClassPart, bool addMethodPart, bool nameIsUnique, string expectedKey)
-    {
-        //SETUP
-
-        //ATTEMPT
-        var localizeData = StaticClass.TestStaticKey(addClassPart, addMethodPart, nameIsUnique);
-
-        //VERIFY
-        localizeData.LocalizeKey.ShouldEqual(expectedKey);
-    }
     //------------------------------------------------------------
     //class data
 
@@ -173,12 +222,16 @@ public class TestLocalizeKeyExtensions
         //SETUP
 
         //ATTEMPT
-        var localizeData = "test".ClassLocalizeKey(this, true);
+        var key1 = "test".ClassLocalizeKey(this, true);
+        var key2 = "test".StaticClassLocalizeKey(typeof(StaticClass), true);
 
         //VERIFY
-        localizeData.CallingClass.ShouldEqual(GetType());
-        localizeData.MethodName.ShouldEqual("TestClassLocalizeKey_Logging");
-        localizeData.SourceLineNumber.ShouldNotEqual(0);
+        key1.CallingClass.ShouldEqual(GetType());
+        key1.MethodName.ShouldEqual("TestClassLocalizeKey_Logging");
+        key1.SourceLineNumber.ShouldNotEqual(0);
+        key2.CallingClass.ShouldEqual(typeof(StaticClass));
+        key2.MethodName.ShouldEqual("TestClassLocalizeKey_Logging");
+        key2.SourceLineNumber.ShouldNotEqual(key1.SourceLineNumber);
     }
 
     [Fact]
@@ -187,12 +240,16 @@ public class TestLocalizeKeyExtensions
         //SETUP
 
         //ATTEMPT
-        var localizeData = "test".ClassMethodLocalizeKey(this, true);
+        var key1 = "test".ClassMethodLocalizeKey(this, true);
+        var key2 = "test".StaticClassMethodLocalizeKey(typeof(StaticClass), true);
 
         //VERIFY
-        localizeData.CallingClass.ShouldEqual(GetType());
-        localizeData.MethodName.ShouldEqual("TestClassMethodLocalizeKey_Logging");
-        localizeData.SourceLineNumber.ShouldNotEqual(0);
+        key1.CallingClass.ShouldEqual(GetType());
+        key1.MethodName.ShouldEqual("TestClassMethodLocalizeKey_Logging");
+        key1.SourceLineNumber.ShouldNotEqual(0);
+        key2.CallingClass.ShouldEqual(typeof(StaticClass));
+        key2.MethodName.ShouldEqual("TestClassMethodLocalizeKey_Logging");
+        key2.SourceLineNumber.ShouldNotEqual(key1.SourceLineNumber);
     }
 
     [Fact]
@@ -201,12 +258,16 @@ public class TestLocalizeKeyExtensions
         //SETUP
 
         //ATTEMPT
-        var localizeData = "test".MethodLocalizeKey(this);
+        var key1 = "test".MethodLocalizeKey(this);
+        var key2 = "test".StaticMethodLocalizeKey(typeof(StaticClass));
 
         //VERIFY
-        localizeData.CallingClass.ShouldEqual(GetType());
-        localizeData.MethodName.ShouldEqual("TestMethodLocalizeKey_Logging");
-        localizeData.SourceLineNumber.ShouldNotEqual(0);
+        key1.CallingClass.ShouldEqual(GetType());
+        key1.MethodName.ShouldEqual("TestMethodLocalizeKey_Logging");
+        key1.SourceLineNumber.ShouldNotEqual(0);
+        key2.CallingClass.ShouldEqual(typeof(StaticClass));
+        key2.MethodName.ShouldEqual("TestMethodLocalizeKey_Logging");
+        key2.SourceLineNumber.ShouldNotEqual(key1.SourceLineNumber);
     }
 
     [Fact]
@@ -215,12 +276,16 @@ public class TestLocalizeKeyExtensions
         //SETUP
 
         //ATTEMPT
-        var localizeData = "test".JustThisLocalizeKey(this);
+        var key1 = "test".JustThisLocalizeKey(this);
+        var key2 = "test".StaticJustThisLocalizeKey(typeof(StaticClass));
 
         //VERIFY
-        localizeData.CallingClass.ShouldEqual(GetType());
-        localizeData.MethodName.ShouldEqual("TestJustThisLocalizeKey_Logging");
-        localizeData.SourceLineNumber.ShouldNotEqual(0);
+        key1.CallingClass.ShouldEqual(GetType());
+        key1.MethodName.ShouldEqual("TestJustThisLocalizeKey_Logging");
+        key1.SourceLineNumber.ShouldNotEqual(0);
+        key2.CallingClass.ShouldEqual(typeof(StaticClass));
+        key2.MethodName.ShouldEqual("TestJustThisLocalizeKey_Logging");
+        key2.SourceLineNumber.ShouldNotEqual(key1.SourceLineNumber);
     }
 
     [Fact]
@@ -229,12 +294,16 @@ public class TestLocalizeKeyExtensions
         //SETUP
 
         //ATTEMPT
-        var localizeData = this.AlreadyLocalized();
+        var key1 = this.AlreadyLocalized();
+        var key2 = typeof(StaticClass).StaticAlreadyLocalized();
 
         //VERIFY
-        localizeData.CallingClass.ShouldEqual(GetType());
-        localizeData.MethodName.ShouldEqual("TestAlreadyLocalized_Logging");
-        localizeData.SourceLineNumber.ShouldNotEqual(0);
+        key1.CallingClass.ShouldEqual(GetType());
+        key1.MethodName.ShouldEqual("TestAlreadyLocalized_Logging");
+        key1.SourceLineNumber.ShouldNotEqual(0);
+        key2.CallingClass.ShouldEqual(typeof(StaticClass));
+        key2.MethodName.ShouldEqual("TestAlreadyLocalized_Logging");
+        key2.SourceLineNumber.ShouldNotEqual(key1.SourceLineNumber);
     }
 
 }
