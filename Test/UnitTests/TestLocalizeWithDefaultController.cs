@@ -1,18 +1,12 @@
 ﻿// Copyright (c) 2022 Jon P Smith, GitHub: JonPSmith, web: http://www.thereformedprogrammer.net/
 // Licensed under MIT license. See License.txt in the project root for license information.
 
-using LocalizeMessagesAndErrors;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using LocalizedWebApp.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Test.StubClasses;
 using Xunit.Extensions.AssertExtensions;
-using Microsoft.Extensions.Logging;
-using TestSupport.EfHelpers;
 using Xunit;
 
 namespace Test.UnitTests;

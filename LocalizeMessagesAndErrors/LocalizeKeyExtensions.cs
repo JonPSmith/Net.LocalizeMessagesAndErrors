@@ -108,7 +108,8 @@ public static class LocalizeKeyExtensions
     }
 
     /// <summary>
-    /// Use this if the message has already been localized
+    /// Use this if the message has already been localized, or you can't localize the message
+    /// because it comes from an internal .NET message.
     /// </summary>
     /// <param name="callingClass">Use 'this' for this parameter, which will contain the class / struct you are calling from..</param>
     /// <param name="memberName">DO NOT use. This a filled by the calling method name</param>
@@ -128,7 +129,7 @@ public static class LocalizeKeyExtensions
     /// to true (the localKey is always returned.)
     /// </summary>
     /// <param name="localKey">This is local key part of the localizedKey.</param>
-    /// <param name="staticClassType">The type of the class / struct you are calling from</param>
+    /// <param name="outerClassType">The type of the class / struct you are calling from</param>
     /// <param name="addClassPart">If true, then the class part of the localize key is added</param>
     /// <param name="addMethodPart">If true, then the method part of the localize key is added</param>
     /// <param name="nameIsUnique">If true, then the Name of callingClass is used, otherwise
@@ -137,16 +138,16 @@ public static class LocalizeKeyExtensions
     /// <param name="memberName">DO NOT use. This a filled by the calling method name</param>
     /// <param name="sourceLineNumber">DO NOT use. This a filled by the calling line number</param>
     /// <returns>LocalizeKeyData</returns>
-    public static LocalizeKeyData LocalizeKeyBuilder(this string localKey, Type staticClassType,
+    public static LocalizeKeyData LocalizeKeyBuilder(this string localKey, Type outerClassType,
         bool addClassPart, bool addMethodPart, bool nameIsUnique,    
         [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
-        if (staticClassType == null) throw new ArgumentNullException(nameof(staticClassType));
+        if (outerClassType == null) throw new ArgumentNullException(nameof(outerClassType));
 
         var parts = new List<string>();
         if (addClassPart)
         {
-            parts.Add(GetClassPartOfKey(nameIsUnique, staticClassType));
+            parts.Add(GetClassPartOfKey(nameIsUnique, outerClassType));
         }
         if (addMethodPart)
         {
@@ -156,7 +157,7 @@ public static class LocalizeKeyExtensions
 
         var localizeKey = string.Join('_', parts.ToArray());
 
-        return new LocalizeKeyData(localizeKey, staticClassType, memberName, sourceLineNumber);
+        return new LocalizeKeyData(localizeKey, outerClassType, memberName, sourceLineNumber);
     }
 
     //-------------------------------------------------------------
