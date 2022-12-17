@@ -132,6 +132,9 @@
   <data name="NullParam" xml:space="preserve">
     <value>The input must not be null.</value>
   </data>
+  <data name="SimpleMessageLocalizer_Back to |0| Home" xml:space="preserve">
+    <value>Retour à la page d'accueil {0}</value>
+  </data>
   <data name="StatusGenericLocalizer_MessageHasManyErrors" xml:space="preserve">
     <value>Failed with {0} errors.</value>
   </data>

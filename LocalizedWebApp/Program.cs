@@ -3,6 +3,7 @@ using LocalizeMessagesAndErrors;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using System.Globalization;
+using LocalizedWebApp.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,8 @@ builder.Services.AddLocalization(options => options.ResourcesPath = "Resources")
 #endregion
 
 #region REGISTERING Net.LocalizeMessagesAndError
-builder.Services.AddSingleton(typeof(ILocalizeWithDefault<>), typeof(LocalizeWithDefault<>));
+//This version registers both the LocalizeWithDefault{T} and the ISimpleLocalizer service
+builder.Services.RegisterLocalizeDefaultAndSimpleLocalizer<HomeController>("en");
 #endregion
 
 var app = builder.Build();

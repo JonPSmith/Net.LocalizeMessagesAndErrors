@@ -1,8 +1,11 @@
-﻿@{
+﻿@using LocalizeMessagesAndErrors
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject ISimpleLocalizer SimpleLocalizer
+@{
     ViewData["Title"] = "CheckNull";
 }
 
-<h3>Run CheckNull</h3>
+<h3>@(SimpleLocalizer.LocalizeString("Run CheckNull", this))</h3>
 
 <hr />
 <form method="post">
@@ -10,23 +13,22 @@
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
         
-        <label for="month">Provide a string (can be null)</label>
+        @*<label for="month">Provide a string (can be null)</label>*@
+        <label for="month">@(SimpleLocalizer.LocalizeString("Provide a string (can be null)", this))</label>
         <!-- Server-side validation info, see https://learn.microsoft.com/en-us/aspnet/core/tutorials/razor-pages/validation -->
         <input type="text" id="month" name="month">
         <br><br>
 
         <div class="col-md-2">
             <button type="submit" class="btn btn-success">
-                Set string
+                @(SimpleLocalizer.LocalizeString("Set string", this))
             </button>
         </div>
     </div>
 </form>
 
-<p><i>Note that the header, label, submit button, etc. would normally localized via the .NET <code>IViewLocalizer</code> service.</i></p>
-
 <div>
-    <a asp-action="Index">Back to StatusGenericLocalizer Home</a>
+    <a asp-action="Index"> @(SimpleLocalizer.LocalizeFormatted($"Back to {"StatusGenericLocalizer"} Home", this))</a>
 </div>
 
 @section Scripts {

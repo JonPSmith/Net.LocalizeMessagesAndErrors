@@ -39,7 +39,7 @@ public static class LocalizeKeyExtensions
     /// <see cref="LocalizeSetClassNameAttribute"/>.
     /// </summary>
     /// <param name="localKey">This is local key part of the localizedKey.</param>
-    /// <param name="callingClassType">The type of the class / struct you are calling from</param>
+    /// <param name="callingClassType">The type of the class / struct you are calling from.</param>
     /// <param name="nameIsUnique">If true, then the Name of callingClass is used, otherwise
     /// it looks for the the <see cref="LocalizeSetClassNameAttribute"/> for a {className}, otherwise it
     /// uses the FullName of the callingClass param</param>

@@ -14,7 +14,7 @@ namespace LocalizeMessagesAndErrors;
 /// to obtain the culture via resource files.
 /// </summary>
 /// <typeparam name="TResource"></typeparam>
-public class LocalizeWithDefault<TResource> : ILocalizeWithDefault<TResource>
+public class LocalizeWithDefault<TResource> : ILocalizeWithDefault<TResource>, ILocalizeWithDefaultForSingleResource
 {
     private readonly IStringLocalizer<TResource> _localizer;
     private readonly ILogger<LocalizeWithDefault<TResource>> _logger;
