@@ -10,7 +10,6 @@ using Test.StubClasses;
 using Xunit.Extensions.AssertExtensions;
 using Xunit;
 using System.Collections;
-using System;
 using TestSupport.Attributes;
 using Xunit.Abstractions;
 

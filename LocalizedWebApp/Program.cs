@@ -16,7 +16,7 @@ builder.Services.AddLocalization(options => options.ResourcesPath = "Resources")
 
 #region REGISTERING Net.LocalizeMessagesAndError
 //This version registers both the LocalizeWithDefault{T} and the ISimpleLocalizer service
-builder.Services.RegisterLocalizeDefaultAndSimpleLocalizer<HomeController>("en");
+builder.Services.RegisterSimpleLocalizerAndLocalizeDefault<HomeController>("en");
 #endregion
 
 var app = builder.Build();

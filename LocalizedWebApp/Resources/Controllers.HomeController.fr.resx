@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CheckNull_Success" xml:space="preserve">
-    <value>Réussite.</value>
-  </data>
   <data name="CreateDate_BadDate" xml:space="preserve">
     <value>Le jour {0}, mois {1}, année {2} ne se transforme pas en une date valide.</value>
   </data>
@@ -135,17 +132,20 @@
   <data name="NullParam" xml:space="preserve">
     <value>L'entrée ne doit pas être nulle.</value>
   </data>
-  <data name="SimpleMessageLocalizer_Back to {0} Home" xml:space="preserve">
+  <data name="SimpleLocalizer_Back to {0} Home" xml:space="preserve">
     <value>Retour à la page d'accueil {0}</value>
   </data>
-  <data name="SimpleMessageLocalizer_Provide a string (can be null)" xml:space="preserve">
+  <data name="SimpleLocalizer_Provide a string (can be null)" xml:space="preserve">
     <value>Fournissez une chaîne (peut être nulle)</value>
   </data>
-  <data name="SimpleMessageLocalizer_Run CheckNull" xml:space="preserve">
+  <data name="SimpleLocalizer_Run CheckNull" xml:space="preserve">
     <value>Exécutez CheckNull</value>
   </data>
-  <data name="SimpleMessageLocalizer_Set string" xml:space="preserve">
+  <data name="SimpleLocalizer_Set string" xml:space="preserve">
     <value>Définir la chaîne</value>
+  </data>
+  <data name="StatusExamples_CheckNull_Success" xml:space="preserve">
+    <value>Réussite.</value>
   </data>
   <data name="StatusGenericLocalizer_MessageHasManyErrors" xml:space="preserve">
     <value>Échec avec {0} erreurs.</value>

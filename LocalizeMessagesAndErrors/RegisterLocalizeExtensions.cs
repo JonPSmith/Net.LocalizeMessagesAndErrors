@@ -31,7 +31,7 @@ public static class RegisterLocalizeExtensions
     /// <param name="services"></param>
     /// <param name="defaultCultureForSimpleLocalizer"></param>
     /// <returns></returns>
-    public static IServiceCollection RegisterLocalizeDefaultAndSimpleLocalizer<TResource>(this IServiceCollection services,
+    public static IServiceCollection RegisterSimpleLocalizerAndLocalizeDefault<TResource>(this IServiceCollection services,
         string defaultCultureForSimpleLocalizer)
     {
         services.AddSingleton(typeof(ILocalizeWithDefault<>), typeof(LocalizeWithDefault<>));

@@ -28,7 +28,9 @@ public class SimpleLocalizer : ISimpleLocalizer
     public SimpleLocalizer(IServiceProvider provider, Type resourceType, string cultureOfMessage)
     {
         if (resourceType == null) throw new ArgumentNullException(nameof(resourceType));
-        _cultureOfMessage = cultureOfMessage ?? throw new ArgumentNullException(nameof(cultureOfMessage));
+        if (string.IsNullOrWhiteSpace(cultureOfMessage))
+            throw new ArgumentException("Value cannot be null or whitespace.", nameof(cultureOfMessage));
+        _cultureOfMessage = cultureOfMessage;
 
         var myGeneric = typeof(ILocalizeWithDefault<>);
         var genericType = myGeneric.MakeGenericType(resourceType);
