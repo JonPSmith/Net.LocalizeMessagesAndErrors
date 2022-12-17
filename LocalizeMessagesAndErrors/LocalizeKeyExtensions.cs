@@ -59,6 +59,7 @@ public static class LocalizeKeyExtensions
                 typeof(LocalizeSetClassNameAttribute));
             classPartOfKey = classAttribute?.ClassUniqueName ?? callingClassType.FullName;
         }
+
         var localizeKey = classPartOfKey + "_" + localKey;
         return new LocalizeKeyData(localizeKey, callingClassType, memberName, sourceLineNumber);
     }
@@ -83,7 +84,8 @@ public static class LocalizeKeyExtensions
         bool nameIsUnique,
         [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
-        return localKey.StaticClassMethodLocalizeKey(callingClass.GetType(), nameIsUnique, memberName, sourceLineNumber);
+        return localKey.StaticClassMethodLocalizeKey(callingClass.GetType(), nameIsUnique, memberName,
+            sourceLineNumber);
     }
 
     /// <summary>

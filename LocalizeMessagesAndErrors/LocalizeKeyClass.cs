@@ -47,5 +47,4 @@ public class LocalizeKeyData
     /// This is used to collect information during your unit tests on what localization resource you need
     /// </summary>
     public int SourceLineNumber { get; }
-
 }

@@ -28,7 +28,7 @@ public class StubStringLocalizer<TResource> : IStringLocalizer<TResource>
     /// <summary>
     /// Useful if you want to access the name / value you added to this class
     /// </summary>
-    public Dictionary<string,string> Resource { get; set; }
+    public Dictionary<string, string> Resource { get; set; }
 
     /// <summary>
     /// If true, then throw exception if no entry
@@ -76,7 +76,7 @@ public class StubStringLocalizer<TResource> : IStringLocalizer<TResource>
         {
             if (Resource.ContainsKey(name))
             {
-                var message =  string.Format(Resource[name], arguments);
+                var message = string.Format(Resource[name], arguments);
 
                 return new LocalizedString(name, message, false, typeof(TResource).Name);
             }

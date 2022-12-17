@@ -12,7 +12,9 @@ namespace LocalizeMessagesAndErrors;
 /// </summary>
 public class LocalizedLog
 {
-    private LocalizedLog() {} //Needed by EF Core
+    private LocalizedLog()
+    {
+    } //Needed by EF Core
 
     /// <summary>
     /// ctor
@@ -26,7 +28,8 @@ public class LocalizedLog
     /// <param name="callingMethodName"></param>
     /// <param name="sourceLineNumber"></param>
     public LocalizedLog(Type resourceClass, string localizeKey, string cultureOfMessage,
-        string actualMessage, string? messageFormat, string callingClassName, string callingMethodName, int sourceLineNumber)
+        string actualMessage, string? messageFormat, string callingClassName, string callingMethodName,
+        int sourceLineNumber)
     {
         ResourceClassFullName = resourceClass.FullName!;
         LocalizeKey = localizeKey;
@@ -39,26 +42,32 @@ public class LocalizedLog
     }
 
     public int Id { get; set; }
+
     /// <summary>
     /// The FullName of the resource class you used in localization code
     /// </summary>
     public string ResourceClassFullName { get; set; }
+
     /// <summary>
     /// This is the string that is used to match the resource file "Name" of the localized message
     /// </summary>
     public string LocalizeKey { get; set; }
+
     /// <summary>
     /// This contains the culture of the default message
     /// </summary>
     public string CultureOfMessage { get; set; }
+
     /// <summary>
     /// This contains the actual message 
     /// </summary>
     public string ActualMessage { get; set; }
+
     /// <summary>
     /// If the <see cref="ActualMessage"/> has dynamic parts, then this contains the Format, otherwise null
     /// </summary>
     public string MessageFormat { get; set; }
+
     /// <summary>
     /// This will contain a string if:
     /// 1. It finds the same key, but different format
@@ -66,14 +75,17 @@ public class LocalizedLog
     /// If no problems, then it is null
     /// </summary>
     public string PossibleErrors { get; set; }
+
     /// <summary>
     /// The name of the class where the LocalizeKey was created
     /// </summary>
     public string CallingClassName { get; set; }
+
     /// <summary>
     /// This contains the name of the method / member that created the LocalizeKey
     /// </summary>
     public string CallingMethodName { get; set; }
+
     /// <summary>
     /// This has the source line of where the LocalizeKey was created
     /// </summary>

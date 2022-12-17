@@ -8,7 +8,6 @@ namespace LocalizeMessagesAndErrors;
 /// </summary>
 public static class NameExtension
 {
-
     /// <summary>
     /// This converts a camel-cased string to Pascal-case
     /// This is used to convert method names into the name used in a class

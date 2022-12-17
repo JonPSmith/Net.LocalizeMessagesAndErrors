@@ -20,10 +20,12 @@ public class StatusGenericLocalizer<TResource> : IStatusGenericLocalizer
     /// This is the default success message. This isn't localized
     /// </summary>
     private const string DefaultSuccessMessage = "Success";
+
     /// <summary>
     /// This contains the localized success message set by the <see cref="SetMessageFormatted"/> method.
     /// </summary>
     private string _successMessage = DefaultSuccessMessage;
+
     /// <summary>
     /// Holds the internal list of errors.
     /// </summary>
@@ -202,9 +204,11 @@ public class StatusGenericLocalizer<TResource> : IStatusGenericLocalizer
     /// This takes one or more <see cref="FormattableString"/>s. and concatenates them into one message.
     /// This allowed you to have multiple <see cref="FormattableString"/>s to handle long messages.
     /// </param>
-    public IStatusGeneric SetMessageFormatted(LocalizeKeyData localizeKey, params FormattableString[] formattableStrings)
+    public IStatusGeneric SetMessageFormatted(LocalizeKeyData localizeKey,
+        params FormattableString[] formattableStrings)
     {
-        _successMessage = _localizerWithDefault.LocalizeFormattedMessage(localizeKey, _cultureOfStrings, formattableStrings);
+        _successMessage =
+            _localizerWithDefault.LocalizeFormattedMessage(localizeKey, _cultureOfStrings, formattableStrings);
         return this;
     }
 
@@ -226,6 +230,7 @@ public class StatusGenericLocalizer<TResource> : IStatusGenericLocalizer
                 ? status.Errors
                 : status.Errors.Select(x => new ErrorGeneric(Header, x.ErrorResult)));
         }
+
         if (IsValid && status.Message != DefaultSuccessMessage)
             _successMessage = status.Message;
 
