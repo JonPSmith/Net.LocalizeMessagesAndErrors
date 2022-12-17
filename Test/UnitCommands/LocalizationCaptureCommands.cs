@@ -36,7 +36,7 @@ public class LocalizationCaptureCommands
         foreach (var entry in entries)
         {
             _output.WriteLine($"ResourceClassFullName = {entry.ResourceClassFullName}");
-            _output.WriteLine($"     LocalizeKey = {entry.LocalizeKey}, {(entry.PossibleErrors == null ? "" : entry.PossibleErrors)}");
+            _output.WriteLine($"     LocalizeKey = {entry.LocalizeKey}, {entry.PossibleErrors ?? ""}");
             _output.WriteLine($"     Actual Message = {entry.ActualMessage}");
             if (entry.MessageFormat != null )
                 _output.WriteLine($"     Message Format = {entry.MessageFormat}");
