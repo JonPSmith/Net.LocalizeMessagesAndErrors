@@ -14,11 +14,11 @@ namespace LocalizeMessagesAndErrors;
 /// </summary>
 public class SimpleLocalizer : ISimpleLocalizer
 {
-    private readonly ILocalizeWithDefaultForSingleResource _localizeDefault;
+    private readonly IDefaultLocalizeForSimpleLocalizer _localizeDefault;
     private readonly string _cultureOfMessage;
 
     /// <summary>
-    /// This ctor will create the <see cref="ILocalizeWithDefault{TResourse}"/> service
+    /// This ctor will create the <see cref="IDefaultLocalizer{TResource}"/> service
     /// using the resourceType that you provide.
     /// </summary>
     /// <param name="provider"></param>
@@ -32,9 +32,9 @@ public class SimpleLocalizer : ISimpleLocalizer
             throw new ArgumentException("Value cannot be null or whitespace.", nameof(cultureOfMessage));
         _cultureOfMessage = cultureOfMessage;
 
-        var myGeneric = typeof(ILocalizeWithDefault<>);
+        var myGeneric = typeof(IDefaultLocalizer<>);
         var genericType = myGeneric.MakeGenericType(resourceType);
-        _localizeDefault = (ILocalizeWithDefaultForSingleResource) provider.GetService(genericType);
+        _localizeDefault = (IDefaultLocalizeForSimpleLocalizer) provider.GetService(genericType);
     }
 
     /// <summary>

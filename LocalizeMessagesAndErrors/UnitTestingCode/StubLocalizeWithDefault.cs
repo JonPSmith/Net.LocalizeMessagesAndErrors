@@ -7,7 +7,7 @@ namespace LocalizeMessagesAndErrors.UnitTestingCode;
 /// This stub simply returns the default message
 /// </summary>
 /// <typeparam name="TResource"></typeparam>
-public class StubLocalizeWithDefault<TResource> : ILocalizeWithDefault<TResource>
+public class StubDefaultLocalizer<TResource> : IDefaultLocalizer<TResource>
 {
     /// <summary>
     /// Returns the default string

@@ -6,9 +6,9 @@ namespace LocalizedWebApp.Controllers;
 
 public class LocalizeWithDefaultController : Controller
 {
-    private readonly ILocalizeWithDefault<HomeController> _localizer;
+    private readonly IDefaultLocalizer<HomeController> _localizer;
 
-    public LocalizeWithDefaultController(ILocalizeWithDefault<HomeController> localizer)
+    public LocalizeWithDefaultController(IDefaultLocalizer<HomeController> localizer)
     {
         _localizer = localizer;
     }

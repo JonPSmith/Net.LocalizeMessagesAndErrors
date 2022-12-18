@@ -14,17 +14,17 @@ namespace LocalizeMessagesAndErrors;
 /// to obtain the culture via resource files.
 /// </summary>
 /// <typeparam name="TResource"></typeparam>
-public class LocalizeWithDefault<TResource> : ILocalizeWithDefault<TResource>, ILocalizeWithDefaultForSingleResource
+public class DefaultLocalizer<TResource> : IDefaultLocalizer<TResource>, IDefaultLocalizeForSimpleLocalizer
 {
     private readonly IStringLocalizer<TResource> _localizer;
-    private readonly ILogger<LocalizeWithDefault<TResource>> _logger;
+    private readonly ILogger<DefaultLocalizer<TResource>> _logger;
 
     /// <summary>
     /// Ctor
     /// </summary>
     /// <param name="logger">_logger to report issues when using the <see cref="IStringLocalizer"/> service. Can be null for unit tests.</param>
     /// <param name="localizer">Optional: If no <see cref="IStringLocalizer"/> service, then readable string used.</param>
-    public LocalizeWithDefault(ILogger<LocalizeWithDefault<TResource>> logger,
+    public DefaultLocalizer(ILogger<DefaultLocalizer<TResource>> logger,
         IStringLocalizer<TResource> localizer = null)
     {
         _localizer = localizer;

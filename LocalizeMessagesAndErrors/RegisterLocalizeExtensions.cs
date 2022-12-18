@@ -6,24 +6,24 @@ using Microsoft.Extensions.DependencyInjection;
 namespace LocalizeMessagesAndErrors;
 
 /// <summary>
-/// Extension methods to register the <see cref="LocalizeWithDefault{T}"/> and the <see cref="SimpleLocalizer"/>
+/// Extension methods to register the <see cref="DefaultLocalizerLocalizerLocalizer{TResource}"/> and the <see cref="SimpleLocalizer"/>
 /// </summary>
 public static class RegisterLocalizeExtensions
 {
     /// <summary>
-    /// This registers the <see cref="LocalizeWithDefault{T}"/> service. This service can handle multiple
+    /// This registers the <see cref="DefaultLocalizerLocalizerLocalizer{TResource}"/> service. This service can handle multiple
     /// resource files
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
     public static IServiceCollection RegisterLocalizeDefault(this IServiceCollection services)
     {
-        services.AddSingleton(typeof(ILocalizeWithDefault<>), typeof(LocalizeWithDefault<>));
+        services.AddSingleton(typeof(IDefaultLocalizer<>), typeof(DefaultLocalizer<>));
         return services;
     }
 
     /// <summary>
-    /// This registers both the <see cref="LocalizeWithDefault{T}"/> service. This service can handle multiple
+    /// This registers both the <see cref="DefaultLocalizerLocalizerLocalizer{TResource}"/> service. This service can handle multiple
     /// resource files, and the <see cref="ISimpleLocalizer"/> service, which uses a single resource file
     /// which is defined by the TResource type.
     /// </summary>
@@ -34,7 +34,7 @@ public static class RegisterLocalizeExtensions
     public static IServiceCollection RegisterSimpleLocalizerAndLocalizeDefault<TResource>(this IServiceCollection services,
         string defaultCultureForSimpleLocalizer)
     {
-        services.AddSingleton(typeof(ILocalizeWithDefault<>), typeof(LocalizeWithDefault<>));
+        services.AddSingleton(typeof(IDefaultLocalizer<>), typeof(DefaultLocalizer<>));
         services.AddSingleton<ISimpleLocalizer>(options =>
             new SimpleLocalizer(options, typeof(TResource), defaultCultureForSimpleLocalizer));
         return services;

@@ -4,10 +4,10 @@
 namespace LocalizeMessagesAndErrors;
 
 /// <summary>
-/// This class is used by the StubLocalizeDefaultWithLogging found in
+/// This class is used by the StubLocalizeDefaultLocalizerWithLogging found in
 /// https://github.com/JonPSmith/Net.LocalizeMessagesAndErrors/blob/main/Test/StubClasses
 /// which provides a way to capture information on each localized message.
-/// NOTE: The StubLocalizeDefaultWithLogging isn't in the library because it uses EF Core,
+/// NOTE: The StubLocalizeDefaultLocalizerWithLogging isn't in the library because it uses EF Core,
 /// which is not needed in this library. 
 /// </summary>
 public class LocalizedLog

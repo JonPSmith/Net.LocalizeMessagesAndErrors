@@ -17,7 +17,7 @@ namespace Test.UnitTests;
 
 public class TestLocalizeFormattedMessage
 {
-    private readonly ILogger<LocalizeWithDefault<TestLocalizeFormattedMessage>> _logger;
+    private readonly ILogger<DefaultLocalizer<TestLocalizeFormattedMessage>> _logger;
     private List<LogOutput> _logs;
 
     public TestLocalizeFormattedMessage()
@@ -25,7 +25,7 @@ public class TestLocalizeFormattedMessage
         _logs = new List<LogOutput> (); //logs content is emptied before each test
         _logger = new LoggerFactory(
                 new[] { new MyLoggerProviderActionOut(log => _logs.Add(log)) })
-            .CreateLogger<LocalizeWithDefault<TestLocalizeFormattedMessage>>();
+            .CreateLogger<DefaultLocalizer<TestLocalizeFormattedMessage>>();
     }
 
     [Fact]
@@ -62,7 +62,7 @@ public class TestLocalizeFormattedMessage
             new Dictionary<string, string> { { "test".ClassLocalizeKey(this, true).LocalizeKey, "Message {0} from resource file" } });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
-        var service = new LocalizeWithDefault<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
+        var service = new DefaultLocalizer<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
 
         //ATTEMPT
         var message = service.LocalizeFormattedMessage("test".ClassLocalizeKey(this, true), cultureOfMessage, 
@@ -82,7 +82,7 @@ public class TestLocalizeFormattedMessage
             new Dictionary<string, string> { { "test".ClassLocalizeKey(this, true).LocalizeKey, "Message1 {0} Message2 {1} from resource file" } });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
-        var service = new LocalizeWithDefault<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
+        var service = new DefaultLocalizer<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
 
         //ATTEMPT
         var message = service.LocalizeFormattedMessage("test".ClassLocalizeKey(this, true), cultureOfMessage,
@@ -100,7 +100,7 @@ public class TestLocalizeFormattedMessage
             new Dictionary<string, string> { });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
-        var service = new LocalizeWithDefault<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
+        var service = new DefaultLocalizer<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
 
         //ATTEMPT
         var message = service.LocalizeFormattedMessage(this.AlreadyLocalized(), "en-US",
@@ -121,7 +121,7 @@ public class TestLocalizeFormattedMessage
             new Dictionary<string, string>(), false);
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
-        var service = new LocalizeWithDefault<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
+        var service = new DefaultLocalizer<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
 
         //ATTEMPT
         var message = service.LocalizeFormattedMessage("test".ClassLocalizeKey(this, true), "fi-FI",
@@ -144,7 +144,7 @@ public class TestLocalizeFormattedMessage
             new Dictionary<string, string> { { "test".ClassLocalizeKey(this, true).LocalizeKey, "Message {0}{1} from resource file" } });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
-        var service = new LocalizeWithDefault<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
+        var service = new DefaultLocalizer<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
 
         //ATTEMPT
         var message = service.LocalizeFormattedMessage("test".ClassLocalizeKey(this, true), "fi-FI",

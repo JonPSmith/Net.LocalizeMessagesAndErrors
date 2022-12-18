@@ -18,7 +18,7 @@ namespace Test.UnitTests;
 
 public class TestLocalizeStringMessage
 {
-    private readonly ILogger<LocalizeWithDefault<TestLocalizeStringMessage>> _logger;
+    private readonly ILogger<DefaultLocalizer<TestLocalizeStringMessage>> _logger;
     private List<LogOutput> _logs;
 
 
@@ -27,7 +27,7 @@ public class TestLocalizeStringMessage
         _logs = new List<LogOutput> (); //logs content is emptied before each test
         _logger = new LoggerFactory(
                 new[] { new MyLoggerProviderActionOut(log => _logs.Add(log)) })
-            .CreateLogger<LocalizeWithDefault<TestLocalizeStringMessage>>();
+            .CreateLogger<DefaultLocalizer<TestLocalizeStringMessage>>();
     }
 
     [Theory]
@@ -40,7 +40,7 @@ public class TestLocalizeStringMessage
             new Dictionary<string, string> { { "test".ClassLocalizeKey(this, true).LocalizeKey, "Message from resource file" } });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
-        var service = new LocalizeWithDefault<TestLocalizeStringMessage>(_logger, stubLocalizer);
+        var service = new DefaultLocalizer<TestLocalizeStringMessage>(_logger, stubLocalizer);
 
         //ATTEMPT
         var message = service.LocalizeStringMessage("test".ClassLocalizeKey(this, true), cultureOfMessage, 
@@ -58,7 +58,7 @@ public class TestLocalizeStringMessage
             new Dictionary<string, string> {});
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
-        var service = new LocalizeWithDefault<TestLocalizeStringMessage>(_logger, stubLocalizer);
+        var service = new DefaultLocalizer<TestLocalizeStringMessage>(_logger, stubLocalizer);
 
         //ATTEMPT
         var message = service.LocalizeStringMessage(this.AlreadyLocalized(), "en-US",
@@ -79,7 +79,7 @@ public class TestLocalizeStringMessage
             new Dictionary<string, string>(), false);
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
-        var service = new LocalizeWithDefault<TestLocalizeStringMessage>(_logger, stubLocalizer);
+        var service = new DefaultLocalizer<TestLocalizeStringMessage>(_logger, stubLocalizer);
 
         //ATTEMPT
         var message = service.LocalizeStringMessage("test".ClassLocalizeKey(this, true), "fi-FI",
@@ -100,7 +100,7 @@ public class TestLocalizeStringMessage
             new Dictionary<string, string>());
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
-        var service = new LocalizeWithDefault<TestLocalizeStringMessage>(_logger, stubLocalizer);
+        var service = new DefaultLocalizer<TestLocalizeStringMessage>(_logger, stubLocalizer);
 
         //ATTEMPT
         var ex = Assert.Throws<ArgumentNullException>(() => 

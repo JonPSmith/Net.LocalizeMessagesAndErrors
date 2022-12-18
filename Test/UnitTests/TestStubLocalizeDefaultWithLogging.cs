@@ -23,7 +23,7 @@ public class TestStubLocalizeDefaultWithLogging
     public void TestAddErrorString()
     {
         //SETUP
-        var stubLocalizer = new StubLocalizeDefaultWithLogging<TestStubLocalizeDefaultWithLogging>();
+        var stubLocalizer = new StubLocalizeDefaultLocalizerWithLogging<TestStubLocalizeDefaultWithLogging>();
 
         //ATTEMPT
         var status = new StatusGenericLocalizer<TestStubLocalizeDefaultWithLogging>("en", stubLocalizer);
@@ -38,7 +38,7 @@ public class TestStubLocalizeDefaultWithLogging
     public void TestSetMessageString()
     {
         //SETUP
-        var stubLocalizer = new StubLocalizeDefaultWithLogging<TestStubLocalizeDefaultWithLogging>();
+        var stubLocalizer = new StubLocalizeDefaultLocalizerWithLogging<TestStubLocalizeDefaultWithLogging>();
 
         //ATTEMPT
         var status = new StatusGenericLocalizer<TestStubLocalizeDefaultWithLogging>("en", stubLocalizer);
@@ -54,7 +54,7 @@ public class TestStubLocalizeDefaultWithLogging
     public void TestSetMessageFormatted()
     {
         //SETUP
-        var stubLocalizer = new StubLocalizeDefaultWithLogging<TestStubLocalizeDefaultWithLogging>();
+        var stubLocalizer = new StubLocalizeDefaultLocalizerWithLogging<TestStubLocalizeDefaultWithLogging>();
 
         //ATTEMPT
         var status = new StatusGenericLocalizer<TestStubLocalizeDefaultWithLogging>("en", stubLocalizer);
@@ -69,7 +69,7 @@ public class TestStubLocalizeDefaultWithLogging
     public void TestSetMessage_SameKeyButDiffFormat()
     {
         //SETUP
-        var stubLocalizer = new StubLocalizeDefaultWithLogging<TestStubLocalizeDefaultWithLogging>();
+        var stubLocalizer = new StubLocalizeDefaultLocalizerWithLogging<TestStubLocalizeDefaultWithLogging>();
 
         //ATTEMPT
         var status = new StatusGenericLocalizer<TestStubLocalizeDefaultWithLogging>("en", stubLocalizer);

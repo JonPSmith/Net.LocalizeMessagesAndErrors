@@ -12,7 +12,7 @@ using TestSupport.Helpers;
 namespace Test.StubClasses;
 
 /// <summary>
-/// This provides a simple replacement of the <see cref="LocalizeWithDefault{TResource}"/> which
+/// This provides a simple replacement of the <see cref="DefaultLocalizerLocalizerLocalizer{TResource}"/> which
 /// returns the the default message.
 /// It also writes the information on each localized message to a database is the appsettings.json
 /// file in your testing project contains "SaveLocalizesToDb": true.
@@ -20,7 +20,7 @@ namespace Test.StubClasses;
 /// which links to a SQL Server database server where the localized message information is saved to.
 /// </summary>
 /// <typeparam name="TResource"></typeparam>
-public class StubLocalizeDefaultWithLogging<TResource> : ILocalizeWithDefault<TResource>
+public class StubLocalizeDefaultLocalizerWithLogging<TResource> : IDefaultLocalizer<TResource>
 {
     /// <summary>
     /// This contains a list each localization request, with extra data.
@@ -84,7 +84,7 @@ public class StubLocalizeDefaultWithLogging<TResource> : ILocalizeWithDefault<TR
     /// <summary>
     /// This adds information on each localized message, including where it was sent from,
     /// so that you can see what localized messages in your app. Usually you would use the
-    /// <see cref="StubLocalizeDefaultWithLogging{TResource}"/> within your unit tests.
+    /// <see cref="StubLocalizeDefaultLocalizerWithLogging{TResource}"/> within your unit tests.
     /// It tries to: 
     /// 1) Add a new entry in the database if there isn't an entry containing the same information.
     /// 2) It also sets the <see cref="LocalizedLog"/>.<see cref="LocalizedLog.SameKeyButDiffFormat"/> to true

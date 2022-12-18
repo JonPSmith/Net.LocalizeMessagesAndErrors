@@ -10,7 +10,7 @@ public class StatusGenericLocalizerController : Controller
 {
     private readonly ExamplesOfStatusGenericsLoc<HomeController> _exampleMethods;
 
-    public StatusGenericLocalizerController(ILocalizeWithDefault<HomeController> localizer)
+    public StatusGenericLocalizerController(IDefaultLocalizer<HomeController> localizer)
     {
         _exampleMethods = new ExamplesOfStatusGenericsLoc<HomeController>(localizer);
     }

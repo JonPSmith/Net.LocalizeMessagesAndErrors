@@ -10,11 +10,11 @@ namespace ServiceLayer;
 [LocalizeSetClassName("StatusExamples")]
 public class ExamplesOfStatusGenericsLoc<TResource>
 {
-    private readonly ILocalizeWithDefault<TResource> _localizeDefault;
+    private readonly IDefaultLocalizer<TResource> _localizeDefaultLocalizer;
 
-    public ExamplesOfStatusGenericsLoc(ILocalizeWithDefault<TResource> localizeDefault)
+    public ExamplesOfStatusGenericsLoc(IDefaultLocalizer<TResource> localizeDefaultLocalizer)
     {
-        _localizeDefault = localizeDefault;
+        _localizeDefaultLocalizer = localizeDefaultLocalizer;
     }
 
     /// <summary>
@@ -28,8 +28,8 @@ public class ExamplesOfStatusGenericsLoc<TResource>
         //The StatusGenericLocalizer constructor takes:
         //<TResource>, which defines part of the resource file's name where the other languages are stored in
         //param1: The culture of the message / errors within this method - in this case, generic English
-        //param2: An instance of the ILocalizeWithDefault<TResource> service
-        var status = new StatusGenericLocalizer<TResource>("en", _localizeDefault);
+        //param2: An instance of the IDefaultLocalizer<TResource> service
+        var status = new StatusGenericLocalizer<TResource>("en", _localizeDefaultLocalizer);
 
         //add error and return immediately
         if (month == null)
@@ -58,7 +58,7 @@ public class ExamplesOfStatusGenericsLoc<TResource>
     /// <returns></returns>
     public IStatusGeneric<string> StatusGenericWithResult(int year)
     {
-        var status = new StatusGenericLocalizer<string, TResource>("en", _localizeDefault);
+        var status = new StatusGenericLocalizer<string, TResource>("en", _localizeDefaultLocalizer);
 
         //add error and return immediately
         if (year < 0)
@@ -85,7 +85,7 @@ public class ExamplesOfStatusGenericsLoc<TResource>
     /// <returns></returns>
     public IStatusGeneric<DateTime> CreateDate(int day, string? month, int year)
     {
-        var status = new StatusGenericLocalizer<DateTime, TResource>("en", _localizeDefault);
+        var status = new StatusGenericLocalizer<DateTime, TResource>("en", _localizeDefaultLocalizer);
 
         //CombineStatuses adds the status of another method that also uses IStatusGeneric.
         //Errors in the called method are added to this method's status.
