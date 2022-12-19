@@ -2,8 +2,6 @@
 // Licensed under MIT license. See License.txt in the project root for license information.
 
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
-using System.Security.AccessControl;
 
 namespace LocalizeMessagesAndErrors;
 
@@ -17,12 +15,13 @@ public static class RegisterLocalizeExtensions
     /// resource files.
     /// </summary>
     /// <param name="services"></param>
-    /// <param name="options">Use this to set up the options of the localizer. You MUST set the DefaultCulture property </param>
+    /// <param name="defaultCulture">This defines the language of the messages you provide.</param>
+    /// <param name="options">Use this to set up the other options of the localizer</param>
     /// <returns></returns>
-    public static IServiceCollection RegisterLocalizeDefault(this IServiceCollection services,
-        Action<DefaultLocalizerOptions> options)
+    public static IServiceCollection RegisterLocalizeDefault(this IServiceCollection services, string defaultCulture,
+        Action<DefaultLocalizerOptions> options = null)
     {
-        var localOptions = new DefaultLocalizerOptions();
+        var localOptions = new DefaultLocalizerOptions { DefaultCulture = defaultCulture};
         options?.Invoke(localOptions);
         if (string.IsNullOrWhiteSpace(localOptions.DefaultCulture))
             throw new ArgumentException("The DefaultCulture must be set to the culture of the default messages.", nameof(options));
@@ -41,7 +40,7 @@ public static class RegisterLocalizeExtensions
     /// <param name="options">Use this to set up the options of the localizer. You MUST set the DefaultCulture property </param>
     /// <returns></returns>
     public static IServiceCollection RegisterSimpleLocalizer<TResource>(this IServiceCollection services,
-        Action<SimpleLocalizerOptions> options)
+        Action<SimpleLocalizerOptions> options = null)
     {
         var localOptions = new SimpleLocalizerOptions
         {
@@ -49,10 +48,8 @@ public static class RegisterLocalizeExtensions
         };
         options?.Invoke(localOptions);
         if (localOptions.ResourceType == null) throw new ArgumentNullException(nameof(options));
-        if (string.IsNullOrWhiteSpace(localOptions.DefaultCulture))
-            throw new ArgumentException("The DefaultCulture must be set to the culture of the default messages.", nameof(options));
 
-        services.AddSingleton<ISimpleLocalizer>(options => new SimpleLocalizer(options, localOptions));
+        services.AddSingleton<ISimpleLocalizer>(services => new SimpleLocalizer(services, localOptions));
         return services;
     }
 }

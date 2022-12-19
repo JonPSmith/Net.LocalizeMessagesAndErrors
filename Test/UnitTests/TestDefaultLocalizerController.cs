@@ -15,7 +15,7 @@ using Xunit.Abstractions;
 
 namespace Test.UnitTests;
 
-public class TestLocalizeWithDefaultController
+public class TestDefaultLocalizerController
 {
     private readonly ITestOutputHelper _output;
 
@@ -23,7 +23,7 @@ public class TestLocalizeWithDefaultController
     //for testing the return of a controller action
 
     /// <summary>Initializes a new instance of the <see cref="T:System.Object" /> class.</summary>
-    public TestLocalizeWithDefaultController(ITestOutputHelper output)
+    public TestDefaultLocalizerController(ITestOutputHelper output)
     {
         _output = output;
     }
