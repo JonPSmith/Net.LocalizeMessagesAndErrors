@@ -50,9 +50,9 @@ public class DefaultLocalizer<TResource> : IDefaultLocalizer<TResource>, IDefaul
         if (localizeData == null) throw new ArgumentNullException(nameof(localizeData));
         if (message == null) throw new ArgumentNullException(nameof(message));
 
-        if (_options.CultureMatches()
-             || localizeData.LocalizeKey == null
-             || _localizer == null)
+        if (Thread.CurrentThread.CurrentUICulture.Name.StartsWith(_options.DefaultCulture)
+            || localizeData.LocalizeKey == null
+            || _localizer == null)
             //Return given message if
             //a) the CurrentUICulture matches the options.DefaultCulture, i.e. the message is already in the correct language
             //b) The localizeData is null, which means the message has already been localized.
@@ -89,7 +89,7 @@ public class DefaultLocalizer<TResource> : IDefaultLocalizer<TResource>, IDefaul
             return string.Join(string.Empty, formattableStrings.Select(x => x.ToString()).ToArray());
         }
 
-        if (_options.CultureMatches()
+        if (Thread.CurrentThread.CurrentUICulture.Name.StartsWith(_options.DefaultCulture)
             || localizeData.LocalizeKey == null
             || _localizer == null)
             //Return given message if

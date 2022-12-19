@@ -6,7 +6,7 @@ namespace LocalizeMessagesAndErrors;
 /// <summary>
 /// This contains the options that the <see cref="SimpleLocalizer"/> needs to work.
 /// </summary>
-public class SimpleLocalizerOptions : CommonLocalizerOptions //This contains DefaultCulture and ExactCultureMatch
+public class SimpleLocalizerOptions
 {
     /// <summary>
     /// THis holds the type used to define the start of the resource file name holding the different languages

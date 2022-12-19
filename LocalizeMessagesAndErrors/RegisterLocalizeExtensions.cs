@@ -16,17 +16,13 @@ public static class RegisterLocalizeExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <param name="defaultCulture">This defines the language of the messages you provide.</param>
-    /// <param name="options">Use this to set up the other options of the localizer</param>
     /// <returns></returns>
-    public static IServiceCollection RegisterLocalizeDefault(this IServiceCollection services, string defaultCulture,
-        Action<DefaultLocalizerOptions> options = null)
+    public static IServiceCollection RegisterLocalizeDefault(this IServiceCollection services, string defaultCulture)
     {
-        var localOptions = new DefaultLocalizerOptions { DefaultCulture = defaultCulture};
-        options?.Invoke(localOptions);
-        if (string.IsNullOrWhiteSpace(localOptions.DefaultCulture))
-            throw new ArgumentException("The DefaultCulture must be set to the culture of the default messages.", nameof(options));
+        if (string.IsNullOrWhiteSpace(defaultCulture))
+            throw new ArgumentException("The DefaultCulture must be set to the culture of the default messages.", nameof(defaultCulture));
 
-        services.AddSingleton(localOptions);
+        services.AddSingleton(new DefaultLocalizerOptions { DefaultCulture = defaultCulture });
         services.AddSingleton(typeof(IDefaultLocalizer<>), typeof(DefaultLocalizer<>));
         return services;
     }
@@ -37,7 +33,7 @@ public static class RegisterLocalizeExtensions
     /// </summary>
     /// <typeparam name="TResource"></typeparam>
     /// <param name="services"></param>
-    /// <param name="options">Use this to set up the options of the localizer. You MUST set the DefaultCulture property </param>
+    /// <param name="options">Use this to set up the options of the localizer. </param>
     /// <returns></returns>
     public static IServiceCollection RegisterSimpleLocalizer<TResource>(this IServiceCollection services,
         Action<SimpleLocalizerOptions> options = null)
@@ -47,7 +43,7 @@ public static class RegisterLocalizeExtensions
             ResourceType = typeof(TResource),
         };
         options?.Invoke(localOptions);
-        if (localOptions.ResourceType == null) throw new ArgumentNullException(nameof(options));
+        if (localOptions.ResourceType == null) throw new ArgumentNullException(nameof(SimpleLocalizerOptions.ResourceType));
 
         services.AddSingleton<ISimpleLocalizer>(services => new SimpleLocalizer(services, localOptions));
         return services;

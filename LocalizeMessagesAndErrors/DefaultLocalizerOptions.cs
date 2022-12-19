@@ -6,17 +6,10 @@ namespace LocalizeMessagesAndErrors;
 /// <summary>
 /// This contains the options that the <see cref="DefaultLocalizer{T}"/> needs to work.
 /// </summary>
-public class DefaultLocalizerOptions : CommonLocalizerOptions //This contains DefaultCulture and ExactCultureMatch
+public class DefaultLocalizerOptions
 {
     /// <summary>
-    /// THis returns true if the application's culture matches the default culture from the options
+    /// This holds the culture of the messages provided
     /// </summary>
-    /// <returns></returns>
-    public bool CultureMatches()
-    {
-        var appCulture = Thread.CurrentThread.CurrentUICulture.Name;
-        return ExactCultureMatch
-            ? appCulture == DefaultCulture
-            : appCulture.StartsWith(DefaultCulture);
-    }
+    public string DefaultCulture { get; set; }
 }

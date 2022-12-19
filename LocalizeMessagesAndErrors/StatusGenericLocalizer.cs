@@ -13,11 +13,7 @@ namespace LocalizeMessagesAndErrors;
 /// <typeparam name="TResource"></typeparam>
 public class StatusGenericLocalizer<TResource> : IStatusGenericLocalizer
 {
-    private readonly IDefaultLocalizer<TResource> _localizerWithDefaultLocalizer;
-    /// <summary>
-    /// This holds the culture of the errors/message in this service
-    /// </summary>
-    private readonly string _cultureOfMessages;
+    private readonly IDefaultLocalizer<TResource> _defaultLocalizer;
 
     /// <summary>
     /// This is the default success message. This isn't localized
@@ -37,13 +33,11 @@ public class StatusGenericLocalizer<TResource> : IStatusGenericLocalizer
     /// <summary>
     /// Constructor to set up the StatusGenericLocalizer
     /// </summary>
-    /// <param name="cultureOfMessages">The culture of the errors/message in this service</param>
-    /// <param name="localizerWithDefaultLocalizer">Logger to return warnings/errors of there localization problems</param>
+    /// <param name="defaultLocalizer">Uses the <see cref="DefaultLocalizer{TResource}"/> to handle the localization.</param>
     /// <exception cref="ArgumentNullException"></exception>
-    public StatusGenericLocalizer(string cultureOfMessages, IDefaultLocalizer<TResource> localizerWithDefaultLocalizer)
+    public StatusGenericLocalizer(IDefaultLocalizer<TResource> defaultLocalizer)
     {
-        _localizerWithDefaultLocalizer = localizerWithDefaultLocalizer ?? throw new ArgumentNullException(nameof(localizerWithDefaultLocalizer));
-        _cultureOfMessages = cultureOfMessages ?? throw new ArgumentNullException(nameof(cultureOfMessages));
+        _defaultLocalizer = defaultLocalizer ?? throw new ArgumentNullException(nameof(defaultLocalizer));
     }
 
     //------------------------------------------------------
@@ -95,12 +89,12 @@ public class StatusGenericLocalizer<TResource> : IStatusGenericLocalizer
             {
                 if (_errors.Count == 1)
                     //single error message
-                    return _localizerWithDefaultLocalizer.LocalizeStringMessage(
+                    return _defaultLocalizer.LocalizeStringMessage(
                         LocalizeKeyOneErrorMessage.JustThisLocalizeKey(this),
                         "Failed with 1 error.");
 
                 //else there are multiple errors
-                return _localizerWithDefaultLocalizer.LocalizeFormattedMessage(
+                return _defaultLocalizer.LocalizeFormattedMessage(
                     LocalizeKeyManyErrorsMessage.JustThisLocalizeKey(this),
                     $"Failed with {_errors.Count} errors.");
             }
@@ -126,7 +120,7 @@ public class StatusGenericLocalizer<TResource> : IStatusGenericLocalizer
     public IStatusGeneric AddErrorString(LocalizeKeyData localizeKey, string errorMessage,
         params string[] propertyNames)
     {
-        var errorString = _localizerWithDefaultLocalizer.LocalizeStringMessage(localizeKey, errorMessage);
+        var errorString = _defaultLocalizer.LocalizeStringMessage(localizeKey, errorMessage);
         _errors.Add(new ErrorGeneric(Header, new ValidationResult(errorString, propertyNames)));
         return this;
     }
@@ -142,7 +136,7 @@ public class StatusGenericLocalizer<TResource> : IStatusGenericLocalizer
     /// <returns>The StatusGenericLocalizer to allow fluent method calls.</returns>
     public IStatusGeneric AddErrorFormatted(LocalizeKeyData localizeKey, params FormattableString[] errorMessages)
     {
-        var errorString = _localizerWithDefaultLocalizer.LocalizeFormattedMessage(localizeKey, errorMessages);
+        var errorString = _defaultLocalizer.LocalizeFormattedMessage(localizeKey, errorMessages);
         _errors.Add(new ErrorGeneric(Header, new ValidationResult(errorString)));
         return this;
     }
@@ -160,7 +154,7 @@ public class StatusGenericLocalizer<TResource> : IStatusGenericLocalizer
     public IStatusGeneric AddErrorFormattedWithParams(LocalizeKeyData localizeKey, FormattableString errorMessage,
         params string[] propertyNames)
     {
-        var errorString = _localizerWithDefaultLocalizer.LocalizeFormattedMessage(localizeKey, errorMessage);
+        var errorString = _defaultLocalizer.LocalizeFormattedMessage(localizeKey, errorMessage);
         _errors.Add(new ErrorGeneric(Header, new ValidationResult(errorString, propertyNames)));
         return this;
     }
@@ -179,7 +173,7 @@ public class StatusGenericLocalizer<TResource> : IStatusGenericLocalizer
     public IStatusGeneric AddErrorFormattedWithParams(LocalizeKeyData localizeKey,
         FormattableString[] errorMessages, params string[] propertyNames)
     {
-        var errorString = _localizerWithDefaultLocalizer.LocalizeFormattedMessage(localizeKey, errorMessages);
+        var errorString = _defaultLocalizer.LocalizeFormattedMessage(localizeKey, errorMessages);
         _errors.Add(new ErrorGeneric(Header, new ValidationResult(errorString, propertyNames)));
         return this;
     }
@@ -191,7 +185,7 @@ public class StatusGenericLocalizer<TResource> : IStatusGenericLocalizer
     /// <param name="message">string that can be localized to set the <see cref="Message"/> property</param>
     public IStatusGeneric SetMessageString(LocalizeKeyData localizeKey, string message)
     {
-        _successMessage = _localizerWithDefaultLocalizer.LocalizeStringMessage(localizeKey, message);
+        _successMessage = _defaultLocalizer.LocalizeStringMessage(localizeKey, message);
         return this;
     }
 
@@ -209,7 +203,7 @@ public class StatusGenericLocalizer<TResource> : IStatusGenericLocalizer
         params FormattableString[] formattableStrings)
     {
         _successMessage =
-            _localizerWithDefaultLocalizer.LocalizeFormattedMessage(localizeKey, formattableStrings);
+            _defaultLocalizer.LocalizeFormattedMessage(localizeKey, formattableStrings);
         return this;
     }
 

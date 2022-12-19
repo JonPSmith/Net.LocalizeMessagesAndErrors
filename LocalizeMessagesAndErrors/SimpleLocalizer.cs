@@ -27,8 +27,6 @@ public class SimpleLocalizer : ISimpleLocalizer
     public SimpleLocalizer(IServiceProvider provider, SimpleLocalizerOptions options)
     {
         if (options.ResourceType == null) throw new ArgumentNullException(nameof(options.ResourceType));
-        if (string.IsNullOrWhiteSpace(options.DefaultCulture))
-            throw new ArgumentException("Value cannot be null or whitespace.", nameof(options.DefaultCulture));
         _options = options;
 
         var myGeneric = typeof(IDefaultLocalizer<>);
@@ -52,7 +50,7 @@ public class SimpleLocalizer : ISimpleLocalizer
         [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
         return _localizerDefault.LocalizeStringMessage(
-            $"{nameof(SimpleLocalizer)}_{message}".JustThisLocalizeKey(callingClass, memberName, sourceLineNumber), message);
+            $"{_options.PrefixKeyString}({message})".JustThisLocalizeKey(callingClass, memberName, sourceLineNumber), message);
     }
 
     /// <summary>
@@ -71,7 +69,7 @@ public class SimpleLocalizer : ISimpleLocalizer
         [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
         return _localizerDefault.LocalizeFormattedMessage(
-            $"{nameof(SimpleLocalizer)}_{formatted.Format}"
+            $"{_options.PrefixKeyString}({formatted.Format})"
                 .JustThisLocalizeKey(callingClass, memberName, sourceLineNumber), formatted);
     }
 
@@ -92,7 +90,7 @@ public class SimpleLocalizer : ISimpleLocalizer
         [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
         return _localizerDefault.LocalizeStringMessage(
-            $"{nameof(SimpleLocalizer)}_{message}".StaticJustThisLocalizeKey(callingClassType, memberName, sourceLineNumber), message);
+            $"{_options.PrefixKeyString}({message})".StaticJustThisLocalizeKey(callingClassType, memberName, sourceLineNumber), message);
     }
 
     /// <summary>
@@ -112,6 +110,7 @@ public class SimpleLocalizer : ISimpleLocalizer
         [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
         return _localizerDefault.LocalizeFormattedMessage(
-            $"{nameof(SimpleLocalizer)}_{formatted.Format}".StaticJustThisLocalizeKey(callingClassType, memberName, sourceLineNumber), formatted);
+            $"{_options.PrefixKeyString}({formatted.Format})"
+                .StaticJustThisLocalizeKey(callingClassType, memberName, sourceLineNumber), formatted);
     }
 }

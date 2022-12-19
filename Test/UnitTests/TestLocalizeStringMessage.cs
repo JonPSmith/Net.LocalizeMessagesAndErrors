@@ -37,7 +37,10 @@ public class TestLocalizeStringMessage
     {
         //SETUP
         var stubLocalizer = new StubStringLocalizer<TestLocalizeStringMessage>(
-            new Dictionary<string, string> { { "test".ClassLocalizeKey(this, true).LocalizeKey, "Message from resource file" } });
+            new Dictionary<string, string>
+            {
+                { "test".ClassLocalizeKey(this, true).LocalizeKey, "Message from resource file" }
+            });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var service = new DefaultLocalizer<TestLocalizeStringMessage>(

@@ -44,7 +44,7 @@ public class TestStatusGenericLocalizer
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
         var defaultLocalizer = new DefaultLocalizer<TestStatusGenericLocalizer>(
             new StubDefaultLocalizerOptions(cultureOfMessage), _logger, stubLocalizer);
-        var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>(cultureOfMessage, defaultLocalizer); 
+        var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>(defaultLocalizer); 
 
 
         //ATTEMPT
@@ -73,7 +73,7 @@ public class TestStatusGenericLocalizer
 
         var defaultLocalizer = new DefaultLocalizer<TestStatusGenericLocalizer>(
             new StubDefaultLocalizerOptions(cultureOfMessage), _logger, stubLocalizer);
-        var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>(cultureOfMessage, defaultLocalizer);
+        var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>(defaultLocalizer);
 
         //ATTEMPT
         var errors = status.AddErrorFormatted("test".ClassLocalizeKey(this, true), $"Error {123} from readable string");
@@ -97,7 +97,7 @@ public class TestStatusGenericLocalizer
 
         var defaultLocalizer = new DefaultLocalizer<TestStatusGenericLocalizer>(
             new StubDefaultLocalizerOptions(cultureOfMessage), _logger, stubLocalizer);
-        var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>(cultureOfMessage, defaultLocalizer);
+        var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>(defaultLocalizer);
 
         //ATTEMPT
         var errors = status.AddErrorFormattedWithParams("test".ClassLocalizeKey(this, true), 
@@ -121,7 +121,7 @@ public class TestStatusGenericLocalizer
 
         var defaultLocalizer = new DefaultLocalizer<TestStatusGenericLocalizer>(
             new StubDefaultLocalizerOptions(cultureOfMessage), _logger, stubLocalizer);
-        var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>(cultureOfMessage, defaultLocalizer);
+        var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>(defaultLocalizer);
 
         //ATTEMPT
         var errors = status.AddErrorFormattedWithParams("test".ClassLocalizeKey(this, true), new FormattableString[]
@@ -146,7 +146,7 @@ public class TestStatusGenericLocalizer
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var defaultLocalizer = new DefaultLocalizer<TestStatusGenericLocalizer>(new StubDefaultLocalizerOptions(), _logger, stubLocalizer);
-        var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>("en", defaultLocalizer);
+        var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>(defaultLocalizer);
 
         //ATTEMPT
         var ex = Assert.Throws<InvalidOperationException>(() => status.Message = "test");
@@ -171,7 +171,7 @@ public class TestStatusGenericLocalizer
 
         var defaultLocalizer = new DefaultLocalizer<TestStatusGenericLocalizer>(
             new StubDefaultLocalizerOptions(cultureOfMessage), _logger, stubLocalizer);
-        var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>(cultureOfMessage, defaultLocalizer);
+        var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>(defaultLocalizer);
         status.SetMessageFormatted("SuccessMessage".ClassLocalizeKey(this, true), $"Success from readable string");
 
         //VERIFY
@@ -193,7 +193,7 @@ public class TestStatusGenericLocalizer
 
         var defaultLocalizer = new DefaultLocalizer<TestStatusGenericLocalizer>(
             new StubDefaultLocalizerOptions("en-US"), _logger, stubLocalizer);
-        var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>("en-US", defaultLocalizer);
+        var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>(defaultLocalizer);
 
         //ATTEMPT
         status.AddErrorString("test".ClassLocalizeKey(this, true), "Error1");
@@ -219,7 +219,7 @@ public class TestStatusGenericLocalizer
 
         var defaultLocalizer = new DefaultLocalizer<TestStatusGenericLocalizer>(
             new StubDefaultLocalizerOptions("en-US"), _logger, stubLocalizer);
-        var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>("en-US", defaultLocalizer);
+        var status = new StatusGenericLocalizer<TestStatusGenericLocalizer>(defaultLocalizer);
 
         //ATTEMPT
         status.AddErrorString("test".ClassLocalizeKey(this, true), "Error1");

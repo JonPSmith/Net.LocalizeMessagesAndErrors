@@ -42,7 +42,7 @@ public class TestRegisterLocalizeExtensions
 
         //VERIFY
         var provider = services.BuildServiceProvider();
-        var service = provider.GetService<ISimpleLocalizer> ();
+        var service = provider.GetService<ISimpleLocalizer>();
         service.ShouldNotBeNull();
     }
 }
