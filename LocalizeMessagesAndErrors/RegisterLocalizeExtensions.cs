@@ -17,7 +17,7 @@ public static class RegisterLocalizeExtensions
     /// <param name="services"></param>
     /// <param name="defaultCulture">This defines the language of the messages you provide.</param>
     /// <returns></returns>
-    public static IServiceCollection RegisterLocalizeDefault(this IServiceCollection services, string defaultCulture)
+    public static IServiceCollection RegisterDefaultLocalizer(this IServiceCollection services, string defaultCulture)
     {
         if (string.IsNullOrWhiteSpace(defaultCulture))
             throw new ArgumentException("The DefaultCulture must be set to the culture of the default messages.", nameof(defaultCulture));
@@ -28,12 +28,15 @@ public static class RegisterLocalizeExtensions
     }
 
     /// <summary>
-    /// This registers the <see cref="ISimpleLocalizer"/> service, which uses a single resource file
-    /// which is defined by the TResource type.
+    /// This registers the <see cref="ISimpleLocalizer"/> service.
+    /// NOTE: You must have registered the <see cref="DefaultLocalizer{T}"/> service via the
+    /// <see cref="RegisterDefaultLocalizer"/> extension method to make the <see cref="ISimpleLocalizer"/>
+    /// service work.
     /// </summary>
-    /// <typeparam name="TResource"></typeparam>
+    /// <typeparam name="TResource">This defines the start of the resource files that this service
+    /// will use to look up localized languages.</typeparam>
     /// <param name="services"></param>
-    /// <param name="options">Use this to set up the options of the localizer. </param>
+    /// <param name="options">Use this to alter options in the <see cref="SimpleLocalizerOptions"/> class.</param>
     /// <returns></returns>
     public static IServiceCollection RegisterSimpleLocalizer<TResource>(this IServiceCollection services,
         Action<SimpleLocalizerOptions> options = null)

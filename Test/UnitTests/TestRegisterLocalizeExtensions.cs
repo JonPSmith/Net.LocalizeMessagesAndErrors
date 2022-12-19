@@ -19,7 +19,7 @@ public class TestRegisterLocalizeExtensions
         services.AddLogging();
 
         //ATTEMPT
-        services.RegisterLocalizeDefault("en");
+        services.RegisterDefaultLocalizer("en");
 
         //VERIFY
         var provider = services.BuildServiceProvider();

@@ -12,8 +12,10 @@ builder.Services.AddLocalization(options => options.ResourcesPath = "Resources")
 #endregion
 
 #region REGISTERING Net.LocalizeMessagesAndError
-//This version registers both the DefaultLocalizer and the SimpleLocalizer
-builder.Services.RegisterLocalizeDefault("en");
+//This registers the DefaultLocalizer with the culture that the messages will use
+builder.Services.RegisterDefaultLocalizer("en");
+//This registers the SimpleLocalizer, which is useful for simple localizations,
+//such as messages in your views/pages.
 builder.Services.RegisterSimpleLocalizer<HomeController>();
 #endregion
 
