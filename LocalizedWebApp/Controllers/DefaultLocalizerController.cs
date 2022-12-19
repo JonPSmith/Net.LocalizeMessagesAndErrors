@@ -4,11 +4,11 @@ using Microsoft.Extensions.Localization;
 
 namespace LocalizedWebApp.Controllers;
 
-public class LocalizeWithDefaultController : Controller
+public class DefaultLocalizerController : Controller
 {
     private readonly IDefaultLocalizer<HomeController> _localizer;
 
-    public LocalizeWithDefaultController(IDefaultLocalizer<HomeController> localizer)
+    public DefaultLocalizerController(IDefaultLocalizer<HomeController> localizer)
     {
         _localizer = localizer;
     }
@@ -19,8 +19,7 @@ public class LocalizeWithDefaultController : Controller
         var cultureName = Thread.CurrentThread.CurrentUICulture.Name;
 
         return View((object)_localizer.LocalizeFormattedMessage(
-            "ExampleMessage".MethodLocalizeKey(this),     //This creates a localizeKey of "Index_ExampleMessage"
-            "en",                                      //This defines the culture of the default message
+            "ExampleMessage".MethodLocalizeKey(this),                                      //This defines the culture of the default message
             $"Localized via {nameOfService} service with culture '{cultureName}' on {DateTime.Now:M}." //Message, using FormattableString
         ));
     }
@@ -28,8 +27,7 @@ public class LocalizeWithDefaultController : Controller
     public IActionResult StringMessage()
     {
         return View((object)_localizer.LocalizeStringMessage(
-            "ExampleMessage".MethodLocalizeKey(this),     //This creates a localizeKey of "StringMessage_ExampleMessage"
-            "en",                                      //This defines the culture of the default message
+            "ExampleMessage".MethodLocalizeKey(this),                                      //This defines the culture of the default message
             "Hello from me!" //static Message, using string
         ));
     }
@@ -38,7 +36,6 @@ public class LocalizeWithDefaultController : Controller
     {
         return View((object)_localizer.LocalizeFormattedMessage(
             "MissingEntry".MethodLocalizeKey(this),
-            "en",
             $"LocalizeStringMessage: I forget to set up the resource entry. Time: {DateTime.Now:T}"
         ));
     }

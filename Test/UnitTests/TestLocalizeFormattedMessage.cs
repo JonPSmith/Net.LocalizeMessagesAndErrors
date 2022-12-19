@@ -59,13 +59,17 @@ public class TestLocalizeFormattedMessage
     {
         //SETUP
         var stubLocalizer = new StubStringLocalizer<TestLocalizeFormattedMessage>(
-            new Dictionary<string, string> { { "test".ClassLocalizeKey(this, true).LocalizeKey, "Message {0} from resource file" } });
+            new Dictionary<string, string> {
+            {
+                "test".ClassLocalizeKey(this, true).LocalizeKey, "Message {0} from resource file"
+            } });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
-        var service = new DefaultLocalizer<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
+        var service = new DefaultLocalizer<TestLocalizeFormattedMessage>(
+            new StubDefaultLocalizerOptions(cultureOfMessage), _logger, stubLocalizer);
 
         //ATTEMPT
-        var message = service.LocalizeFormattedMessage("test".ClassLocalizeKey(this, true), cultureOfMessage, 
+        var message = service.LocalizeFormattedMessage("test".ClassLocalizeKey(this, true), 
             $"Message {123} from readable string");
 
         //VERIFY
@@ -79,13 +83,17 @@ public class TestLocalizeFormattedMessage
     {
         //SETUP
         var stubLocalizer = new StubStringLocalizer<TestLocalizeFormattedMessage>(
-            new Dictionary<string, string> { { "test".ClassLocalizeKey(this, true).LocalizeKey, "Message1 {0} Message2 {1} from resource file" } });
+            new Dictionary<string, string>
+            {
+                { "test".ClassLocalizeKey(this, true).LocalizeKey, "Message1 {0} Message2 {1} from resource file" }
+            });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
-        var service = new DefaultLocalizer<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
+        var service = new DefaultLocalizer<TestLocalizeFormattedMessage>(
+            new StubDefaultLocalizerOptions(cultureOfMessage), _logger, stubLocalizer);
 
         //ATTEMPT
-        var message = service.LocalizeFormattedMessage("test".ClassLocalizeKey(this, true), cultureOfMessage,
+        var message = service.LocalizeFormattedMessage("test".ClassLocalizeKey(this, true),
             $"Message1 {123} ", $"Message2 {456}" , $" from readable string");
 
         //VERIFY
@@ -100,10 +108,10 @@ public class TestLocalizeFormattedMessage
             new Dictionary<string, string> { });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
-        var service = new DefaultLocalizer<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
+        var service = new DefaultLocalizer<TestLocalizeFormattedMessage>(new StubDefaultLocalizerOptions(), _logger, stubLocalizer);
 
         //ATTEMPT
-        var message = service.LocalizeFormattedMessage(this.AlreadyLocalized(), "en-US",
+        var message = service.LocalizeFormattedMessage(this.AlreadyLocalized(),
             $"This message is already localized");
 
         //VERIFY
@@ -121,10 +129,11 @@ public class TestLocalizeFormattedMessage
             new Dictionary<string, string>(), false);
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
-        var service = new DefaultLocalizer<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
+        var service = new DefaultLocalizer<TestLocalizeFormattedMessage>(
+            new StubDefaultLocalizerOptions("fi-FI"), _logger, stubLocalizer);
 
         //ATTEMPT
-        var message = service.LocalizeFormattedMessage("test".ClassLocalizeKey(this, true), "fi-FI",
+        var message = service.LocalizeFormattedMessage("test".ClassLocalizeKey(this, true),
             $"Message {123} from readable string");
 
         //VERIFY
@@ -144,10 +153,11 @@ public class TestLocalizeFormattedMessage
             new Dictionary<string, string> { { "test".ClassLocalizeKey(this, true).LocalizeKey, "Message {0}{1} from resource file" } });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
-        var service = new DefaultLocalizer<TestLocalizeFormattedMessage>(_logger, stubLocalizer);
+        var service = new DefaultLocalizer<TestLocalizeFormattedMessage>(
+            new StubDefaultLocalizerOptions("fi-FI"), _logger, stubLocalizer);
 
         //ATTEMPT
-        var message = service.LocalizeFormattedMessage("test".ClassLocalizeKey(this, true), "fi-FI",
+        var message = service.LocalizeFormattedMessage("test".ClassLocalizeKey(this, true),
             $"Message {123} from readable string");
 
         //VERIFY

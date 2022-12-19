@@ -36,21 +36,28 @@ public class StubLocalizeDefaultLocalizerWithLogging<TResource> : IDefaultLocali
     /// <summary>
     /// Start of a possible error
     /// </summary>
-    public const string SameKeyButDiffFormatPrefix = "Possible SameKeyButDiffFormat: ";
+    private const string SameKeyButDiffFormatPrefix = "Possible SameKeyButDiffFormat: ";
 
-    public string LocalizeStringMessage(LocalizeKeyData localizeKeyData, string cultureOfMessage, string message)
+    private readonly string? _cultureOfMessage;
+
+    public StubLocalizeDefaultLocalizerWithLogging(string? cultureOfMessage)
+    {
+        _cultureOfMessage = cultureOfMessage;
+    }
+
+    public string LocalizeStringMessage(LocalizeKeyData localizeKeyData, string message)
     {
         if (localizeKeyData == null)
             throw new ArgumentNullException(nameof(localizeKeyData));
 
-        var log = CreateLocalizedLog(localizeKeyData, cultureOfMessage, message, null);
+        var log = CreateLocalizedLog(localizeKeyData, _cultureOfMessage, message, null);
         Logs.Add(log);
 
         SaveLocalizationToDb(log);
         return message;
     }
 
-    public string LocalizeFormattedMessage(LocalizeKeyData localizeKeyData, string cultureOfMessage,
+    public string LocalizeFormattedMessage(LocalizeKeyData localizeKeyData,
         params FormattableString[] formattableStrings)
     {
         if (localizeKeyData == null)
@@ -59,7 +66,7 @@ public class StubLocalizeDefaultLocalizerWithLogging<TResource> : IDefaultLocali
         var actualMessage = string.Join(string.Empty, formattableStrings.Select(x => x.ToString()).ToArray());
         var messageFormat = string.Join(string.Empty, formattableStrings.SelectMany(x => x.Format).ToArray());
 
-        var log = CreateLocalizedLog(localizeKeyData, cultureOfMessage, actualMessage, messageFormat);
+        var log = CreateLocalizedLog(localizeKeyData, _cultureOfMessage, actualMessage, messageFormat);
         Logs.Add(log);
 
         SaveLocalizationToDb(log);

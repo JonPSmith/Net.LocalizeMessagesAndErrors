@@ -32,8 +32,8 @@ public class TestLocalizeWithDefaultController
     public void TestIndexAction()
     {
         //SETUP
-        var logLocalizer = new StubLocalizeDefaultLocalizerWithLogging<HomeController>();
-        var controller = new LocalizeWithDefaultController(logLocalizer);
+        var logLocalizer = new StubLocalizeDefaultLocalizerWithLogging<HomeController>("en");
+        var controller = new DefaultLocalizerController(logLocalizer);
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         //ATTEMPT
@@ -49,8 +49,8 @@ public class TestLocalizeWithDefaultController
     public void TestStringMessage()
     {
         //SETUP
-        var logLocalizer = new StubLocalizeDefaultLocalizerWithLogging<HomeController>();
-        var controller = new LocalizeWithDefaultController(logLocalizer);
+        var logLocalizer = new StubLocalizeDefaultLocalizerWithLogging<HomeController>("en");
+        var controller = new DefaultLocalizerController(logLocalizer);
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         //ATTEMPT
@@ -66,8 +66,8 @@ public class TestLocalizeWithDefaultController
     public void TestMissingResourceEntry()
     {
         //SETUP
-        var logLocalizer = new StubLocalizeDefaultLocalizerWithLogging<HomeController>();
-        var controller = new LocalizeWithDefaultController(logLocalizer);
+        var logLocalizer = new StubLocalizeDefaultLocalizerWithLogging<HomeController>("en");
+        var controller = new DefaultLocalizerController(logLocalizer);
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         //ATTEMPT

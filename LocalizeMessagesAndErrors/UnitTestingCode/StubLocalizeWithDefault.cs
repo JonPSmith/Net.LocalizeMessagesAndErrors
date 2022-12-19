@@ -13,10 +13,9 @@ public class StubDefaultLocalizer<TResource> : IDefaultLocalizer<TResource>
     /// Returns the default string
     /// </summary>
     /// <param name="localizeKey"></param>
-    /// <param name="cultureOfMessage"></param>
     /// <param name="message"></param>
     /// <returns></returns>
-    public string LocalizeStringMessage(LocalizeKeyData localizeKey, string cultureOfMessage, string message)
+    public string LocalizeStringMessage(LocalizeKeyData localizeKey, string message)
     {
         return message;
     }
@@ -25,10 +24,9 @@ public class StubDefaultLocalizer<TResource> : IDefaultLocalizer<TResource>
     /// Returns the default formatted string
     /// </summary>
     /// <param name="localizeKey"></param>
-    /// <param name="cultureOfMessage"></param>
     /// <param name="formattableStrings"></param>
     /// <returns></returns>
-    public string LocalizeFormattedMessage(LocalizeKeyData localizeKey, string cultureOfMessage,
+    public string LocalizeFormattedMessage(LocalizeKeyData localizeKey,
         params FormattableString[] formattableStrings)
     {
         return string.Join(string.Empty, formattableStrings.Select(x => x.ToString()).ToArray());

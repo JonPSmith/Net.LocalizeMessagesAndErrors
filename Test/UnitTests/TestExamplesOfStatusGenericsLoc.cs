@@ -21,7 +21,7 @@ public class TestExamplesOfStatusGenericsLoc
     public void TestCheckNull_Success()
     {
         //SETUP
-        var stubDefaultLoc = new StubLocalizeDefaultLocalizerWithLogging<HomeController>();
+        var stubDefaultLoc = new StubLocalizeDefaultLocalizerWithLogging<HomeController>("en");
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var service = new ExamplesOfStatusGenericsLoc<HomeController>(stubDefaultLoc);
@@ -38,7 +38,7 @@ public class TestExamplesOfStatusGenericsLoc
     public void TestCheckNull_Errors()
     {
         //SETUP
-        var stubDefaultLoc = new StubLocalizeDefaultLocalizerWithLogging<HomeController>();
+        var stubDefaultLoc = new StubLocalizeDefaultLocalizerWithLogging<HomeController>("en");
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var service = new ExamplesOfStatusGenericsLoc<HomeController>(stubDefaultLoc);
@@ -57,7 +57,7 @@ public class TestExamplesOfStatusGenericsLoc
     public void TestStatusGenericWithResult_Success()
     {
         //SETUP
-        var stubDefaultLoc = new StubLocalizeDefaultLocalizerWithLogging<HomeController>();
+        var stubDefaultLoc = new StubLocalizeDefaultLocalizerWithLogging<HomeController>("en");
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var service = new ExamplesOfStatusGenericsLoc<HomeController>(stubDefaultLoc);
@@ -75,7 +75,7 @@ public class TestExamplesOfStatusGenericsLoc
     public void TestStatusGenericWithResult_Errors()
     {
         //SETUP
-        var stubDefaultLoc = new StubLocalizeDefaultLocalizerWithLogging<HomeController>();
+        var stubDefaultLoc = new StubLocalizeDefaultLocalizerWithLogging<HomeController>("en");
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var service = new ExamplesOfStatusGenericsLoc<HomeController>(stubDefaultLoc);
@@ -94,7 +94,7 @@ public class TestExamplesOfStatusGenericsLoc
     public void TestStatusGenericCombineStatuses_Success()
     {
         //SETUP
-        var stubDefaultLoc = new StubLocalizeDefaultLocalizerWithLogging<HomeController>();
+        var stubDefaultLoc = new StubLocalizeDefaultLocalizerWithLogging<HomeController>("en");
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var service = new ExamplesOfStatusGenericsLoc<HomeController>(stubDefaultLoc);
@@ -115,7 +115,7 @@ public class TestExamplesOfStatusGenericsLoc
     public void TestStatusGenericCombineStatuses_Errors(string? month, int date, int year, string expectedErrorMessages)
     {
         //SETUP
-        var stubDefaultLoc = new StubLocalizeDefaultLocalizerWithLogging<HomeController>();
+        var stubDefaultLoc = new StubLocalizeDefaultLocalizerWithLogging<HomeController>("en");
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var service = new ExamplesOfStatusGenericsLoc<HomeController>(stubDefaultLoc);

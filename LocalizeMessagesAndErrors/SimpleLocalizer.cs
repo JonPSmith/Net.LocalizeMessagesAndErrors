@@ -14,27 +14,26 @@ namespace LocalizeMessagesAndErrors;
 /// </summary>
 public class SimpleLocalizer : ISimpleLocalizer
 {
-    private readonly IDefaultLocalizeForSimpleLocalizer _localizeDefault;
-    private readonly string _cultureOfMessage;
+    private readonly IDefaultLocalizerForSimpleLocalizer _localizerDefault;
+    private readonly SimpleLocalizerOptions _options;
 
     /// <summary>
     /// This ctor will create the <see cref="IDefaultLocalizer{TResource}"/> service
     /// using the resourceType that you provide.
     /// </summary>
     /// <param name="provider"></param>
-    /// <param name="resourceType"></param>
-    /// <param name="cultureOfMessage"></param>
+    /// <param name="options"></param>
     /// <exception cref="ArgumentNullException"></exception>
-    public SimpleLocalizer(IServiceProvider provider, Type resourceType, string cultureOfMessage)
+    public SimpleLocalizer(IServiceProvider provider, SimpleLocalizerOptions options)
     {
-        if (resourceType == null) throw new ArgumentNullException(nameof(resourceType));
-        if (string.IsNullOrWhiteSpace(cultureOfMessage))
-            throw new ArgumentException("Value cannot be null or whitespace.", nameof(cultureOfMessage));
-        _cultureOfMessage = cultureOfMessage;
+        if (options.ResourceType == null) throw new ArgumentNullException(nameof(options.ResourceType));
+        if (string.IsNullOrWhiteSpace(options.DefaultCulture))
+            throw new ArgumentException("Value cannot be null or whitespace.", nameof(options.DefaultCulture));
+        _options = options;
 
         var myGeneric = typeof(IDefaultLocalizer<>);
-        var genericType = myGeneric.MakeGenericType(resourceType);
-        _localizeDefault = (IDefaultLocalizeForSimpleLocalizer) provider.GetService(genericType);
+        var genericType = myGeneric.MakeGenericType(options.ResourceType);
+        _localizerDefault = (IDefaultLocalizerForSimpleLocalizer) provider.GetService(genericType);
     }
 
     /// <summary>
@@ -52,9 +51,8 @@ public class SimpleLocalizer : ISimpleLocalizer
     public string LocalizeString<TThis>(string message, TThis callingClass,
         [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
-        return _localizeDefault.LocalizeStringMessage(
-            $"{nameof(SimpleLocalizer)}_{message}".JustThisLocalizeKey(callingClass, memberName, sourceLineNumber),
-            _cultureOfMessage, message);
+        return _localizerDefault.LocalizeStringMessage(
+            $"{nameof(SimpleLocalizer)}_{message}".JustThisLocalizeKey(callingClass, memberName, sourceLineNumber), message);
     }
 
     /// <summary>
@@ -72,10 +70,9 @@ public class SimpleLocalizer : ISimpleLocalizer
     public string LocalizeFormatted<TThis>(FormattableString formatted, TThis callingClass,
         [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
-        return _localizeDefault.LocalizeFormattedMessage(
+        return _localizerDefault.LocalizeFormattedMessage(
             $"{nameof(SimpleLocalizer)}_{formatted.Format}"
-            .JustThisLocalizeKey(callingClass, memberName, sourceLineNumber),
-            _cultureOfMessage, formatted);
+                .JustThisLocalizeKey(callingClass, memberName, sourceLineNumber), formatted);
     }
 
     /// <summary>
@@ -94,9 +91,8 @@ public class SimpleLocalizer : ISimpleLocalizer
     public string StaticLocalizeString(string message, Type callingClassType,
         [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
-        return _localizeDefault.LocalizeStringMessage(
-            $"{nameof(SimpleLocalizer)}_{message}".StaticJustThisLocalizeKey(callingClassType, memberName, sourceLineNumber),
-            _cultureOfMessage, message);
+        return _localizerDefault.LocalizeStringMessage(
+            $"{nameof(SimpleLocalizer)}_{message}".StaticJustThisLocalizeKey(callingClassType, memberName, sourceLineNumber), message);
     }
 
     /// <summary>
@@ -115,8 +111,7 @@ public class SimpleLocalizer : ISimpleLocalizer
     public string StaticLocalizeFormatted(FormattableString formatted, Type callingClassType,
         [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
-        return _localizeDefault.LocalizeFormattedMessage(
-            $"{nameof(SimpleLocalizer)}_{formatted.Format}".StaticJustThisLocalizeKey(callingClassType, memberName, sourceLineNumber),
-            _cultureOfMessage, formatted);
+        return _localizerDefault.LocalizeFormattedMessage(
+            $"{nameof(SimpleLocalizer)}_{formatted.Format}".StaticJustThisLocalizeKey(callingClassType, memberName, sourceLineNumber), formatted);
     }
 }

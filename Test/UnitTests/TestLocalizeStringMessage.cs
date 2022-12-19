@@ -40,10 +40,11 @@ public class TestLocalizeStringMessage
             new Dictionary<string, string> { { "test".ClassLocalizeKey(this, true).LocalizeKey, "Message from resource file" } });
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
-        var service = new DefaultLocalizer<TestLocalizeStringMessage>(_logger, stubLocalizer);
+        var service = new DefaultLocalizer<TestLocalizeStringMessage>(
+            new StubDefaultLocalizerOptions(cultureOfMessage), _logger, stubLocalizer);
 
         //ATTEMPT
-        var message = service.LocalizeStringMessage("test".ClassLocalizeKey(this, true), cultureOfMessage, 
+        var message = service.LocalizeStringMessage("test".ClassLocalizeKey(this, true), 
             "Message from readable string");
 
         //VERIFY
@@ -58,10 +59,10 @@ public class TestLocalizeStringMessage
             new Dictionary<string, string> {});
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
-        var service = new DefaultLocalizer<TestLocalizeStringMessage>(_logger, stubLocalizer);
+        var service = new DefaultLocalizer<TestLocalizeStringMessage>(new StubDefaultLocalizerOptions(), _logger, stubLocalizer);
 
         //ATTEMPT
-        var message = service.LocalizeStringMessage(this.AlreadyLocalized(), "en-US",
+        var message = service.LocalizeStringMessage(this.AlreadyLocalized(),
             "This message is already localized");
 
         //VERIFY
@@ -79,10 +80,11 @@ public class TestLocalizeStringMessage
             new Dictionary<string, string>(), false);
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
-        var service = new DefaultLocalizer<TestLocalizeStringMessage>(_logger, stubLocalizer);
+        var service = new DefaultLocalizer<TestLocalizeStringMessage>(
+            new StubDefaultLocalizerOptions("fi-FI"), _logger, stubLocalizer);
 
         //ATTEMPT
-        var message = service.LocalizeStringMessage("test".ClassLocalizeKey(this, true), "fi-FI",
+        var message = service.LocalizeStringMessage("test".ClassLocalizeKey(this, true),
             "Message from readable string");
 
         //VERIFY
@@ -100,11 +102,11 @@ public class TestLocalizeStringMessage
             new Dictionary<string, string>());
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
-        var service = new DefaultLocalizer<TestLocalizeStringMessage>(_logger, stubLocalizer);
+        var service = new DefaultLocalizer<TestLocalizeStringMessage>(new StubDefaultLocalizerOptions(), _logger, stubLocalizer);
 
         //ATTEMPT
         var ex = Assert.Throws<ArgumentNullException>(() => 
-            service.LocalizeStringMessage("test".ClassLocalizeKey(this, true), "en-GB", null));
+            service.LocalizeStringMessage("test".ClassLocalizeKey(this, true), null));
 
         //VERIFY
         ex.Message.ShouldEqual("Value cannot be null. (Parameter 'message')");

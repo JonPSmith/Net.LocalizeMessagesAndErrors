@@ -20,14 +20,14 @@ public class LocalizationCaptureCommands
     [RunnableInDebugOnly]
     public void WipeLocalizationCaptureDbAndSetToCapture()
     {
-        var stub = new StubLocalizeDefaultLocalizerWithLogging<LocalizationCaptureCommands>();
+        var stub = new StubLocalizeDefaultLocalizerWithLogging<LocalizationCaptureCommands>(null);
         stub.WipeLocalizationCaptureDb();
     }
 
     [RunnableInDebugOnly]
     public void DisplayCapturedLocalizations()
     {
-        var stub = new StubLocalizeDefaultLocalizerWithLogging<LocalizationCaptureCommands>();
+        var stub = new StubLocalizeDefaultLocalizerWithLogging<LocalizationCaptureCommands>(null);
 
         var entries = stub.ListLocalizationCaptureDb();
 
