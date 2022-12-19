@@ -132,16 +132,16 @@
   <data name="NullParam" xml:space="preserve">
     <value>L'entrée ne doit pas être nulle.</value>
   </data>
-  <data name="SimpleLocalizer_Back to {0} Home" xml:space="preserve">
+  <data name="SimpleLocalizer(Back to {0} Home)" xml:space="preserve">
     <value>Retour à la page d'accueil {0}</value>
   </data>
-  <data name="SimpleLocalizer_Provide a string (can be null)" xml:space="preserve">
+  <data name="SimpleLocalizer(Provide a string (can be null))" xml:space="preserve">
     <value>Fournissez une chaîne (peut être nulle)</value>
   </data>
-  <data name="SimpleLocalizer_Run CheckNull" xml:space="preserve">
+  <data name="SimpleLocalizer(Run CheckNull)" xml:space="preserve">
     <value>Exécutez CheckNull</value>
   </data>
-  <data name="SimpleLocalizer_Set string" xml:space="preserve">
+  <data name="SimpleLocalizer(Set string)" xml:space="preserve">
     <value>Définir la chaîne</value>
   </data>
   <data name="StatusExamples_CheckNull_Success" xml:space="preserve">
