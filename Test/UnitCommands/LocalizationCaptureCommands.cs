@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2022 Jon P Smith, GitHub: JonPSmith, web: http://www.thereformedprogrammer.net/
 // Licensed under MIT license. See License.txt in the project root for license information.
 
+using System;
 using System.Linq;
 using Test.StubClasses;
 using TestSupport.Attributes;
@@ -20,14 +21,14 @@ public class LocalizationCaptureCommands
     [RunnableInDebugOnly]
     public void WipeLocalizationCaptureDbAndSetToCapture()
     {
-        var stub = new StubLocalizeDefaultLocalizerWithLogging<LocalizationCaptureCommands>(null);
+        var stub = new StubDefaultLocalizerWithLogging<LocalizationCaptureCommands>(String.Empty);
         stub.WipeLocalizationCaptureDb();
     }
 
     [RunnableInDebugOnly]
     public void DisplayCapturedLocalizations()
     {
-        var stub = new StubLocalizeDefaultLocalizerWithLogging<LocalizationCaptureCommands>(null);
+        var stub = new StubDefaultLocalizerWithLogging<LocalizationCaptureCommands>(String.Empty);
 
         var entries = stub.ListLocalizationCaptureDb();
 

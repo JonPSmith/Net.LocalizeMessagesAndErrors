@@ -32,7 +32,7 @@ public class TestDefaultLocalizerController
     public void TestIndexAction()
     {
         //SETUP
-        var logLocalizer = new StubLocalizeDefaultLocalizerWithLogging<HomeController>("en");
+        var logLocalizer = new StubDefaultLocalizerWithLogging<HomeController>("en");
         var controller = new DefaultLocalizerController(logLocalizer);
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
@@ -49,7 +49,7 @@ public class TestDefaultLocalizerController
     public void TestStringMessage()
     {
         //SETUP
-        var logLocalizer = new StubLocalizeDefaultLocalizerWithLogging<HomeController>("en");
+        var logLocalizer = new StubDefaultLocalizerWithLogging<HomeController>("en");
         var controller = new DefaultLocalizerController(logLocalizer);
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
@@ -66,7 +66,7 @@ public class TestDefaultLocalizerController
     public void TestMissingResourceEntry()
     {
         //SETUP
-        var logLocalizer = new StubLocalizeDefaultLocalizerWithLogging<HomeController>("en");
+        var logLocalizer = new StubDefaultLocalizerWithLogging<HomeController>("en");
         var controller = new DefaultLocalizerController(logLocalizer);
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
@@ -92,7 +92,7 @@ public class TestDefaultLocalizerController
         using var resxSet = new ResXResourceReader(resourceFilePath);
         foreach (DictionaryEntry d in resxSet)
         {
-            _output.WriteLine(d.Key.ToString() + ":\t" + d.Value.ToString());
+            _output.WriteLine(d.Key + ":\t" + d.Value);
         }
 
         //VERIFY

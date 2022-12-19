@@ -5,10 +5,16 @@ namespace LocalizeMessagesAndErrors.UnitTestingCode;
 
 /// <summary>
 /// This stub simply returns the default message
+/// Also 
 /// </summary>
 /// <typeparam name="TResource"></typeparam>
-public class StubDefaultLocalizer<TResource> : IDefaultLocalizer<TResource>
+public class StubDefaultLocalizer<TResource> : IDefaultLocalizer<TResource>, IDefaultLocalizerForSimpleLocalizer
 {
+    /// <summary>
+    /// This holds the <see cref="LocalizeKeyData"/> of the last localize call
+    /// </summary>
+    public LocalizeKeyData LastKeyData { get; set;  } 
+
     /// <summary>
     /// Returns the default string
     /// </summary>
@@ -17,6 +23,7 @@ public class StubDefaultLocalizer<TResource> : IDefaultLocalizer<TResource>
     /// <returns></returns>
     public string LocalizeStringMessage(LocalizeKeyData localizeKey, string message)
     {
+        LastKeyData = localizeKey;
         return message;
     }
 
@@ -29,6 +36,7 @@ public class StubDefaultLocalizer<TResource> : IDefaultLocalizer<TResource>
     public string LocalizeFormattedMessage(LocalizeKeyData localizeKey,
         params FormattableString[] formattableStrings)
     {
+        LastKeyData = localizeKey;
         return string.Join(string.Empty, formattableStrings.Select(x => x.ToString()).ToArray());
     }
 }

@@ -25,7 +25,7 @@ public class TestRegisterLocalizeExtensions
         var provider = services.BuildServiceProvider();
         var options = provider.GetService<DefaultLocalizerOptions>();
         options.ShouldNotBeNull();
-        options.DefaultCulture.ShouldEqual("en");
+        options!.DefaultCulture.ShouldEqual("en");
         var service = provider.GetService<IDefaultLocalizer<HomeController>>();
         service.ShouldNotBeNull();
     }

@@ -41,6 +41,9 @@ public class LocalizedLog
         SourceLineNumber = sourceLineNumber;
     }
 
+    /// <summary>
+    /// Key
+    /// </summary>
     public int Id { get; set; }
 
     /// <summary>
