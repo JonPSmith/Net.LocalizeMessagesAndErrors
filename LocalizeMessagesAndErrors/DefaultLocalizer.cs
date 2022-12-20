@@ -2,6 +2,7 @@
 // Licensed under MIT license. See License.txt in the project root for license information.
 
 using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
@@ -120,7 +121,12 @@ public class DefaultLocalizer<TResource> : IDefaultLocalizer<TResource>, IDefaul
 
     private void LogWarningOnMissingResource(LocalizeKeyData localizeData, LocalizedString foundLocalization)
     {
-        //Entry not found in the resources, so log this and return the given message
+        if (_options.SupportedCultures != null 
+            &&  _options.SupportedCultures.Any(x => Thread.CurrentThread.CurrentUICulture.Name.StartsWith(x)))
+            //Don't log unsupported cultures
+            return;
+
+        //Entry with a supported not found in the resources, so log this and return the given message
         _logger?.LogWarning(
             "The message with the localizeKey name of '{0}' and culture of '{1}' was not found in the '{2}' resource. " +
             "The message came from {3}.",

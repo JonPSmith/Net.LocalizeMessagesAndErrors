@@ -84,7 +84,10 @@ public class TestLocalizeStringMessage
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var service = new DefaultLocalizer<TestLocalizeStringMessage>(
-            new StubDefaultLocalizerOptions("fi-FI"), _logger, stubLocalizer);
+            new StubDefaultLocalizerOptions("fi-FI")
+            {
+                SupportedCultures = new[] { "en, fr" }
+            }, _logger, stubLocalizer);
 
         //ATTEMPT
         var message = service.LocalizeStringMessage("test".ClassLocalizeKey(this, true),
@@ -96,6 +99,52 @@ public class TestLocalizeStringMessage
             "The message with the localizeKey name of 'TestLocalizeStringMessage_test' and culture " +
             "of 'en-GB' was not found in the 'TestLocalizeStringMessage' resource. " +
             "The message came from TestLocalizeStringMessage.TestLocalizeStringMessage_MissingResource");
+    }
+
+    [Fact]
+    public void TestLocalizeStringMessage_MissingResourceButNotSupported()
+    {
+        //SETUP
+        var stubLocalizer = new StubStringLocalizer<TestLocalizeStringMessage>(
+            new Dictionary<string, string>(), false);
+        Thread.CurrentThread.CurrentUICulture = new CultureInfo("fi-FI");
+
+        var service = new DefaultLocalizer<TestLocalizeStringMessage>(
+            new StubDefaultLocalizerOptions("fi-FI")
+            {
+                SupportedCultures = new []{"en, fr"}
+            }, _logger, stubLocalizer);
+
+        //ATTEMPT
+        var message = service.LocalizeStringMessage("test".ClassLocalizeKey(this, true),
+            "Message from readable string");
+
+        //VERIFY
+        message.ShouldEqual("Message from readable string");
+        _logs.Count.ShouldEqual(0);
+    }
+
+    [Fact]
+    public void TestLocalizeStringMessage_MissingResourceButSupportedCulturesNull()
+    {
+        //SETUP
+        var stubLocalizer = new StubStringLocalizer<TestLocalizeStringMessage>(
+            new Dictionary<string, string>(), false);
+        Thread.CurrentThread.CurrentUICulture = new CultureInfo("fi-FI");
+
+        var service = new DefaultLocalizer<TestLocalizeStringMessage>(
+            new StubDefaultLocalizerOptions("fi-FI")
+            {
+                SupportedCultures = null
+            }, _logger, stubLocalizer);
+
+        //ATTEMPT
+        var message = service.LocalizeStringMessage("test".ClassLocalizeKey(this, true),
+            "Message from readable string");
+
+        //VERIFY
+        message.ShouldEqual("Message from readable string");
+        _logs.Count.ShouldEqual(0);
     }
 
     [Fact] public void TestLocalizeStringMessage_NullMessage()

@@ -12,20 +12,21 @@ namespace Test.UnitTests;
 public class TestRegisterLocalizeExtensions
 {
     [Fact]
-    public void TestRegisterLocalizeDefault()
+    public void TestRegisterLocalizeDefault_Basic()
     {
         //SETUP
         var services = new ServiceCollection();
         services.AddLogging();
 
         //ATTEMPT
-        services.RegisterDefaultLocalizer("en");
+        services.RegisterDefaultLocalizer("en", new[] { "en", "fr" });
 
         //VERIFY
         var provider = services.BuildServiceProvider();
         var options = provider.GetService<DefaultLocalizerOptions>();
         options.ShouldNotBeNull();
         options!.DefaultCulture.ShouldEqual("en");
+        options!.SupportedCultures.ShouldEqual(new[] { "en", "fr" });
         var service = provider.GetService<IDefaultLocalizer<HomeController>>();
         service.ShouldNotBeNull();
     }

@@ -11,9 +11,18 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 #endregion
 
+#region localization - defining the cultures 
+//see https://learn.microsoft.com/en-us/aspnet/core/fundamentals/localization#localization-middleware
+var supportedCultures = new[] { "en", "fr" };
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(supportedCultures[0])
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+#endregion
+
 #region REGISTERING Net.LocalizeMessagesAndError
 //This registers the DefaultLocalizer with the culture that the messages will use
-builder.Services.RegisterDefaultLocalizer("en");
+builder.Services.RegisterDefaultLocalizer("en", supportedCultures);
 //This registers the SimpleLocalizer, which is useful for simple localizations,
 //such as messages in your views/pages.
 builder.Services.RegisterSimpleLocalizer<HomeController>();
@@ -22,16 +31,6 @@ builder.Services.RegisterSimpleLocalizer<HomeController>();
 var app = builder.Build();
 
 #region SETUP locatization
-var supportedCultures = new[] { "en", "fr" };
-var localizationOptions =
-    new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[0])
-        .AddSupportedCultures(supportedCultures)
-        .AddSupportedUICultures(supportedCultures);
-
-//This allows one action to pass on the culture to the next action 
-//This is needed when using the QueryStringRequestCultureProvider in an ASP.NET Core MVC app.
-//thanks to https://www.codeproject.com/Articles/5324504/Localization-in-ASP-NET-Core-Web-API
-localizationOptions.ApplyCurrentCultureToResponseHeaders = true;
 
 app.UseRequestLocalization(localizationOptions);
 #endregion

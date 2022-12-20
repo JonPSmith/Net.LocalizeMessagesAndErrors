@@ -12,4 +12,10 @@ public class DefaultLocalizerOptions
     /// This holds the culture of the messages provided
     /// </summary>
     public string DefaultCulture { get; set; }
+
+    /// <summary>
+    /// This defines what cultures are supported. This is used to
+    /// log a warning when supported resource file entry isn't found.
+    /// </summary>
+    public string[] SupportedCultures { get; set; }
 }
