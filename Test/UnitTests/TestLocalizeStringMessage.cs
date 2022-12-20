@@ -84,9 +84,9 @@ public class TestLocalizeStringMessage
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
 
         var service = new DefaultLocalizer<TestLocalizeStringMessage>(
-            new StubDefaultLocalizerOptions("fi-FI")
+            new StubDefaultLocalizerOptions("fr")
             {
-                SupportedCultures = new[] { "en, fr" }
+                SupportedCultures = new[] { "en", "fr" }
             }, _logger, stubLocalizer);
 
         //ATTEMPT
@@ -95,6 +95,7 @@ public class TestLocalizeStringMessage
 
         //VERIFY
         message.ShouldEqual("Message from readable string");
+        _logs.Count.ShouldEqual(1);
         _logs.Single().Message.ShouldStartWith(
             "The message with the localizeKey name of 'TestLocalizeStringMessage_test' and culture " +
             "of 'en-GB' was not found in the 'TestLocalizeStringMessage' resource. " +
@@ -110,9 +111,9 @@ public class TestLocalizeStringMessage
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("fi-FI");
 
         var service = new DefaultLocalizer<TestLocalizeStringMessage>(
-            new StubDefaultLocalizerOptions("fi-FI")
+            new StubDefaultLocalizerOptions("fr")
             {
-                SupportedCultures = new []{"en, fr"}
+                SupportedCultures = new []{ "en", "fr" }
             }, _logger, stubLocalizer);
 
         //ATTEMPT
@@ -133,7 +134,7 @@ public class TestLocalizeStringMessage
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("fi-FI");
 
         var service = new DefaultLocalizer<TestLocalizeStringMessage>(
-            new StubDefaultLocalizerOptions("fi-FI")
+            new StubDefaultLocalizerOptions("fr")
             {
                 SupportedCultures = null
             }, _logger, stubLocalizer);
@@ -144,7 +145,7 @@ public class TestLocalizeStringMessage
 
         //VERIFY
         message.ShouldEqual("Message from readable string");
-        _logs.Count.ShouldEqual(0);
+        _logs.Count.ShouldEqual(1);
     }
 
     [Fact] public void TestLocalizeStringMessage_NullMessage()

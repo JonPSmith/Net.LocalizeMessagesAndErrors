@@ -122,7 +122,7 @@ public class DefaultLocalizer<TResource> : IDefaultLocalizer<TResource>, IDefaul
     private void LogWarningOnMissingResource(LocalizeKeyData localizeData, LocalizedString foundLocalization)
     {
         if (_options.SupportedCultures != null 
-            &&  _options.SupportedCultures.Any(x => Thread.CurrentThread.CurrentUICulture.Name.StartsWith(x)))
+            && _options.SupportedCultures.All(x => !Thread.CurrentThread.CurrentUICulture.Name.StartsWith(x)))
             //Don't log unsupported cultures
             return;
 
