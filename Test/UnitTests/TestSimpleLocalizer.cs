@@ -96,4 +96,26 @@ public class TestSimpleLocalizer
         _stubDefaultLoc.LastKeyData.LocalizeKey.ShouldEqual("SimpleLocalizer(My {0} message)");
         _stubDefaultLoc.LastKeyData.CallingClass.Name.ShouldEqual("MyStaticClass");
     }
+
+    [Fact]
+    public void TestCheckDifferentPrefix()
+    {
+        //SETUP
+        var services = new ServiceCollection();
+        services.AddSingleton(typeof(IDefaultLocalizer<>), typeof(StubDefaultLocalizer<>));
+        var provider = services.BuildServiceProvider();
+        var simpleLoc = new SimpleLocalizer(provider, 
+            new StubSimpleLocalizerOptions<TestSimpleLocalizer>{PrefixKeyString = "XXX"});
+        var stubDefaultLoc =
+            (StubDefaultLocalizer<TestSimpleLocalizer>)provider
+                .GetRequiredService<IDefaultLocalizer<TestSimpleLocalizer>>();
+
+        //ATTEMPT
+        var message = simpleLoc.LocalizeString("My message", this);
+
+        //VERIFY
+        message.ShouldEqual("My message");
+        stubDefaultLoc.LastKeyData.LocalizeKey.ShouldEqual("XXX(My message)");
+        stubDefaultLoc.LastKeyData.CallingClass.Name.ShouldEqual("TestSimpleLocalizer");
+    }
 }

@@ -19,7 +19,7 @@ public class DefaultLocalizerController : Controller
         var cultureName = Thread.CurrentThread.CurrentUICulture.Name;
 
         return View((object)_localizer.LocalizeFormattedMessage(
-            "ExampleMessage".MethodLocalizeKey(this),                                      //This defines the culture of the default message
+            "ExampleMessage".MethodLocalizeKey(this),
             $"Localized via {nameOfService} service with culture '{cultureName}' on {DateTime.Now:M}." //Message, using FormattableString
         ));
     }
@@ -27,7 +27,7 @@ public class DefaultLocalizerController : Controller
     public IActionResult StringMessage()
     {
         return View((object)_localizer.LocalizeStringMessage(
-            "ExampleMessage".MethodLocalizeKey(this),                                      //This defines the culture of the default message
+            "ExampleMessage".MethodLocalizeKey(this),
             "Hello from me!" //static Message, using string
         ));
     }

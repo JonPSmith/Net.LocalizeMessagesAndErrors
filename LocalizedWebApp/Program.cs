@@ -20,11 +20,10 @@ var localizationOptions = new RequestLocalizationOptions()
     .AddSupportedUICultures(supportedCultures);
 #endregion
 
-#region REGISTERING Net.LocalizeMessagesAndError
+#region REGISTERING DefaultLocalizer and SimpleLocalizer
 //This registers the DefaultLocalizer with the culture that the messages will use
 builder.Services.RegisterDefaultLocalizer("en", supportedCultures);
-//This registers the SimpleLocalizer, which is useful for simple localizations,
-//such as messages in your views/pages.
+//This registers the SimpleLocalizer, which provides a simpler interface to the DefaultLocalizer.
 builder.Services.RegisterSimpleLocalizer<HomeController>();
 #endregion
 
