@@ -4,6 +4,7 @@
 using LocalizeMessagesAndErrors;
 using LocalizeMessagesAndErrors.UnitTestingCode;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using Test.StubClasses;
 using Xunit;
 using Xunit.Extensions.AssertExtensions;
@@ -59,11 +60,11 @@ public class TestSimpleLocalizer
         //SETUP
 
         //ATTEMPT
-        var message = _simpleLoc.LocalizeFormatted($"My {123} message", this);
+        var message = _simpleLoc.LocalizeFormatted($"Date is {DateTime.Now:M}.", this);
 
         //VERIFY
-        message.ShouldEqual("My 123 message");
-        _stubDefaultLoc.LastKeyData.LocalizeKey.ShouldEqual("SimpleLocalizer(My {0} message)");
+        message.ShouldEqual($"Date is {DateTime.Now:M}.");
+        _stubDefaultLoc.LastKeyData.LocalizeKey.ShouldEqual("SimpleLocalizer(Date is {0:M}.)");
         _stubDefaultLoc.LastKeyData.CallingClass.Name.ShouldEqual("TestSimpleLocalizer");
     }
 
