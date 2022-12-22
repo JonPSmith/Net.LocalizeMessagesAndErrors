@@ -15,4 +15,4 @@ A user of the of my library [AuthPermissions.AspNetCore](https://github.com/JonP
 
 It took me some time to design a library called [Net.LocalizeMessagesAndErrors](https://github.com/JonPSmith/Net.LocalizeMessagesAndErrors) that solves issues above (and more). Plus, using the library on my AuthP library (which has hundreds of errors / messages) provides lots feedback on the best design for the library. 
 
-You can find [list of the improvements](https://github.com/JonPSmith/Net.LocalizeMessagesAndErrors/wiki/Why-I-build-this-localization-library%3F#the-full-list-of-the-benefits-of-the-localizewithdefault-approach) this library to handling localization in .NET applications.
+You can find [list of the improvements](https://github.com/JonPSmith/Net.LocalizeMessagesAndErrors/wiki/Why-I-build-this-localization-library%3F#the-full-list-of-the-benefits-of-the-localizewithdefault-approach) that this library provides better handling localization in .NET applications.
