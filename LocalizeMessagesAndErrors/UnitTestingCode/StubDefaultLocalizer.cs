@@ -4,11 +4,10 @@
 namespace LocalizeMessagesAndErrors.UnitTestingCode;
 
 /// <summary>
-/// This stub simply returns the default message
-/// Also 
+/// This stub simply returns the default message. Used in <see cref="DefaultLocalizerFactory"/>
+/// if .NET localization is not set up. 
 /// </summary>
-/// <typeparam name="TResource"></typeparam>
-public class StubDefaultLocalizer<TResource> : IDefaultLocalizer<TResource>, IDefaultLocalizerForSimpleLocalizer
+public class StubDefaultLocalizer : IDefaultLocalizer
 {
     /// <summary>
     /// This holds the <see cref="LocalizeKeyData"/> of the last localize call

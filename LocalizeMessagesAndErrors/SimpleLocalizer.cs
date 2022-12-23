@@ -14,7 +14,7 @@ namespace LocalizeMessagesAndErrors;
 /// </summary>
 public class SimpleLocalizer : ISimpleLocalizer
 {
-    private readonly IDefaultLocalizerForSimpleLocalizer _localizerDefault;
+    private readonly IDefaultLocalizer _localizerDefault;
     private readonly SimpleLocalizerOptions _options;
 
     /// <summary>
@@ -31,7 +31,7 @@ public class SimpleLocalizer : ISimpleLocalizer
 
         var myGeneric = typeof(IDefaultLocalizer<>);
         var genericType = myGeneric.MakeGenericType(options.ResourceType);
-        _localizerDefault = (IDefaultLocalizerForSimpleLocalizer) provider.GetService(genericType);
+        _localizerDefault = (IDefaultLocalizer) provider.GetService(genericType);
     }
 
     /// <summary>

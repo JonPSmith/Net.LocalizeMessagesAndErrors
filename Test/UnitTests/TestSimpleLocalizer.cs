@@ -20,6 +20,7 @@ public class TestSimpleLocalizer
     {
         var services = new ServiceCollection();
         services.AddSingleton(typeof(IDefaultLocalizer<>), typeof(StubDefaultLocalizer<>));
+        services.AddTransient<IDefaultLocalizerFactory, DefaultLocalizerFactory>();
         var provider = services.BuildServiceProvider();
         _simpleLoc = new SimpleLocalizer(provider, new StubSimpleLocalizerOptions<TestSimpleLocalizer>());
         _stubDefaultLoc =

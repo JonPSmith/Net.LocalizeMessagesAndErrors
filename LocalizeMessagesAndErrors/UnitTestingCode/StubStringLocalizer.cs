@@ -10,11 +10,10 @@ namespace LocalizeMessagesAndErrors.UnitTestingCode;
 /// which allows you to provide a dictionary to mimic the resource files.
 /// Its very simple, and only uses the name of the localization, and not the culture, to lookup value.
 /// </summary>
-/// <typeparam name="TResource"></typeparam>
-public class StubStringLocalizer<TResource> : IStringLocalizer<TResource>
+public class StubStringLocalizer : IStringLocalizer
 {
     /// <summary>
-    /// This allows you to provide the localized name + value entries you would 
+    /// This allows you to provide the localized name + value entries to return
     /// </summary>
     /// <param name="resource"></param>
     /// <param name="throwExceptionIfNoEntry">If name not found, then throw exception. Defaults onto true</param>
@@ -54,13 +53,13 @@ public class StubStringLocalizer<TResource> : IStringLocalizer<TResource>
         {
             if (Resource.ContainsKey(name))
             {
-                return new LocalizedString(name, Resource[name], false, typeof(TResource).Name);
+                return new LocalizedString(name, Resource[name], false, "dummy searched location");
             }
 
             if (ThrowExceptionIfNoEntry)
                 throw new MissingFieldException($"There was no entry with the name '{name} in the dictionary.");
 
-            return new LocalizedString(name, "", true, typeof(TResource).Name);
+            return new LocalizedString(name, "", true, "dummy searched location");
         }
     }
 
@@ -78,13 +77,13 @@ public class StubStringLocalizer<TResource> : IStringLocalizer<TResource>
             {
                 var message = string.Format(Resource[name], arguments);
 
-                return new LocalizedString(name, message, false, typeof(TResource).Name);
+                return new LocalizedString(name, message, false, "dummy searched location");
             }
 
             if (ThrowExceptionIfNoEntry)
                 throw new MissingFieldException($"There was no entry with the name '{name} in the dictionary.");
 
-            return new LocalizedString(name, "", true, typeof(TResource).Name);
+            return new LocalizedString(name, "", true, "dummy searched location");
         }
     }
 }

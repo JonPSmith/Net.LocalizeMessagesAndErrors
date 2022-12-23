@@ -13,11 +13,11 @@ namespace LocalizeMessagesAndErrors;
 /// to obtain the culture via resource files.
 /// </summary>
 /// <typeparam name="TResource"></typeparam>
-public class DefaultLocalizer<TResource> : IDefaultLocalizer<TResource>, IDefaultLocalizerForSimpleLocalizer
+public class DefaultLocalizer<TResource> : IDefaultLocalizer<TResource>, IDefaultLocalizer
 {
     private readonly DefaultLocalizerOptions _options;
-    private readonly IStringLocalizer<TResource> _localizer;
-    private readonly ILogger<DefaultLocalizer<TResource>> _logger;
+    private readonly IStringLocalizer _localizer;
+    private readonly ILogger _logger;
 
     /// <summary>
     /// Ctor
@@ -35,6 +35,22 @@ public class DefaultLocalizer<TResource> : IDefaultLocalizer<TResource>, IDefaul
         _options = options;
         _logger = logger;
     }
+
+    /// <summary>
+    /// This constructor is used by the <see cref="DefaultLocalizerFactory"/>
+    /// </summary>
+    /// <param name="options"></param>
+    /// <param name="localizer"></param>
+    /// <param name="logger"></param>
+    /// <exception cref="ArgumentNullException"></exception>
+    internal DefaultLocalizer(DefaultLocalizerOptions options, IStringLocalizer localizer, ILogger logger)
+    {
+        _options = options ?? throw new ArgumentNullException(nameof(options));
+        _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
+
+
 
     /// <summary>
     /// This is a localization adapter that allows you to have readable messages in your code via strings, 

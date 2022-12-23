@@ -1,16 +1,13 @@
 ﻿// Copyright (c) 2022 Jon P Smith, GitHub: JonPSmith, web: http://www.thereformedprogrammer.net/
 // Licensed under MIT license. See License.txt in the project root for license information.
 
-using System.Globalization;
-using Microsoft.Extensions.Localization;
-
 namespace LocalizeMessagesAndErrors;
 
 /// <summary>
-/// This is the interface for the <see cref="DefaultLocalizer{TResource}"/> class
+/// This is the interface for the <see cref="DefaultLocalizer{TResource}"/> service
+/// when used in <see cref="IDefaultLocalizerFactory"/>
 /// </summary>
-/// <typeparam name="TResource"></typeparam>
-public interface IDefaultLocalizer<TResource>
+public interface IDefaultLocalizer
 {
     /// <summary>
     /// This is a localization adapter that allows you to have readable messages in your code via strings, 

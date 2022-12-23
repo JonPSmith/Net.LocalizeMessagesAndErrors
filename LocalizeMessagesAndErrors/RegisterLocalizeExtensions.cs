@@ -31,6 +31,7 @@ public static class RegisterLocalizeExtensions
             SupportedCultures = supportedCultures
         });
         services.AddSingleton(typeof(IDefaultLocalizer<>), typeof(DefaultLocalizer<>));
+        services.AddTransient<IDefaultLocalizerFactory, DefaultLocalizerFactory>();
         return services;
     }
 
@@ -55,7 +56,8 @@ public static class RegisterLocalizeExtensions
         options?.Invoke(localOptions);
         if (localOptions.ResourceType == null) throw new ArgumentNullException(nameof(SimpleLocalizerOptions.ResourceType));
 
-        services.AddSingleton<ISimpleLocalizer>(services => new SimpleLocalizer(services, localOptions));
+        services.AddSingleton<ISimpleLocalizer>(serviceProvider => 
+            new SimpleLocalizer(serviceProvider.GetRequiredService<IDefaultLocalizerFactory>(), localOptions));
         return services;
     }
 }
