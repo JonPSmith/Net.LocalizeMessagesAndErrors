@@ -4,16 +4,18 @@
 namespace LocalizeMessagesAndErrors;
 
 /// <summary>
-/// This allows you to create a <see cref="IDefaultLocalizer"/> when your resource class is
-/// no known on startup.
+/// This allows you to create a <see cref="ISimpleLocalizer"/> using a resource type
+/// provided by you at runtime.
 /// </summary>
-public interface IDefaultLocalizerFactory
+public interface ISimpleLocalizerFactory
 {
     /// <summary>
-    /// This with create a <see cref="IDefaultLocalizer"/> linked to the TResource type 
+    /// This with create a <see cref="ISimpleLocalizer"/> linked to the TResource type 
     /// </summary>
     /// <param name="resourceSource">type of the resource class defining the localization resource files</param>
+    /// <param name="prefixKeyString">optional: this provides a string which prefixes the localize key,
+    /// i.e. $"{PrefixKeyString}({message})"</param>
     /// <returns><see cref="IDefaultLocalizer"/></returns>
     /// <exception cref="NullReferenceException"></exception>
-    IDefaultLocalizer Create(Type resourceSource);
+    ISimpleLocalizer Create(Type resourceSource, string prefixKeyString = null);
 }

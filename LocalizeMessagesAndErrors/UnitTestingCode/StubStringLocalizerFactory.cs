@@ -10,7 +10,7 @@ namespace LocalizeMessagesAndErrors.UnitTestingCode;
 /// </summary>
 public class StubStringLocalizerFactory : IStringLocalizerFactory
 {
-    private readonly StubStringLocalizer _stubStringLocalizer;
+    public StubStringLocalizer StubStringLocalizer { get; }
 
     /// <summary>
     /// This allows you to provide the localized name + value entries you would 
@@ -20,7 +20,7 @@ public class StubStringLocalizerFactory : IStringLocalizerFactory
     /// <exception cref="ArgumentNullException"></exception>
     public StubStringLocalizerFactory(Dictionary<string, string> resource, bool throwExceptionIfNoEntry = true)
     {
-        _stubStringLocalizer = new StubStringLocalizer(resource, throwExceptionIfNoEntry);
+        StubStringLocalizer = new StubStringLocalizer(resource, throwExceptionIfNoEntry);
     }
 
     /// <summary>
@@ -31,7 +31,7 @@ public class StubStringLocalizerFactory : IStringLocalizerFactory
     /// <returns>The <see cref="T:Microsoft.Extensions.Localization.IStringLocalizer" />.</returns>
     public IStringLocalizer Create(Type resourceSource)
     {
-        return _stubStringLocalizer;
+        return StubStringLocalizer;
     }
 
     /// <summary>

@@ -27,8 +27,10 @@ public class TestRegisterLocalizeExtensions
         options.ShouldNotBeNull();
         options!.DefaultCulture.ShouldEqual("en");
         options!.SupportedCultures.ShouldEqual(new[] { "en", "fr" });
-        var service = provider.GetService<IDefaultLocalizer<HomeController>>();
-        service.ShouldNotBeNull();
+        var localizer = provider.GetService<IDefaultLocalizer<HomeController>>();
+        localizer.ShouldNotBeNull();
+        var factory = provider.GetService<IDefaultLocalizerFactory>();
+        factory.ShouldNotBeNull();
     }
 
     [Fact]
@@ -37,13 +39,16 @@ public class TestRegisterLocalizeExtensions
         //SETUP
         var services = new ServiceCollection();
         services.AddLogging();
+        services.RegisterDefaultLocalizer("en", new[] { "en", "fr" });
 
         //ATTEMPT
         services.RegisterSimpleLocalizer<HomeController>();
 
         //VERIFY
         var provider = services.BuildServiceProvider();
-        var service = provider.GetService<ISimpleLocalizer>();
-        service.ShouldNotBeNull();
+        var localizer = provider.GetService<ISimpleLocalizer>();
+        localizer.ShouldNotBeNull();
+        var factory = provider.GetService<ISimpleLocalizerFactory>();
+        factory.ShouldNotBeNull();
     }
 }

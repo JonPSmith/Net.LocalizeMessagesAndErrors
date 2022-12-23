@@ -14,7 +14,7 @@ public class SimpleLocalizerOptions
     public Type ResourceType { get; set; }
 
     /// <summary>
-    /// This holds the 
+    /// This holds a string which prefixes the localize key, i.e. $"{PrefixKeyString}({message})" 
     /// </summary>
     public string PrefixKeyString { get; set; } = "SimpleLocalizer";
 }

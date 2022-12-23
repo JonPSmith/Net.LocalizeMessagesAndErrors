@@ -21,17 +21,15 @@ public class SimpleLocalizer : ISimpleLocalizer
     /// This ctor will create the <see cref="IDefaultLocalizer{TResource}"/> service
     /// using the resourceType that you provide.
     /// </summary>
-    /// <param name="provider"></param>
+    /// <param name="defaultLocalizerFactory"></param>
     /// <param name="options"></param>
     /// <exception cref="ArgumentNullException"></exception>
-    public SimpleLocalizer(IServiceProvider provider, SimpleLocalizerOptions options)
+    public SimpleLocalizer(IDefaultLocalizerFactory defaultLocalizerFactory, SimpleLocalizerOptions options)
     {
         if (options.ResourceType == null) throw new ArgumentNullException(nameof(options.ResourceType));
         _options = options;
 
-        var myGeneric = typeof(IDefaultLocalizer<>);
-        var genericType = myGeneric.MakeGenericType(options.ResourceType);
-        _localizerDefault = (IDefaultLocalizer) provider.GetService(genericType);
+        _localizerDefault = defaultLocalizerFactory.Create(options.ResourceType);
     }
 
     /// <summary>

@@ -29,6 +29,12 @@ public class DefaultLocalizerFactory : IDefaultLocalizerFactory
         _serviceProvider = serviceProvider;
     }
 
+    /// <summary>
+    /// This with create a <see cref="IDefaultLocalizer"/> linked to the TResource type 
+    /// </summary>
+    /// <param name="resourceSource">type of the resource class defining the localization resource files</param>
+    /// <returns><see cref="IDefaultLocalizer"/></returns>
+    /// <exception cref="NullReferenceException"></exception>
     public IDefaultLocalizer Create(Type resourceSource)
     {
 

@@ -30,6 +30,11 @@ public class StubStringLocalizer : IStringLocalizer
     public Dictionary<string, string> Resource { get; set; }
 
     /// <summary>
+    /// The last LocalizeKey
+    /// </summary>
+    public string LastLocalizeKey { get; private set; }
+
+    /// <summary>
     /// If true, then throw exception if no entry
     /// </summary>
     public bool ThrowExceptionIfNoEntry { get; set; }
@@ -51,6 +56,7 @@ public class StubStringLocalizer : IStringLocalizer
     {
         get
         {
+            LastLocalizeKey = name;
             if (Resource.ContainsKey(name))
             {
                 return new LocalizedString(name, Resource[name], false, "dummy searched location");
@@ -73,6 +79,7 @@ public class StubStringLocalizer : IStringLocalizer
     {
         get
         {
+            LastLocalizeKey = name;
             if (Resource.ContainsKey(name))
             {
                 var message = string.Format(Resource[name], arguments);

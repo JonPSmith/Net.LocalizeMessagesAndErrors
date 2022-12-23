@@ -58,6 +58,7 @@ public static class RegisterLocalizeExtensions
 
         services.AddSingleton<ISimpleLocalizer>(serviceProvider => 
             new SimpleLocalizer(serviceProvider.GetRequiredService<IDefaultLocalizerFactory>(), localOptions));
+        services.AddTransient<ISimpleLocalizerFactory, SimpleLocalizerFactory>();
         return services;
     }
 }

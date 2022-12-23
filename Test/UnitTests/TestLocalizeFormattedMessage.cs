@@ -140,9 +140,9 @@ public class TestLocalizeFormattedMessage
         message.ShouldEqual("Message 123 from readable string");
         
         _logs.Single().Message.ShouldStartWith(
-            "The message with the localizeKey name of 'TestLocalizeFormattedMessage_test' and culture of " +
-            "'en-GB' was not found in the 'TestLocalizeFormattedMessage' resource. " +
-            "The message came from TestLocalizeFormattedMessage.TestLocalizeStringMessage_MissingResource");
+            "The message with the localizeKey name of 'TestLocalizeFormattedMessage_test' and culture of 'en-GB' " +
+            "was not found in the 'dummy searched location' resource. The message came from " +
+            "TestLocalizeFormattedMessage.TestLocalizeStringMessage_MissingResource");
     }
 
     [Fact]

@@ -97,8 +97,8 @@ public class TestLocalizeStringMessage
         message.ShouldEqual("Message from readable string");
         _logs.Count.ShouldEqual(1);
         _logs.Single().Message.ShouldStartWith(
-            "The message with the localizeKey name of 'TestLocalizeStringMessage_test' and culture " +
-            "of 'en-GB' was not found in the 'TestLocalizeStringMessage' resource. " +
+            "The message with the localizeKey name of 'TestLocalizeStringMessage_test' and culture of " +
+            "'en-GB' was not found in the 'dummy searched location' resource. " +
             "The message came from TestLocalizeStringMessage.TestLocalizeStringMessage_MissingResource");
     }
 
