@@ -27,11 +27,9 @@ public class SimpleLocalizerFactory : ISimpleLocalizerFactory
     /// This with create a <see cref="ISimpleLocalizer"/> linked to the TResource type 
     /// </summary>
     /// <param name="resourceSource">type of the resource class defining the localization resource files</param>
-    /// <param name="prefixKeyString">optional: this provides a string which prefixes the localize key,
-    /// i.e. $"{PrefixKeyString}({message})"</param>
     /// <returns><see cref="IDefaultLocalizer"/></returns>
     /// <exception cref="NullReferenceException"></exception>
-    public ISimpleLocalizer Create(Type resourceSource, string prefixKeyString = null)
+    public ISimpleLocalizer Create(Type resourceSource)
     {
         var options = new SimpleLocalizerOptions { ResourceType = resourceSource };
         if (resourceSource == null)
@@ -45,9 +43,6 @@ public class SimpleLocalizerFactory : ISimpleLocalizerFactory
             //If the localizeFactory is null (which means that StringLocalizer isn't configured), then return a stub version
             return new SimpleLocalizer(new DefaultLocalizerFactory(_serviceProvider),
                 new SimpleLocalizerOptions { ResourceType = null });
-
-        if (prefixKeyString != null)
-            options.PrefixKeyString = prefixKeyString;
 
         return new SimpleLocalizer(new DefaultLocalizerFactory(_serviceProvider), options);
     }

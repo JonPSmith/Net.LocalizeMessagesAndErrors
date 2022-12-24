@@ -26,7 +26,7 @@ public class TestStubLocalizeDefaultWithLogging
         var stubLocalizer = new StubDefaultLocalizerWithLogging<TestStubLocalizeDefaultWithLogging>("en");
 
         //ATTEMPT
-        var status = new StatusGenericLocalizer<TestStubLocalizeDefaultWithLogging>(stubLocalizer);
+        var status = new StatusGenericLocalizer(stubLocalizer);
         status.AddErrorString("test".MethodLocalizeKey(this), "An Error");
 
         //VERIFY
@@ -41,7 +41,7 @@ public class TestStubLocalizeDefaultWithLogging
         var stubLocalizer = new StubDefaultLocalizerWithLogging<TestStubLocalizeDefaultWithLogging>("en");
 
         //ATTEMPT
-        var status = new StatusGenericLocalizer<TestStubLocalizeDefaultWithLogging>(stubLocalizer);
+        var status = new StatusGenericLocalizer(stubLocalizer);
         status.SetMessageString("test".MethodLocalizeKey(this), "Status Message1");
 
         //VERIFY
@@ -57,7 +57,7 @@ public class TestStubLocalizeDefaultWithLogging
         var stubLocalizer = new StubDefaultLocalizerWithLogging<TestStubLocalizeDefaultWithLogging>("en");
 
         //ATTEMPT
-        var status = new StatusGenericLocalizer<TestStubLocalizeDefaultWithLogging>(stubLocalizer);
+        var status = new StatusGenericLocalizer(stubLocalizer);
         status.SetMessageFormatted("test".MethodLocalizeKey(this), $"Status Message{2}");
 
         //VERIFY
@@ -72,7 +72,7 @@ public class TestStubLocalizeDefaultWithLogging
         var stubLocalizer = new StubDefaultLocalizerWithLogging<TestStubLocalizeDefaultWithLogging>("en");
 
         //ATTEMPT
-        var status = new StatusGenericLocalizer<TestStubLocalizeDefaultWithLogging>(stubLocalizer);
+        var status = new StatusGenericLocalizer(stubLocalizer);
         status.AddErrorString("test".MethodLocalizeKey(this), "First Error message");
         status.AddErrorString("test".MethodLocalizeKey(this), "Second Error message");
 

@@ -13,9 +13,7 @@ public interface ISimpleLocalizerFactory
     /// This with create a <see cref="ISimpleLocalizer"/> linked to the TResource type 
     /// </summary>
     /// <param name="resourceSource">type of the resource class defining the localization resource files</param>
-    /// <param name="prefixKeyString">optional: this provides a string which prefixes the localize key,
-    /// i.e. $"{PrefixKeyString}({message})"</param>
     /// <returns><see cref="IDefaultLocalizer"/></returns>
     /// <exception cref="NullReferenceException"></exception>
-    ISimpleLocalizer Create(Type resourceSource, string prefixKeyString = null);
+    ISimpleLocalizer Create(Type resourceSource);
 }

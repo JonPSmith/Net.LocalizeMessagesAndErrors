@@ -10,10 +10,9 @@ namespace LocalizeMessagesAndErrors;
 /// This provides a status system where you can add errors and success message which are localized.
 /// It based on the https://github.com/JonPSmith/GenericServices.StatusGeneric library.
 /// </summary>
-/// <typeparam name="TResource"></typeparam>
-public class StatusGenericLocalizer<TResource> : IStatusGenericLocalizer
+public class StatusGenericLocalizer : IStatusGenericLocalizer
 {
-    private readonly IDefaultLocalizer<TResource> _defaultLocalizer;
+    private readonly IDefaultLocalizer _defaultLocalizer;
 
     /// <summary>
     /// This is the default success message. This isn't localized
@@ -35,7 +34,7 @@ public class StatusGenericLocalizer<TResource> : IStatusGenericLocalizer
     /// </summary>
     /// <param name="defaultLocalizer">Uses the <see cref="DefaultLocalizer{TResource}"/> to handle the localization.</param>
     /// <exception cref="ArgumentNullException"></exception>
-    public StatusGenericLocalizer(IDefaultLocalizer<TResource> defaultLocalizer)
+    public StatusGenericLocalizer(IDefaultLocalizer defaultLocalizer)
     {
         _defaultLocalizer = defaultLocalizer ?? throw new ArgumentNullException(nameof(defaultLocalizer));
     }

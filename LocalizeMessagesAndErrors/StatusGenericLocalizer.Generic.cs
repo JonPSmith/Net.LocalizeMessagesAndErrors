@@ -10,9 +10,9 @@ namespace LocalizeMessagesAndErrors;
 /// <summary>
 /// This contains the error handling part of the GenericBizRunner
 /// </summary>
-public class StatusGenericLocalizer<TReturn, TResource> : StatusGenericLocalizer<TResource>, IStatusGeneric<TReturn>
+public class StatusGenericLocalizer<TReturn> : StatusGenericLocalizer, IStatusGeneric<TReturn>
 {
-    private readonly IDefaultLocalizer<TResource> _defaultLocalizer;
+    private readonly IDefaultLocalizer _defaultLocalizer;
 
     private TReturn _result;
 
@@ -21,7 +21,7 @@ public class StatusGenericLocalizer<TReturn, TResource> : StatusGenericLocalizer
     /// </summary>
     /// <param name="defaultLocalizer">Uses the <see cref="DefaultLocalizer{TResource}"/> to handle the localization.</param>
     /// <exception cref="ArgumentNullException"></exception>
-    public StatusGenericLocalizer(IDefaultLocalizer<TResource> defaultLocalizer)
+    public StatusGenericLocalizer(IDefaultLocalizer defaultLocalizer)
         : base(defaultLocalizer)
     {
         _defaultLocalizer = defaultLocalizer;
