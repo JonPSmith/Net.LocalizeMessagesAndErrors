@@ -2,6 +2,7 @@
 // Licensed under MIT license. See License.txt in the project root for license information.
 
 
+using System.Collections.Concurrent;
 using System.Reflection;
 using LocalizeMessagesAndErrors.UnitTestingCode;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +17,8 @@ namespace LocalizeMessagesAndErrors;
 /// </summary>
 public class DefaultLocalizerFactory : IDefaultLocalizerFactory
 {
-
+    private static readonly ConcurrentDictionary<Type, IDefaultLocalizer> CreateCache =
+        new ConcurrentDictionary<Type, IDefaultLocalizer>();
 
     private readonly IServiceProvider _serviceProvider;
 
@@ -53,15 +55,27 @@ public class DefaultLocalizerFactory : IDefaultLocalizerFactory
             throw new NullReferenceException(
                 $"This failed because you haven't registered the {nameof(IDefaultLocalizer)} service.");
 
+        return CreateCache.GetOrAdd(resourceSource, newValue => 
+            CreateDefaultLocalizer(resourceSource, localizeFactory, options));
+    }
+
+    /// <summary>
+    /// This creates the <see cref="IDefaultLocalizer"/> service with the correct resource type
+    /// </summary>
+    /// <param name="resourceSource"></param>
+    /// <param name="localizeFactory"></param>
+    /// <param name="options"></param>
+    /// <returns></returns>
+    private IDefaultLocalizer CreateDefaultLocalizer(Type resourceSource, IStringLocalizerFactory localizeFactory,
+        DefaultLocalizerOptions options)
+    {
         var stringLocalizer = localizeFactory.Create(resourceSource);
         var defaultLocalizerType = typeof(DefaultLocalizer<>).MakeGenericType(resourceSource);
         var loggerFactory = _serviceProvider.GetRequiredService<ILoggerFactory>();
         var logger = loggerFactory.CreateLogger(defaultLocalizerType);
-        var defaultLocalizer = Activator.CreateInstance(defaultLocalizerType, 
+        var defaultLocalizer = Activator.CreateInstance(defaultLocalizerType,
             BindingFlags.Instance | BindingFlags.NonPublic, null,
-            new object[]{ options, stringLocalizer, logger }, null);
-
+            new object[] { options, stringLocalizer, logger }, null);
         return defaultLocalizer as IDefaultLocalizer;
     }
-
 }

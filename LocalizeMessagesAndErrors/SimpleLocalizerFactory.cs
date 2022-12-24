@@ -1,6 +1,8 @@
 ﻿// Copyright (c) 2022 Jon P Smith, GitHub: JonPSmith, web: http://www.thereformedprogrammer.net/
 // Licensed under MIT license. See License.txt in the project root for license information.
 
+using System.Collections.Concurrent;
+using LocalizeMessagesAndErrors.UnitTestingCode;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 
@@ -12,6 +14,9 @@ namespace LocalizeMessagesAndErrors;
 /// </summary>
 public class SimpleLocalizerFactory : ISimpleLocalizerFactory
 {
+    private static readonly ConcurrentDictionary<Type, ISimpleLocalizer> CreateCache =
+        new ConcurrentDictionary<Type, ISimpleLocalizer>();
+
     private readonly IServiceProvider _serviceProvider;
 
     /// <summary>
@@ -34,17 +39,16 @@ public class SimpleLocalizerFactory : ISimpleLocalizerFactory
         var options = new SimpleLocalizerOptions { ResourceType = resourceSource };
         if (resourceSource == null)
             //If the resourceSource is null (which means DefaultLocalizer isn't set up), then return a stub version
-            return new SimpleLocalizer(new DefaultLocalizerFactory(_serviceProvider),
-                new SimpleLocalizerOptions { ResourceType = null });
+            return new StubSimpleLocalizer();
 
         var localizeFactory = _serviceProvider.GetService<IStringLocalizerFactory>();
 
         if (localizeFactory == null)
             //If the localizeFactory is null (which means that StringLocalizer isn't configured), then return a stub version
-            return new SimpleLocalizer(new DefaultLocalizerFactory(_serviceProvider),
-                new SimpleLocalizerOptions { ResourceType = null });
+            return new StubSimpleLocalizer();
 
-        return new SimpleLocalizer(new DefaultLocalizerFactory(_serviceProvider), options);
+        return CreateCache.GetOrAdd(resourceSource, newValue =>
+            new SimpleLocalizer(new DefaultLocalizerFactory(_serviceProvider), options));
     }
 
 }

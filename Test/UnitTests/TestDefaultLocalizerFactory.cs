@@ -9,7 +9,6 @@ using LocalizeMessagesAndErrors;
 using LocalizeMessagesAndErrors.UnitTestingCode;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Logging;
 using Xunit;
 using Xunit.Extensions.AssertExtensions;
 
@@ -71,7 +70,7 @@ public class TestDefaultLocalizerFactory
     {
         //SETUP
         var services = SetupServices();
-        var logger = services.GetRequiredService<ILoggerFactory>();
+        //var logger = services.GetRequiredService<ILoggerFactory>();
         var factory = new DefaultLocalizerFactory(services);
         var defaultLocalizer = factory.Create(typeof(TestDefaultLocalizerFactory));
 

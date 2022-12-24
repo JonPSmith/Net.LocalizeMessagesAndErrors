@@ -41,7 +41,7 @@ public class TestSimpleLocalizerFactory
         var factory = new SimpleLocalizerFactory(SetupServices());
 
         //ATTEMPT
-        var simpleLocalizer = factory.Create(typeof(TestDefaultLocalizerFactory));
+        var simpleLocalizer = factory.Create(typeof(TestSimpleLocalizerFactory));
 
         //VERIFY
         simpleLocalizer.ShouldNotBeNull();
@@ -54,7 +54,7 @@ public class TestSimpleLocalizerFactory
         //SETUP
         var services = SetupServices();
         var factory = new SimpleLocalizerFactory(services);
-        var simpleLocalizer = factory.Create(typeof(TestDefaultLocalizerFactory));
+        var simpleLocalizer = factory.Create(typeof(TestSimpleLocalizerFactory));
 
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr");
 
@@ -70,9 +70,8 @@ public class TestSimpleLocalizerFactory
     {
         //SETUP
         var services = SetupServices();
-        var logger = services.GetRequiredService<ILoggerFactory>();
         var factory = new SimpleLocalizerFactory(services);
-        var simpleLocalizer = factory.Create(typeof(TestDefaultLocalizerFactory));
+        var simpleLocalizer = factory.Create(typeof(TestSimpleLocalizerFactory));
 
         Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr");
 
