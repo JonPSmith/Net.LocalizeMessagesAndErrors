@@ -10,15 +10,19 @@ namespace LocalizeMessagesAndErrors;
 /// </summary>
 public class StubDefaultLocalizerFactory : IDefaultLocalizerFactory
 {
-    public StubDefaultLocalizerFactory(StubDefaultLocalizer subDefaultLocalizer)
+    /// <summary>
+    /// Ctor: provide a stub
+    /// </summary>
+    /// <param name="stubDefaultLocalizer"></param>
+    public StubDefaultLocalizerFactory(StubDefaultLocalizer stubDefaultLocalizer)
     {
-        SubDefaultLocalizer = subDefaultLocalizer;
+        StubDefaultLocalizer = stubDefaultLocalizer;
     }
 
     /// <summary>
     /// This allows you to access the 
     /// </summary>
-    public StubDefaultLocalizer SubDefaultLocalizer { get; }
+    public StubDefaultLocalizer StubDefaultLocalizer { get; }
 
     /// <summary>
     /// This with create a <see cref="IDefaultLocalizer"/> linked to the TResource type 
@@ -28,6 +32,6 @@ public class StubDefaultLocalizerFactory : IDefaultLocalizerFactory
     /// <exception cref="NullReferenceException"></exception>
     public IDefaultLocalizer Create(Type resourceSource)
     {
-        return SubDefaultLocalizer;
+        return StubDefaultLocalizer;
     }
 }
