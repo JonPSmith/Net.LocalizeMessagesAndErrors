@@ -4,9 +4,8 @@
 using LocalizeMessagesAndErrors;
 using LocalizeMessagesAndErrors.UnitTestingCode;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
 using System;
-using System.Collections.Generic;
+using Test.StubClasses;
 using Xunit;
 using Xunit.Extensions.AssertExtensions;
 
@@ -14,118 +13,102 @@ namespace Test.UnitTests;
 
 public class TestSimpleLocalizer
 {
-    private StubStringLocalizer _stubStringLocalizer = null!;
+    private readonly ISimpleLocalizer _simpleLoc;
+    private readonly StubDefaultLocalizer _stubDefaultLoc;
 
-    private IServiceProvider SetupServices()
+    public TestSimpleLocalizer()
     {
-        var stubStringFactory = new StubStringLocalizerFactory(
-            new Dictionary<string, string>
-            {
-                { "SimpleLocalizer(My message)", "Message from resource" },
-            }, false);
-        _stubStringLocalizer = stubStringFactory.StubStringLocalizer;
-
-        var services = new ServiceCollection();
-        services.AddLogging();
-        services.AddSingleton<IStringLocalizerFactory>(options => stubStringFactory);
-        services.RegisterDefaultLocalizer("en", null);
-        services.RegisterSimpleLocalizer<TestSimpleLocalizerFactory>();
-        return services.BuildServiceProvider();
+        _stubDefaultLoc = new StubDefaultLocalizer();
+        var stubDefLocFactory = new StubDefaultLocalizerFactory(_stubDefaultLoc);
+        _simpleLoc = new SimpleLocalizer(stubDefLocFactory, new StubSimpleLocalizerOptions<TestSimpleLocalizer>());
     }
 
     [Fact]
     public void TestCreateSimpleLocalizerService()
     {
         //SETUP
-        var service = SetupServices();
 
         //ATTEMPT
-        var simpleLocalizer = service.GetRequiredService<ISimpleLocalizer>();
 
         //VERIFY
-        simpleLocalizer.ShouldNotBeNull();
+        _simpleLoc.ShouldNotBeNull();
+        _stubDefaultLoc.ShouldNotBeNull();
+        _stubDefaultLoc.LastKeyData.ShouldBeNull();
     }
 
     [Fact]
     public void TestLocalizeString()
     {
         //SETUP
-        var service = SetupServices();
-        var simpleLocalizer = service.GetRequiredService<ISimpleLocalizer>();
 
         //ATTEMPT
-        var message = simpleLocalizer.LocalizeString("My message", this);
+        var message = _simpleLoc.LocalizeString("My message", this);
 
         //VERIFY
         message.ShouldEqual("My message");
+        _stubDefaultLoc.LastKeyData.LocalizeKey.ShouldEqual("SimpleLocalizer(My message)");
+        _stubDefaultLoc.LastKeyData.CallingClass.Name.ShouldEqual("TestSimpleLocalizer");
     }
 
     [Fact]
     public void TestLocalizeFormatted()
     {
         //SETUP
-        var service = SetupServices();
-        var simpleLocalizer = service.GetRequiredService<ISimpleLocalizer>();
 
         //ATTEMPT
-        var message = simpleLocalizer.LocalizeFormatted($"Date is {DateTime.Now:M}.", this);
+        var message = _simpleLoc.LocalizeFormatted($"Date is {DateTime.Now:M}.", this);
 
         //VERIFY
         message.ShouldEqual($"Date is {DateTime.Now:M}.");
-        _stubStringLocalizer.LastLocalizeKey.ShouldEqual("SimpleLocalizer(Date is {0:M}.)");
+        _stubDefaultLoc.LastKeyData.LocalizeKey.ShouldEqual("SimpleLocalizer(Date is {0:M}.)");
+        _stubDefaultLoc.LastKeyData.CallingClass.Name.ShouldEqual("TestSimpleLocalizer");
     }
 
-    private static class MyStaticClass {}
+    private static class MyStaticClass { }
 
     [Fact]
     public void TestStaticLocalizeString()
     {
         //SETUP
-        var service = SetupServices();
-        var simpleLocalizer = service.GetRequiredService<ISimpleLocalizer>();
 
         //ATTEMPT
-        var message = simpleLocalizer.StaticLocalizeString("My message", typeof(MyStaticClass));
+        var message = _simpleLoc.StaticLocalizeString("My message", typeof(MyStaticClass));
 
         //VERIFY
         message.ShouldEqual("My message");
-        _stubStringLocalizer.LastLocalizeKey.ShouldEqual("SimpleLocalizer(My message)");
+        _stubDefaultLoc.LastKeyData.LocalizeKey.ShouldEqual("SimpleLocalizer(My message)");
+        _stubDefaultLoc.LastKeyData.CallingClass.Name.ShouldEqual("MyStaticClass");
     }
 
     [Fact]
     public void TestStaticLocalizeFormatted()
     {
         //SETUP
-        var service = SetupServices();
-        var simpleLocalizer = service.GetRequiredService<ISimpleLocalizer>();
 
         //ATTEMPT
-        var message = simpleLocalizer.StaticLocalizeFormatted($"My {123} message", typeof(MyStaticClass));
+        var message = _simpleLoc.StaticLocalizeFormatted($"My {123} message", typeof(MyStaticClass));
 
         //VERIFY
         message.ShouldEqual("My 123 message");
-        _stubStringLocalizer.LastLocalizeKey.ShouldEqual("SimpleLocalizer(My {0} message)");
+        _stubDefaultLoc.LastKeyData.LocalizeKey.ShouldEqual("SimpleLocalizer(My {0} message)");
+        _stubDefaultLoc.LastKeyData.CallingClass.Name.ShouldEqual("MyStaticClass");
     }
 
-    //[Fact]
-    //public void TestCheckDifferentPrefix()
-    //{
-    //    //SETUP
-    //    var services = new ServiceCollection();
-    //    services.AddSingleton(typeof(IDefaultLocalizer<>), typeof(StubDefaultLocalizer<>));
-    //    var provider = services.BuildServiceProvider();
-    //    var simpleLoc = new SimpleLocalizer(provider, 
-    //        new StubSimpleLocalizerOptions<TestSimpleLocalizer>{PrefixKeyString = "XXX"});
-    //    var stubDefaultLoc =
-    //        (StubDefaultLocalizer<TestSimpleLocalizer>)provider
-    //            .GetRequiredService<IDefaultLocalizer<TestSimpleLocalizer>>();
+    [Fact]
+    public void TestCheckDifferentPrefix()
+    {
+        //SETUP
+        var stubDefaultLoc = new StubDefaultLocalizer();
+        var stubDefLocFactory = new StubDefaultLocalizerFactory(stubDefaultLoc);
+        var simpleLoc = new SimpleLocalizer(stubDefLocFactory,
+            new StubSimpleLocalizerOptions<TestSimpleLocalizer> { PrefixKeyString = "XXX" });
 
-    //    //ATTEMPT
-    //    var message = simpleLoc.LocalizeString("My message", this);
+        //ATTEMPT
+        var message = simpleLoc.LocalizeString("My message", this);
 
-    //    //VERIFY
-    //    message.ShouldEqual("My message");
-    //    stubDefaultLoc.LastKeyData.LocalizeKey.ShouldEqual("XXX(My message)");
-    //    stubDefaultLoc.LastKeyData.CallingClass.Name.ShouldEqual("TestSimpleLocalizer");
-    //}
+        //VERIFY
+        message.ShouldEqual("My message");
+        stubDefaultLoc.LastKeyData.LocalizeKey.ShouldEqual("XXX(My message)");
+        stubDefaultLoc.LastKeyData.CallingClass.Name.ShouldEqual("TestSimpleLocalizer");
+    }
 }
