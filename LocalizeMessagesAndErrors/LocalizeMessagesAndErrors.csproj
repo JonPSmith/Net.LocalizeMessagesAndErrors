@@ -22,7 +22,7 @@
 
 	<PropertyGroup>
 		<PackageId>Net.LocalizeMessagesAndErrors</PackageId>
-		<PackageVersion>1.0.0-preview034</PackageVersion>
+		<PackageVersion>1.0.0-preview035</PackageVersion>
 		<Authors>Jon P Smith</Authors>
 		<Description>Provides extra features to .NET Localization that makes the code easier to understand.</Description>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
