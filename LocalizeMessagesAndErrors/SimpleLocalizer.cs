@@ -48,7 +48,7 @@ public class SimpleLocalizer : ISimpleLocalizer
         [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
         return _localizerDefault.LocalizeStringMessage(
-            $"{_options.PrefixKeyString}({message})".JustThisLocalizeKey(callingClass, memberName, sourceLineNumber), message);
+            FormLocalizeKey(message).JustThisLocalizeKey(callingClass, memberName, sourceLineNumber), message);
     }
 
     /// <summary>
@@ -67,8 +67,8 @@ public class SimpleLocalizer : ISimpleLocalizer
         [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
         return _localizerDefault.LocalizeFormattedMessage(
-            $"{_options.PrefixKeyString}({formatted.Format})"
-                .JustThisLocalizeKey(callingClass, memberName, sourceLineNumber), formatted);
+            FormLocalizeKey(formatted.Format).JustThisLocalizeKey(
+                callingClass, memberName, sourceLineNumber), formatted);
     }
 
     /// <summary>
@@ -88,7 +88,8 @@ public class SimpleLocalizer : ISimpleLocalizer
         [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
         return _localizerDefault.LocalizeStringMessage(
-            $"{_options.PrefixKeyString}({message})".StaticJustThisLocalizeKey(callingClassType, memberName, sourceLineNumber), message);
+            FormLocalizeKey(message).StaticJustThisLocalizeKey(
+                callingClassType, memberName, sourceLineNumber), message);
     }
 
     /// <summary>
@@ -108,7 +109,14 @@ public class SimpleLocalizer : ISimpleLocalizer
         [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
         return _localizerDefault.LocalizeFormattedMessage(
-            $"{_options.PrefixKeyString}({formatted.Format})"
-                .StaticJustThisLocalizeKey(callingClassType, memberName, sourceLineNumber), formatted);
+            FormLocalizeKey(formatted.Format).StaticJustThisLocalizeKey(
+                callingClassType, memberName, sourceLineNumber), formatted);
+    }
+
+    private string FormLocalizeKey(string message)
+    {
+        return _options.PrefixKeyString == null
+            ? message
+            : $"{_options.PrefixKeyString}({message})";
     }
 }

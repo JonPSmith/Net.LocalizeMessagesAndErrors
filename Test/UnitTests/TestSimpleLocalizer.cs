@@ -110,4 +110,22 @@ public class TestSimpleLocalizer
         stubDefaultLoc.LastKeyData.LocalizeKey.ShouldEqual("XXX(My message)");
         stubDefaultLoc.LastKeyData.CallingClass.Name.ShouldEqual("TestSimpleLocalizer");
     }
+
+    [Fact]
+    public void TestCheckNullPrefix()
+    {
+        //SETUP
+        var stubDefaultLoc = new StubDefaultLocalizer();
+        var stubDefLocFactory = new StubDefaultLocalizerFactory(stubDefaultLoc);
+        var simpleLoc = new SimpleLocalizer(stubDefLocFactory,
+            new StubSimpleLocalizerOptions<TestSimpleLocalizer> { PrefixKeyString = null });
+
+        //ATTEMPT
+        var message = simpleLoc.LocalizeString("My message", this);
+
+        //VERIFY
+        message.ShouldEqual("My message");
+        stubDefaultLoc.LastKeyData.LocalizeKey.ShouldEqual("My message");
+        stubDefaultLoc.LastKeyData.CallingClass.Name.ShouldEqual("TestSimpleLocalizer");
+    }
 }
