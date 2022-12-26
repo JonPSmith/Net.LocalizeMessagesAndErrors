@@ -14,8 +14,12 @@ namespace LocalizeMessagesAndErrors;
 /// </summary>
 public class SimpleLocalizerFactory : ISimpleLocalizerFactory
 {
-    private static readonly ConcurrentDictionary<Type, ISimpleLocalizer> CreateCache =
-        new ConcurrentDictionary<Type, ISimpleLocalizer>();
+    private static readonly ConcurrentDictionary<Type, ISimpleLocalizer> CreateCache = new ();
+
+    /// <summary>
+    /// This is used if there is no localization or null resource
+    /// </summary>
+    private static readonly ISimpleLocalizer StubSimpleLocalizer = new StubSimpleLocalizer();
 
     private readonly IServiceProvider _serviceProvider;
 
@@ -39,13 +43,13 @@ public class SimpleLocalizerFactory : ISimpleLocalizerFactory
         var options = new SimpleLocalizerOptions { ResourceType = resourceSource };
         if (resourceSource == null)
             //If the resourceSource is null (which means DefaultLocalizer isn't set up), then return a stub version
-            return new StubSimpleLocalizer();
+            return StubSimpleLocalizer;
 
         var localizeFactory = _serviceProvider.GetService<IStringLocalizerFactory>();
 
         if (localizeFactory == null)
             //If the localizeFactory is null (which means that StringLocalizer isn't configured), then return a stub version
-            return new StubSimpleLocalizer();
+            return StubSimpleLocalizer;
 
         return CreateCache.GetOrAdd(resourceSource, newValue =>
             new SimpleLocalizer(new DefaultLocalizerFactory(_serviceProvider), options));

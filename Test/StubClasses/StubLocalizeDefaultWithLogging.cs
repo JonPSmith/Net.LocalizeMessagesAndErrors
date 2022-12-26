@@ -12,15 +12,14 @@ using TestSupport.Helpers;
 namespace Test.StubClasses;
 
 /// <summary>
-/// This provides a simple replacement of the <see cref="DefaultLocalizer{TResource}"/> which
+/// This provides a simple replacement of the <see cref="IDefaultLocalizer"/> which
 /// returns the the default message.
 /// It also writes the information on each localized message to a database is the appsettings.json
 /// file in your testing project contains "SaveLocalizesToDb": true.
 /// If "SaveLocalizesToDb" is True, then there needs to be a connection string called "LocalizationCaptureDb"
 /// which links to a SQL Server database server where the localized message information is saved to.
 /// </summary>
-/// <typeparam name="TResource"></typeparam>
-public class StubDefaultLocalizerWithLogging<TResource> : IDefaultLocalizer<TResource>
+public class StubDefaultLocalizerWithLogging : IDefaultLocalizer
 {
     /// <summary>
     /// This contains a list each localization request, with extra data.
@@ -39,10 +38,12 @@ public class StubDefaultLocalizerWithLogging<TResource> : IDefaultLocalizer<TRes
     private const string SameKeyButDiffFormatPrefix = "Possible SameKeyButDiffFormat: ";
 
     private readonly string _cultureOfMessage;
+    private readonly Type _resourceType;
 
-    public StubDefaultLocalizerWithLogging(string cultureOfMessage)
+    public StubDefaultLocalizerWithLogging(string cultureOfMessage, Type resourceType)
     {
         _cultureOfMessage = cultureOfMessage;
+        _resourceType = resourceType;
     }
 
     public string LocalizeStringMessage(LocalizeKeyData localizeKeyData, string message)
@@ -83,7 +84,7 @@ public class StubDefaultLocalizerWithLogging<TResource> : IDefaultLocalizer<TRes
         var localizeKey = localizeKeyData.LocalizeKey ?? "already localize";
         var callingClassName = GetFormattedName(localizeKeyData.CallingClass);
 
-        return new LocalizedLog(typeof(TResource), localizeKey,
+        return new LocalizedLog(_resourceType, localizeKey,
             cultureOfMessage, actualMessage, messageFormat,
             callingClassName, localizeKeyData.MethodName, localizeKeyData.SourceLineNumber);
     }

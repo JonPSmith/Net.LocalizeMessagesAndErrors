@@ -17,8 +17,7 @@ namespace LocalizeMessagesAndErrors;
 /// </summary>
 public class DefaultLocalizerFactory : IDefaultLocalizerFactory
 {
-    private static readonly ConcurrentDictionary<Type, IDefaultLocalizer> CreateCache =
-        new ConcurrentDictionary<Type, IDefaultLocalizer>();
+    private static readonly ConcurrentDictionary<Type, IDefaultLocalizer> CreateCache = new ();
 
     private readonly IServiceProvider _serviceProvider;
 
@@ -39,7 +38,6 @@ public class DefaultLocalizerFactory : IDefaultLocalizerFactory
     /// <exception cref="NullReferenceException"></exception>
     public IDefaultLocalizer Create(Type resourceSource)
     {
-
         if (resourceSource == null)
             //If the resourceSource is null (which means DefaultLocalizer isn't set up), then return a stub version
             return new StubDefaultLocalizer();
