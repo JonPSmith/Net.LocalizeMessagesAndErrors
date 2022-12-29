@@ -164,4 +164,21 @@ public class TestLocalizeStringMessage
         //VERIFY
         ex.Message.ShouldEqual("Value cannot be null. (Parameter 'message')");
     }
+
+    [Fact]
+    public void TestStubDefaultLocalizer()
+    {
+        //SETUP
+        var defaultLoc = new StubDefaultLocalizer();
+
+        //ATTEMPT
+        var message = defaultLoc.LocalizeStringMessage(
+            "MyLocalizeKey".MethodLocalizeKey(this),
+            "My message");
+
+        //VERIFY
+        message.ShouldEqual("My message");
+        defaultLoc.LastKeyData.LocalizeKey.ShouldEqual(
+            "TestStubDefaultLocalizer_MyLocalizeKey");
+    }
 }

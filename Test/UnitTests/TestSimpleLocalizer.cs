@@ -4,6 +4,8 @@
 using LocalizeMessagesAndErrors;
 using LocalizeMessagesAndErrors.UnitTestingCode;
 using System;
+using System.Globalization;
+using System.Threading;
 using Test.StubClasses;
 using Xunit;
 using Xunit.Extensions.AssertExtensions;
@@ -94,6 +96,21 @@ public class TestSimpleLocalizer
     }
 
     [Fact]
+    public void TestStaticLocalizeFormatted_Complex()
+    {
+        //SETUP
+        Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
+
+        //ATTEMPT
+        var message = _simpleLoc.StaticLocalizeFormatted($"My {Thread.CurrentThread.CurrentCulture.Name} message", typeof(MyStaticClass));
+
+        //VERIFY
+        message.ShouldEqual("My en-GB message");
+        _stubDefaultLoc.LastKeyData.LocalizeKey.ShouldEqual("SimpleLocalizer(My {0} message)");
+        _stubDefaultLoc.LastKeyData.CallingClass.Name.ShouldEqual("MyStaticClass");
+    }
+
+    [Fact]
     public void TestCheckDifferentPrefix()
     {
         //SETUP
@@ -127,5 +144,20 @@ public class TestSimpleLocalizer
         message.ShouldEqual("My message");
         stubDefaultLoc.LastKeyData.LocalizeKey.ShouldEqual("My message");
         stubDefaultLoc.LastKeyData.CallingClass.Name.ShouldEqual("TestSimpleLocalizer");
+    }
+
+    [Fact]
+    public void TestStubSimpleLocalizer()
+    {
+        //SETUP
+        var simpleLoc = new StubSimpleLocalizer();
+
+        //ATTEMPT
+        var message = simpleLoc.LocalizeString("My message", this);
+
+        //VERIFY
+        message.ShouldEqual("My message");
+        simpleLoc.LastKeyData.LocalizeKey.ShouldEqual("SimpleLocalizer(My message)");
+        simpleLoc.LastKeyData.CallingClass.Name.ShouldEqual("TestSimpleLocalizer");
     }
 }

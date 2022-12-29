@@ -6,10 +6,26 @@ namespace LocalizeMessagesAndErrors.UnitTestingCode;
 
 /// <summary>
 /// This stub simply returns the default message. Used in <see cref="SimpleLocalizerFactory"/>
-/// if .NET localization is not set up. 
+/// if .NET localization is not set up and in unit testing.
 /// </summary>
 public class StubSimpleLocalizer : ISimpleLocalizer
 {
+    public StubSimpleLocalizer(string prefixKeyString = "SimpleLocalizer")
+    {
+        PrefixKeyString = prefixKeyString;
+    }
+
+    /// <summary>
+    /// This holds a string which prefixes the localize key, i.e. $"{PrefixKeyString}({message})"
+    /// If null, then just the message is used as the localize key, i.e. "message"
+    /// </summary>
+    private string PrefixKeyString { get; set; } 
+
+    /// <summary>
+    /// This holds the <see cref="LocalizeKeyData"/> of the last localize call
+    /// </summary>
+    public LocalizeKeyData LastKeyData { get; set; }
+
     /// <summary>
     /// This provides the given message based on the culture give when registering the service
     /// If the current culture matches the register's culture, then the given message is returned.
@@ -24,6 +40,8 @@ public class StubSimpleLocalizer : ISimpleLocalizer
     /// <returns>localized string</returns>
     public string LocalizeString<TThis>(string message, TThis callingClass, string memberName = "", int sourceLineNumber = 0)
     {
+        LastKeyData = new LocalizeKeyData(FormLocalizeKey(message), callingClass.GetType(),
+            memberName, sourceLineNumber);
         return message;
     }
 
@@ -42,6 +60,8 @@ public class StubSimpleLocalizer : ISimpleLocalizer
     public string LocalizeFormatted<TThis>(FormattableString formatted, TThis callingClass, string memberName = "",
         int sourceLineNumber = 0)
     {
+        LastKeyData = new LocalizeKeyData(FormLocalizeKey(formatted.ToString()), 
+            callingClass.GetType(), memberName, sourceLineNumber);
         return formatted.ToString();
     }
 
@@ -60,6 +80,8 @@ public class StubSimpleLocalizer : ISimpleLocalizer
     /// <returns>localized string</returns>
     public string StaticLocalizeString(string message, Type callingClassType, string memberName = "", int sourceLineNumber = 0)
     {
+        LastKeyData = new LocalizeKeyData(FormLocalizeKey(message), callingClassType,
+            memberName, sourceLineNumber);
         return message;
     }
 
@@ -79,6 +101,15 @@ public class StubSimpleLocalizer : ISimpleLocalizer
     public string StaticLocalizeFormatted(FormattableString formatted, Type callingClassType, string memberName = "",
         int sourceLineNumber = 0)
     {
+        LastKeyData = new LocalizeKeyData(FormLocalizeKey(formatted.ToString()),
+            callingClassType, memberName, sourceLineNumber);
         return formatted.ToString();
+    }
+
+    private string FormLocalizeKey(string message)
+    {
+        return PrefixKeyString == null
+            ? message
+            : $"{PrefixKeyString}({message})";
     }
 }

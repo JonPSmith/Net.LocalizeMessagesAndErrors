@@ -20,6 +20,31 @@ public class TestStubLocalizeDefaultWithLogging
     }
 
     [Fact]
+    public void TestStubLocalizeDefaultWithLogging_Logs()
+    {
+        //SETUP
+        var stubLocalizer = new StubDefaultLocalizerWithLogging
+            ("en", GetType());
+
+        //ATTEMPT
+        stubLocalizer.LocalizeStringMessage(
+            "Test1".MethodLocalizeKey(this),
+            "Hello Earth");
+        stubLocalizer.LocalizeStringMessage(
+            "Test2".MethodLocalizeKey(this),
+            "Hello Mars");
+
+        //VERIFY
+        stubLocalizer.Logs.Count.ShouldEqual(2);
+        stubLocalizer.Logs[0].ActualMessage.ShouldEqual("Hello Earth");
+        stubLocalizer.Logs[0].LocalizeKey.ShouldEqual(
+            "TestStubLocalizeDefaultWithLogging_Logs_Test1");
+        stubLocalizer.Logs[1].ActualMessage.ShouldEqual("Hello Mars");
+        stubLocalizer.Logs[1].LocalizeKey.ShouldEqual(
+            "TestStubLocalizeDefaultWithLogging_Logs_Test2");
+    }
+
+    [Fact]
     public void TestAddErrorString()
     {
         //SETUP
