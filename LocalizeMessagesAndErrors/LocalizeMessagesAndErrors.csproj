@@ -24,7 +24,7 @@
 		<PackageId>Net.LocalizeMessagesAndErrors</PackageId>
 		<PackageVersion>1.0.0</PackageVersion>
 		<Authors>Jon P Smith</Authors>
-		<Description>Provides extra features to .NET Localization that makes the code easier to understand.</Description>
+		<Description>Provides extra features to .NET Localization that make it easier to add multiple languages to your app.</Description>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<PackageReleaseNotes>
 			First Version

@@ -6,11 +6,12 @@ namespace LocalizedWebApp.Controllers;
 
 public class DefaultLocalizerController : Controller
 {
-    private readonly IDefaultLocalizer<HomeController> _localizer;
+    private readonly IDefaultLocalizer<HomeController> _defaultLocalizer;
 
-    public DefaultLocalizerController(IDefaultLocalizer<HomeController> localizer)
+    public DefaultLocalizerController(
+        IDefaultLocalizer<HomeController> defaultLocalizer)
     {
-        _localizer = localizer;
+        _defaultLocalizer = defaultLocalizer;
     }
 
     public IActionResult Index()
@@ -18,7 +19,7 @@ public class DefaultLocalizerController : Controller
         var nameOfService = nameof(IStringLocalizer);
         var cultureName = Thread.CurrentThread.CurrentUICulture.Name;
 
-        return View((object)_localizer.LocalizeFormattedMessage(
+        return View((object)_defaultLocalizer.LocalizeFormattedMessage(
             "ExampleMessage".MethodLocalizeKey(this),
             $"Localized via {nameOfService} service with culture '{cultureName}' on {DateTime.Now:M}." //Message, using FormattableString
         ));
@@ -26,7 +27,7 @@ public class DefaultLocalizerController : Controller
 
     public IActionResult StringMessage()
     {
-        return View((object)_localizer.LocalizeStringMessage(
+        return View((object)_defaultLocalizer.LocalizeStringMessage(
             "ExampleMessage".MethodLocalizeKey(this),
             "Hello from me!" //static Message, using string
         ));
@@ -34,7 +35,7 @@ public class DefaultLocalizerController : Controller
 
     public IActionResult MissingResourceEntry()
     {
-        return View((object)_localizer.LocalizeFormattedMessage(
+        return View((object)_defaultLocalizer.LocalizeFormattedMessage(
             "MissingEntry".MethodLocalizeKey(this),
             $"LocalizeStringMessage: I forget to set up the resource entry. Time: {DateTime.Now:T}"
         ));

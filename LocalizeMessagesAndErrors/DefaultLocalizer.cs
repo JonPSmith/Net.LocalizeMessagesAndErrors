@@ -50,8 +50,6 @@ public class DefaultLocalizer<TResource> : IDefaultLocalizer<TResource>, IDefaul
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-
-
     /// <summary>
     /// This is a localization adapter that allows you to have readable messages in your code via strings, 
     /// e.g. "This is my message".
