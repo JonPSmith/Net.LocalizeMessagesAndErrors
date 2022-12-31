@@ -38,7 +38,7 @@ public class ExamplesOfStatusGenericsLoc<TResource>
             return status.AddErrorString("NullParam".JustThisLocalizeKey(this), 
                 "The input must not be null.", nameof(month).CamelToPascal());
 
-        //This 
+        //This sets the success message 
         status.SetMessageString("Success".ClassMethodLocalizeKey(this, false), 
             "Successful completion.");
 

@@ -17,7 +17,9 @@ public static class RegisterLocalizeExtensions
     /// <param name="services"></param>
     /// <param name="defaultCulture">This defines the language of the messages you provide.</param>
     /// <param name="supportedCultures">Provide list of supported cultures. This is used to only log
-    /// missing resource entries if its supported culture. NOTE: if null, then it will log every missing culture.</param>
+    /// missing resource entries if its supported culture.
+    /// 1. If null, then it will log every missing culture.
+    /// 2. If empty array, then will not log any missing resource entries.</param>
     /// <returns></returns>
     public static IServiceCollection RegisterDefaultLocalizer(this IServiceCollection services, 
         string defaultCulture, string[] supportedCultures)
