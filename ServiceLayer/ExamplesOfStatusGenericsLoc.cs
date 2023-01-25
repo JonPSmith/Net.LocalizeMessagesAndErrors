@@ -26,9 +26,7 @@ public class ExamplesOfStatusGenericsLoc<TResource>
     public IStatusGeneric CheckNull(string? month)
     {
         //The StatusGenericLocalizer constructor takes:
-        //<TResource>, which defines part of the resource file's name where the other languages are stored in
-        //param1: The culture of the message / errors within this method - in this case, generic English
-        //param2: An instance of the IDefaultLocalizer<TResource> service
+        //An instance of the IDefaultLocalizer<TResource> service
         var status = new StatusGenericLocalizer(_defaultLocalizer);
 
         //add error and return immediately
