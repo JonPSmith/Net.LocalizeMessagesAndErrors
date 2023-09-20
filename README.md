@@ -1,8 +1,15 @@
 # Net.LocalizeMessagesAndErrors
 
-This library provides extra code to make it easier to support in different languages in your .NET application (_known as [localization](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/localization#make-the-apps-content-localizable) in .NET_). The code in this library _wraps_ the .NET's localization services with a nicer front-end that makes the localization parts easier to code and understand. It supports .NET 6 and .NET 7.
+This library provides extra code to make it easier to support in different languages in your .NET application (_known as [localization](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/localization#make-the-apps-content-localizable) in .NET_). The code in this library _wraps_ the .NET's localization services with a nicer front-end that makes the localization parts easier to code and understand.
 
 This library is an open-source library under the MIT licence and the NuGet package can be [found here](https://www.nuget.org/packages/Net.LocalizeMessagesAndErrors). The documentation can be found in the [GitHub wiki](https://github.com/JonPSmith/Net.LocalizeMessagesAndErrors/wiki) and see [ReleaseNotes](https://github.com/JonPSmith/Net.LocalizeMessagesAndErrors/blob/main/ReleaseNotes.md) for details of changes.
+
+## List of versions and which .NET framework they support
+
+The versions of this library has changed to make it easier to create a new version when a new release of .NET farmework. Now the first number defines the .NET version, e.g EfCore.TestSupport version 8.?.? only runs on .NET 8. 
+
+- Version 2.?.?: Supports NET 6, 7 and 8
+- Version 1.0.?: Supports NET 6 and 7
 
 ## Why I built this library
 

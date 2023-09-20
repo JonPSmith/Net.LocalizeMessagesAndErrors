@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+		<TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
@@ -20,14 +20,21 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
 	</ItemGroup>
 
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net8.0'">
+		<PackageReference Include="GenericServices.StatusGeneric" Version="1.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.0-rc.1.23421.29 " />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0-rc.1.23419.4 " />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0-rc.1.23419.4 " />
+	</ItemGroup>
+
 	<PropertyGroup>
 		<PackageId>Net.LocalizeMessagesAndErrors</PackageId>
-		<PackageVersion>1.0.0</PackageVersion>
+		<PackageVersion>2.0.0-rc1-0001</PackageVersion>
 		<Authors>Jon P Smith</Authors>
 		<Description>Provides extra features to .NET Localization that make it easier to add multiple languages to your app.</Description>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<PackageReleaseNotes>
-			First Version
+			- Adds support for NET 8. Now supports NET 6, 7 and 8
 		</PackageReleaseNotes>
 		<Copyright>Copyright (c) 2022 Jon P Smith. Licenced under MIT licence</Copyright>
 		<PackageTags>Localization, Multilingual, Globalization, Status</PackageTags>
