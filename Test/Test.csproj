@@ -1,34 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
-    <Nullable>enable</Nullable>
+	  <TargetFramework>net8.0</TargetFramework>
+      <Nullable>enable</Nullable>
 	  <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net8.0'">
+	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
-		<PackageReference Include="EfCore.TestSupport" Version="6.0.0" />
-	</ItemGroup>
-
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net7.0'">
-		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
-		<PackageReference Include="EfCore.TestSupport" Version="6.0.0" />
-	</ItemGroup>
-
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0'">
-		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="6.0.11" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.3" />
-		<PackageReference Include="EfCore.TestSupport" Version="6.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
+		<PackageReference Include="EfCore.TestSupport" Version="8.0.0" />
 		<PackageReference Include="GenericServices.StatusGeneric" Version="1.2.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
-		<PackageReference Include="xunit" Version="2.5.0" />
-		<PackageReference Include="xunit.runner.visualstudio" Version="2.5.0">
+		<PackageReference Include="xunit" Version="2.5.3" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.5.3">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
@@ -36,7 +21,6 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>

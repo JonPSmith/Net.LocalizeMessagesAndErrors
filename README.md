@@ -8,6 +8,7 @@ This library is an open-source library under the MIT licence and the NuGet packa
 
 The versions of this library has changed to make it easier to create a new version when a new release of .NET farmework. Now the first number defines the .NET version, e.g EfCore.TestSupport version 8.?.? only runs on .NET 8. 
 
+- Version 8.?.?: supports NET 8 only (simpler to update to next NET release)
 - Version 2.?.?: Supports NET 6, 7 and 8
 - Version 1.0.?: Supports NET 6 and 7
 
