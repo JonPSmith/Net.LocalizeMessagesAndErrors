@@ -9,7 +9,7 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
-		<PackageReference Include="EfCore.TestSupport" Version="8.0.0" />
+		<PackageReference Include="EfCore.TestSupport" Version="8.0.1" />
 		<PackageReference Include="GenericServices.StatusGeneric" Version="1.2.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
 		<PackageReference Include="xunit" Version="2.5.3" />
