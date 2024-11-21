@@ -3,24 +3,26 @@
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="GenericServices.StatusGeneric" Version="1.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
 	</ItemGroup>
 
 	<PropertyGroup>
 		<PackageId>Net.LocalizeMessagesAndErrors</PackageId>
-		<PackageVersion>8.0.0</PackageVersion>
+		<PackageVersion>9.0.0</PackageVersion>
+		<Version>9.0.0</Version>
 		<Authors>Jon P Smith</Authors>
 		<Description>Provides extra features to .NET Localization that make it easier to add multiple languages to your app.</Description>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<PackageReleaseNotes>
-			- Only supports .NET 8 - This makes it easier to update for future NET releases
+			- .NET 9 version
 		</PackageReleaseNotes>
 		<Copyright>Copyright (c) 2022 Jon P Smith. Licenced under MIT licence</Copyright>
 		<PackageTags>Localization, Multilingual, Globalization, Status</PackageTags>
@@ -34,6 +36,7 @@
 
 	<ItemGroup>
 		<None Include="LocalizeMessagesAndErrorsNuGetIcon.png" Pack="true" PackagePath="\" />
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
 </Project>
